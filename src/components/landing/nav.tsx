@@ -137,14 +137,22 @@ export function Nav() {
             <Github className="h-4 w-4" />
             Open core
           </Button>
-          <Button size="sm" onClick={go("#early-access")} className="font-medium">
+          <Button
+            size="sm"
+            onClick={go("#early-access")}
+            className="px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
+          >
             Join early access
           </Button>
         </div>
 
         {/* Mobile */}
         <div className="flex items-center gap-2 lg:hidden">
-          <Button size="sm" onClick={go("#early-access")} className="font-medium">
+          <Button
+            size="sm"
+            onClick={go("#early-access")}
+            className="px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
+          >
             Early access
           </Button>
           <Sheet open={open} onOpenChange={setOpen}>

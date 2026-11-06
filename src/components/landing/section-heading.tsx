@@ -64,7 +64,7 @@ export function SectionHeading({
         as="h2"
         type="lines"
         className={cn(
-          "mt-4 font-display text-3xl font-medium leading-[1.08] tracking-tight text-balance sm:text-4xl lg:text-[2.75rem]",
+          "mt-4 font-display text-4xl font-medium leading-[1.05] tracking-[-0.02em] text-balance sm:text-[2.75rem] lg:text-[3.4rem]",
           dark ? "text-paper" : "text-ink"
         )}
       >
