@@ -148,7 +148,7 @@ export function Ontology() {
                 {/* Edges */}
                 <g
                   fill="none"
-                  stroke="#b9b4a4"
+                  stroke="#39413a"
                   strokeWidth="1.6"
                 >
                   <path className="ont-edge" d="M 258 226 L 388 154" />
@@ -160,8 +160,8 @@ export function Ontology() {
                   className="ont-edge-label"
                   fontFamily="var(--font-jetbrains), monospace"
                   fontSize="12"
-                  fill="#6e6a5e"
-                  stroke="#ffffff"
+                  fill="#9a9788"
+                  stroke="#161a15"
                   strokeWidth="5"
                   paintOrder="stroke"
                 >
@@ -186,7 +186,7 @@ export function Ontology() {
                     width="172"
                     height="70"
                     rx="10"
-                    fill="#eaf3ec"
+                    fill="#14241b"
                     stroke="#2ea065"
                     strokeWidth="1.8"
                   />
@@ -197,7 +197,7 @@ export function Ontology() {
                     fontFamily="var(--font-jetbrains), monospace"
                     fontSize="17"
                     fontWeight="600"
-                    fill="#14532d"
+                    fill="#8ce0ae"
                   >
                     Customer
                   </text>
@@ -222,8 +222,8 @@ export function Ontology() {
                     width="146"
                     height="60"
                     rx="10"
-                    fill="#ffffff"
-                    stroke="#d6d2c4"
+                    fill="#151914"
+                    stroke="#2d342c"
                     strokeWidth="1.5"
                   />
                   <text
@@ -232,7 +232,7 @@ export function Ontology() {
                     textAnchor="middle"
                     fontFamily="var(--font-jetbrains), monospace"
                     fontSize="15"
-                    fill="#1b1a15"
+                    fill="#e9e7dc"
                   >
                     Order
                   </text>
@@ -247,8 +247,8 @@ export function Ontology() {
                     width="164"
                     height="60"
                     rx="10"
-                    fill="#ffffff"
-                    stroke="#d6d2c4"
+                    fill="#151914"
+                    stroke="#2d342c"
                     strokeWidth="1.5"
                   />
                   <text
@@ -257,7 +257,7 @@ export function Ontology() {
                     textAnchor="middle"
                     fontFamily="var(--font-jetbrains), monospace"
                     fontSize="15"
-                    fill="#1b1a15"
+                    fill="#e9e7dc"
                   >
                     Shipment
                   </text>
@@ -272,8 +272,8 @@ export function Ontology() {
                     width="148"
                     height="60"
                     rx="10"
-                    fill="#ffffff"
-                    stroke="#d6d2c4"
+                    fill="#151914"
+                    stroke="#2d342c"
                     strokeWidth="1.5"
                   />
                   <text
@@ -282,7 +282,7 @@ export function Ontology() {
                     textAnchor="middle"
                     fontFamily="var(--font-jetbrains), monospace"
                     fontSize="15"
-                    fill="#1b1a15"
+                    fill="#e9e7dc"
                   >
                     Invoice
                   </text>
@@ -297,8 +297,8 @@ export function Ontology() {
                     width="146"
                     height="60"
                     rx="10"
-                    fill="#ffffff"
-                    stroke="#d6d2c4"
+                    fill="#151914"
+                    stroke="#2d342c"
                     strokeWidth="1.5"
                   />
                   <text
@@ -307,7 +307,7 @@ export function Ontology() {
                     textAnchor="middle"
                     fontFamily="var(--font-jetbrains), monospace"
                     fontSize="15"
-                    fill="#1b1a15"
+                    fill="#e9e7dc"
                   >
                     Ticket
                   </text>

@@ -1,13 +1,10 @@
 "use client";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { useState } from "react";
+import { Plus } from "lucide-react";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/reveal";
+import { cn } from "@/lib/utils";
 
 const FAQS = [
   {
@@ -37,6 +34,9 @@ const FAQS = [
 ];
 
 export function Faq() {
+  /* Custom accordion: single open, no generated ids */
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+
   return (
     <section
       id="faq"
@@ -53,22 +53,50 @@ export function Faq() {
             />
           </div>
           <Reveal>
-            <Accordion type="single" collapsible className="w-full">
-              {FAQS.map((f, i) => (
-                <AccordionItem
-                  key={f.q}
-                  value={`item-${i}`}
-                  className="border-line"
-                >
-                  <AccordionTrigger className="py-5 text-left font-display text-[16.5px] font-medium text-ink hover:no-underline hover:text-moss-deep">
-                    {f.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-5 text-[14px] leading-relaxed text-ink-soft">
-                    {f.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <div className="w-full">
+              {FAQS.map((f, i) => {
+                const open = openIdx === i;
+                return (
+                  <div key={f.q} className="border-b border-line first:border-t">
+                    <button
+                      type="button"
+                      aria-expanded={open}
+                      onClick={() => setOpenIdx(open ? null : i)}
+                      className="group flex w-full items-center justify-between gap-6 py-5 text-left"
+                    >
+                      <span
+                        className={cn(
+                          "font-display text-[16.5px] font-medium transition-colors group-hover:text-moss-deep",
+                          open ? "text-moss-deep" : "text-ink"
+                        )}
+                      >
+                        {f.q}
+                      </span>
+                      <Plus
+                        aria-hidden
+                        className={cn(
+                          "h-4 w-4 shrink-0 text-ink-soft transition-transform duration-300",
+                          open && "rotate-45 text-moss-deep"
+                        )}
+                      />
+                    </button>
+                    <div
+                      aria-hidden={!open}
+                      className={cn(
+                        "grid transition-[grid-template-rows] duration-300 ease-out",
+                        open ? "[grid-template-rows:1fr]" : "[grid-template-rows:0fr]"
+                      )}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="pb-5 pr-10 text-[14px] leading-relaxed text-ink-soft">
+                          {f.a}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </Reveal>
         </div>
       </div>

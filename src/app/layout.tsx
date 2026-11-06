@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 import { SmoothScroll } from "@/components/landing/smooth-scroll";
 
 const inter = Inter({
@@ -75,7 +75,19 @@ export default function RootLayout({
         {/* Fine paper grain over everything, never interactive */}
         <div aria-hidden className="noise-overlay pointer-events-none fixed inset-0 z-[80]" />
         {children}
-        <Toaster />
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: "#161a15",
+              border: "1px solid #2d342c",
+              color: "#e9e7dc",
+              borderRadius: "0.75rem",
+              boxShadow: "0 24px 60px -20px rgba(0,0,0,0.65)",
+            },
+            descriptionClassName: "text-ink-soft",
+          }}
+        />
       </body>
     </html>
   );

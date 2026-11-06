@@ -1,21 +1,14 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronDown, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Eyebrow } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/reveal";
 import { AnimText } from "@/components/landing/animated-text";
-import { useToast } from "@/hooks/use-toast";
 
 const ROLES = [
   "Head of Data / CTO",
@@ -31,7 +24,6 @@ export function FinalCta() {
   const [role, setRole] = useState<string>("");
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
-  const { toast } = useToast();
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -54,13 +46,13 @@ export function FinalCta() {
         return;
       }
       setState("done");
-      toast({
-        title: data.duplicate
-          ? "You're already on the list."
-          : "You're on the list.",
-        description:
-          "Oldest signups first: the preview invite and the open source repo link land in your inbox first.",
-      });
+      toast(
+        data.duplicate ? "You're already on the list." : "You're on the list.",
+        {
+          description:
+            "Oldest signups first: the preview invite and the open source repo link land in your inbox first.",
+        }
+      );
     } catch {
       setError("Network hiccup, please try again.");
       setState("idle");
@@ -144,21 +136,30 @@ export function FinalCta() {
                     <Label htmlFor="ea-role" className="text-[12.5px] font-medium text-ink-soft">
                       Your role
                     </Label>
-                    <Select value={role} onValueChange={setRole}>
-                      <SelectTrigger
+                    {/* Native select: reliable on mobile, no generated ids */}
+                    <div className="relative">
+                      <select
                         id="ea-role"
-                        className="h-12 w-full border-line-strong bg-card focus-visible:ring-moss"
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        className={`h-12 w-full appearance-none rounded-md border border-line-strong bg-card px-3.5 text-[15px] shadow-xs outline-none transition-[color,box-shadow] focus-visible:border-moss focus-visible:ring-[3px] focus-visible:ring-moss/30 ${
+                          role ? "text-ink" : "text-muted-foreground"
+                        }`}
                       >
-                        <SelectValue placeholder="Your role" />
-                      </SelectTrigger>
-                      <SelectContent>
+                        <option value="" disabled>
+                          Your role
+                        </option>
                         {ROLES.map((r) => (
-                          <SelectItem key={r} value={r}>
+                          <option key={r} value={r} className="bg-card text-ink">
                             {r}
-                          </SelectItem>
+                          </option>
                         ))}
-                      </SelectContent>
-                    </Select>
+                      </select>
+                      <ChevronDown
+                        aria-hidden
+                        className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                      />
+                    </div>
                   </div>
                   <Button
                     type="submit"

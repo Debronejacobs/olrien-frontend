@@ -1,18 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Github, Menu } from "lucide-react";
+import { Github, Menu, X } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Logo } from "@/components/landing/logo";
 import { scrollToId } from "@/lib/scroll";
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 const LINKS: { label: string; href: string }[] = [
@@ -30,7 +23,6 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 18);
@@ -38,6 +30,21 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  /* Custom slide-over: lock page scroll and close on Escape */
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.documentElement.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   useEffect(() => {
     const els = ACTIVE_IDS.map((id) => document.getElementById(id)).filter(
@@ -76,8 +83,7 @@ export function Nav() {
   };
 
   const repoToast = () =>
-    toast({
-      title: "The open source core ships with the first preview.",
+    toast("The open source core ships with the first preview.", {
       description:
         "Join the early access list below and the repo link lands in your inbox first.",
     });
@@ -155,45 +161,68 @@ export function Nav() {
           >
             Early access
           </Button>
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" aria-label="Open menu">
-                <Menu className="h-4.5 w-4.5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="bg-paper w-[300px]">
-              <SheetHeader>
-                <SheetTitle>
-                  <Logo />
-                </SheetTitle>
-              </SheetHeader>
-              <nav
-                aria-label="Mobile"
-                className="mt-2 flex flex-col gap-1 px-4"
-              >
-                {LINKS.map((l) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    onClick={go(l.href)}
-                    className="rounded-md px-2 py-3 text-[15px] font-medium text-ink-soft transition-colors hover:bg-muted hover:text-ink"
-                  >
-                    {l.label}
-                  </a>
-                ))}
-                <button
-                  onClick={() => {
-                    setOpen(false);
-                    repoToast();
-                  }}
-                  className="mt-2 flex items-center gap-2 rounded-md px-2 py-3 text-left text-[15px] font-medium text-ink-soft transition-colors hover:bg-muted hover:text-ink"
-                >
-                  <Github className="h-4 w-4" /> Open core
-                </button>
-              </nav>
-            </SheetContent>
-          </Sheet>
+          <Button
+            variant="outline"
+            size="icon"
+            aria-label="Open menu"
+            aria-expanded={open}
+            onClick={() => setOpen(true)}
+          >
+            <Menu className="h-4.5 w-4.5" />
+          </Button>
         </div>
+      </div>
+
+      {/* Custom slide-over menu (no portal, no generated ids) */}
+      <div
+        aria-hidden={!open}
+        className={cn(
+          "fixed inset-0 z-[60] bg-black/60 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden",
+          open ? "opacity-100" : "pointer-events-none opacity-0"
+        )}
+        onClick={() => setOpen(false)}
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
+        className={cn(
+          "fixed inset-y-0 right-0 z-[61] flex w-[300px] flex-col border-l border-line bg-paper shadow-2xl transition-transform duration-300 ease-out lg:hidden",
+          open ? "translate-x-0" : "pointer-events-none translate-x-full"
+        )}
+      >
+        <div className="flex h-[68px] shrink-0 items-center justify-between border-b border-line px-5">
+          <Logo />
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+          >
+            <X className="h-4.5 w-4.5" />
+          </Button>
+        </div>
+        <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 pt-4">
+          {LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={go(l.href)}
+              className="rounded-md px-2 py-3 text-[15px] font-medium text-ink-soft transition-colors hover:bg-muted hover:text-ink"
+            >
+              {l.label}
+            </a>
+          ))}
+          <button
+            onClick={() => {
+              setOpen(false);
+              repoToast();
+            }}
+            className="mt-2 flex items-center gap-2 rounded-md px-2 py-3 text-left text-[15px] font-medium text-ink-soft transition-colors hover:bg-muted hover:text-ink"
+          >
+            <Github className="h-4 w-4" /> Open core
+          </button>
+        </nav>
       </div>
     </header>
   );

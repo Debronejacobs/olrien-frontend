@@ -7,7 +7,7 @@ import { AnimText } from "@/components/landing/animated-text";
 import { Magnetic } from "@/components/landing/magnetic";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { scrollToId } from "@/lib/scroll";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 const STATS: { value: string; label: string; sub: string }[] = [
   {
@@ -41,7 +41,6 @@ const GUARDRAILS = [
 
 export function Hero() {
   const rootRef = useRef<HTMLElement>(null);
-  const { toast } = useToast();
 
   useEffect(() => {
     const el = rootRef.current;
@@ -184,8 +183,7 @@ export function Hero() {
   }, []);
 
   const repoToast = () =>
-    toast({
-      title: "The open source core ships with the first preview.",
+    toast("The open source core ships with the first preview.", {
       description:
         "Join the early access list and the repo link lands in your inbox first.",
     });

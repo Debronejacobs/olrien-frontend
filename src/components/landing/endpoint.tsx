@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { ScrollText, ShieldCheck } from "lucide-react";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/reveal";
+import { BRANDS, BrandMark } from "@/components/landing/brand-logos";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
@@ -28,16 +29,17 @@ const LOG: LogLine[] = [
 ];
 
 const CONSUMERS = [
-  { label: "BI tool", sub: "analyst" },
-  { label: "AI assistant", sub: "everyone" },
-  { label: "Internal agent", sub: "software" },
+  { label: "Metabase", sub: "BI · analyst", brand: BRANDS.metabase },
+  { label: "CrewAI", sub: "AI assistant", brand: BRANDS.crewai },
+  { label: "LangChain", sub: "internal agent", brand: BRANDS.langchain },
 ];
 
 const SOURCES = [
-  { label: "PostgreSQL", sub: "scoped creds" },
-  { label: "Warehouse", sub: "live scan" },
-  { label: "CRM · SaaS", sub: "synced via API" },
-  { label: "Documents", sub: "typed, cited" },
+  { label: "PostgreSQL", sub: "scoped creds", brand: BRANDS.postgresql },
+  { label: "Snowflake", sub: "warehouse · live scan", brand: BRANDS.snowflake },
+  { label: "Databricks", sub: "lakehouse · live scan", brand: BRANDS.databricks },
+  { label: "Attio", sub: "CRM · synced via API", brand: BRANDS.attio },
+  { label: "Notion", sub: "typed, cited", brand: BRANDS.notion },
 ];
 
 function LogRow({ l, idx, hidden }: { l: LogLine; idx: number; hidden?: boolean }) {
@@ -112,8 +114,8 @@ export function Endpoint() {
         const t = gsap.timeline({ repeat: -1, delay: i * 0.55, paused: true });
         t.fromTo(
           dot,
-          { attr: { cx: 214, cy: [66, 166, 266][i] }, opacity: 0 },
-          { attr: { cx: 372, cy: [152, 180, 208][i] }, duration: 1.5, ease: "none" }
+          { attr: { cx: 236, cy: [72, 222, 372][i] }, opacity: 0 },
+          { attr: { cx: 372, cy: [190, 220, 250][i] }, duration: 1.5, ease: "none" }
         )
           .to(dot, { opacity: 1, duration: 0.25 }, 0.05)
           .to(dot, { opacity: 0, duration: 0.35 }, 1.15);
@@ -125,8 +127,8 @@ export function Endpoint() {
         const t = gsap.timeline({ repeat: -1, delay: 0.7 + i * 0.45, paused: true });
         t.fromTo(
           dot,
-          { attr: { cx: 528, cy: [152, 178, 196, 212][i] }, opacity: 0 },
-          { attr: { cx: 700, cy: [56, 136, 216, 296][i] }, duration: 1.4, ease: "none" }
+          { attr: { cx: 528, cy: [190, 205, 220, 235, 250][i] }, opacity: 0 },
+          { attr: { cx: 696, cy: [58, 140, 222, 304, 386][i] }, duration: 1.4, ease: "none" }
         )
           .to(dot, { opacity: 1, duration: 0.25 }, 0.05)
           .to(dot, { opacity: 0, duration: 0.35 }, 1.05);
@@ -264,20 +266,21 @@ export function Endpoint() {
         <div ref={figRef} className="mx-auto mt-14 max-w-5xl">
           <div className="grid-bg rounded-xl border border-line bg-card p-4 shadow-xs sm:p-6">
             <svg
-              viewBox="0 0 900 352"
+              viewBox="0 0 900 440"
               className="h-auto w-full"
               role="img"
-              aria-label="Every consumer connects through one MCP endpoint; the endpoint reads sources with scoped credentials and appends every call to one audit log."
+              aria-label="Metabase, CrewAI and LangChain connect through one MCP endpoint; the endpoint reads PostgreSQL, Snowflake, Databricks, Attio and Notion with scoped credentials and appends every call to one audit log."
             >
               {/* edges */}
-              <g stroke="#c9c5b6" strokeWidth="1.4" fill="none">
-                <path className="ep-edge" d="M 214 66 L 372 152" />
-                <path className="ep-edge" d="M 214 166 L 372 180" />
-                <path className="ep-edge" d="M 214 266 L 372 208" />
-                <path className="ep-edge" d="M 528 152 L 700 56" />
-                <path className="ep-edge" d="M 528 178 L 700 136" />
-                <path className="ep-edge" d="M 528 196 L 700 216" />
-                <path className="ep-edge" d="M 528 212 L 700 296" />
+              <g stroke="#39413a" strokeWidth="1.4" fill="none">
+                <path className="ep-edge" d="M 236 72 L 372 190" />
+                <path className="ep-edge" d="M 236 222 L 372 220" />
+                <path className="ep-edge" d="M 236 372 L 372 250" />
+                <path className="ep-edge" d="M 528 190 L 696 58" />
+                <path className="ep-edge" d="M 528 205 L 696 140" />
+                <path className="ep-edge" d="M 528 220 L 696 222" />
+                <path className="ep-edge" d="M 528 235 L 696 304" />
+                <path className="ep-edge" d="M 528 250 L 696 386" />
               </g>
 
               {/* dots */}
@@ -288,24 +291,26 @@ export function Endpoint() {
               <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
               <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
               <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
 
               {/* consumers */}
               {CONSUMERS.map((c, i) => (
                 <g key={c.label} className="ep-node">
                   <rect
                     x="40"
-                    y={40 + i * 100}
-                    width="174"
-                    height="52"
-                    rx="9"
-                    fill="#ffffff"
-                    stroke="#d6d2c4"
+                    y={44 + i * 150}
+                    width="196"
+                    height="56"
+                    rx="10"
+                    fill="#151914"
+                    stroke="#2d342c"
                     strokeWidth="1.5"
                   />
-                  <text x="58" y={40 + i * 100 + 23} fontFamily="var(--font-jetbrains), monospace" fontSize="13.5" fill="#1b1a15">
+                  <BrandMark brand={c.brand} x={58} y={44 + i * 150 + 18} size={20} />
+                  <text x="90" y={44 + i * 150 + 25} fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#e9e7dc">
                     {c.label}
                   </text>
-                  <text x="58" y={40 + i * 100 + 40} fontFamily="var(--font-jetbrains), monospace" fontSize="10" fill="#6e6a5e">
+                  <text x="90" y={44 + i * 150 + 41} fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#8d897b">
                     {c.sub}
                   </text>
                 </g>
@@ -315,15 +320,17 @@ export function Endpoint() {
               <g className="ep-door">
                 <rect
                   x="372"
-                  y="118"
+                  y="158"
                   width="156"
                   height="124"
                   rx="12"
-                  fill="#1b1a15"
+                  fill="#10130f"
+                  stroke="#272d26"
+                  strokeWidth="1.5"
                 />
                 <rect
                   x="380"
-                  y="126"
+                  y="166"
                   width="140"
                   height="108"
                   rx="9"
@@ -333,12 +340,12 @@ export function Endpoint() {
                   strokeDasharray="3 4"
                   opacity="0.7"
                 />
-                <circle cx="450" cy="168" r="7" fill="#34d399" />
-                <rect x="447" y="172" width="6" height="14" rx="3" fill="#34d399" />
-                <text x="450" y="212" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#faf9f5">
+                <circle cx="450" cy="200" r="7" fill="#34d399" />
+                <rect x="447" y="204" width="6" height="14" rx="3" fill="#34d399" />
+                <text x="450" y="246" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#e9e7dc">
                   one endpoint
                 </text>
-                <text x="450" y="228" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#34d399">
+                <text x="450" y="262" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#34d399">
                   auth · permissions · log
                 </text>
               </g>
@@ -347,19 +354,20 @@ export function Endpoint() {
               {SOURCES.map((s, i) => (
                 <g key={s.label} className="ep-node">
                   <rect
-                    x="700"
-                    y={30 + i * 80}
-                    width="176"
-                    height="52"
-                    rx="9"
-                    fill="#f4f2ea"
-                    stroke="#d6d2c4"
+                    x="696"
+                    y={30 + i * 82}
+                    width="188"
+                    height="56"
+                    rx="10"
+                    fill="#151914"
+                    stroke="#2d342c"
                     strokeWidth="1.5"
                   />
-                  <text x="718" y={30 + i * 80 + 23} fontFamily="var(--font-jetbrains), monospace" fontSize="13" fill="#1b1a15">
+                  <BrandMark brand={s.brand} x={714} y={30 + i * 82 + 18} size={20} />
+                  <text x="746" y={30 + i * 82 + 25} fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#e9e7dc">
                     {s.label}
                   </text>
-                  <text x="718" y={30 + i * 80 + 40} fontFamily="var(--font-jetbrains), monospace" fontSize="10" fill="#6e6a5e">
+                  <text x="746" y={30 + i * 82 + 41} fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#8d897b">
                     {s.sub}
                   </text>
                 </g>
