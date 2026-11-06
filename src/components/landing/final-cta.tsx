@@ -109,9 +109,9 @@ export function FinalCta() {
             ) : (
               <form
                 onSubmit={submit}
-                className="mx-auto mt-10 flex max-w-md flex-col gap-3 text-left sm:flex-row"
+                className="mx-auto mt-10 flex max-w-2xl flex-col gap-3 text-left sm:flex-row"
               >
-                <div className="flex-1 space-y-1.5">
+                <div className="min-w-0 flex-1 space-y-1.5">
                   <Label htmlFor="ea-email" className="sr-only">
                     Work email
                   </Label>
@@ -125,7 +125,7 @@ export function FinalCta() {
                     className="h-12 border-line-strong bg-paper focus-visible:ring-moss"
                   />
                 </div>
-                <div className="space-y-1.5 sm:w-[168px]">
+                <div className="space-y-1.5 sm:w-[180px]">
                   <Label htmlFor="ea-role" className="sr-only">
                     Your role
                   </Label>
