@@ -7,7 +7,7 @@ import { setLenis } from "@/lib/scroll";
 
 /**
  * Global smooth scrolling (Lenis) wired into GSAP's ticker + ScrollTrigger.
- * No-op when the user prefers reduced motion — native scrolling is kept.
+ * No-op when the user prefers reduced motion; native scrolling is kept.
  */
 export function SmoothScroll() {
   useEffect(() => {

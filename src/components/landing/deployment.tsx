@@ -10,31 +10,36 @@ const STEPS = [
   {
     n: "01",
     title: "Connect",
-    body: "Point Aletheia at your data with read-only credentials — a database, a warehouse, a CRM, a folder of documents. Only model API calls ever leave.",
+    body: "Point Aletheia at your systems with scoped credentials: a database, a warehouse, a CRM, a folder of documents. Only model API calls on your own key ever leave.",
   },
   {
     n: "02",
     title: "Review the draft",
-    body: "An agent scans schemas and documents, then proposes object types, links and metrics as reviewable diffs. Approve, edit or discard each one.",
+    body: "An agent scans schemas and documents, then proposes object types, links and actions as reviewable diffs. Approve, edit or discard each one.",
   },
   {
     n: "03",
-    title: "Govern",
-    body: "Every consumer goes through the one endpoint. Answers carry lineage back to source records. Every call is logged.",
+    title: "Govern and act",
+    body: "Everyone works through the one endpoint. Answers carry lineage back to source records, actions run the guardrail gauntlet, and the log records it all.",
   },
 ];
 
 const DIFF_LINES = [
   "object Customer {",
   "  key       crm.accounts.id | billing.customers.id | db.public.accounts.id",
-  "  sources   3 cited — crm, billing, database",
+  "  sources   3 cited: crm, billing, database",
   "  links     placed Orders · raised Tickets · holds Accounts",
-  "  actions   ApproveOrder · IssueRefund   // typed · dry-run · approved",
-  "  versioned in git — reviewed as a diff, rolled back like code",
+  "  actions   ApproveOrder · HoldShipment · IssueRefund   // typed · dry run · approved",
+  "  versioned in git: reviewed as a diff, rolled back like code",
   "}",
 ];
 
-const CONN_ROWS = ["PostgreSQL — 41 tables", "CSV drop-folder — 118 files", "CRM schema — 9 objects", "Billing schema — 6 objects"];
+const CONN_ROWS = [
+  "PostgreSQL · 41 tables",
+  "CSV drop folder · 118 files",
+  "CRM schema · 9 objects",
+  "Billing schema · 6 objects",
+];
 
 export function Deployment() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -47,7 +52,6 @@ export function Deployment() {
     const mm = gsap.matchMedia();
     mm.add("(min-width: 1024px)", () => {
       const ctx = gsap.context(() => {
-        // initial hidden states (desktop pinned scene only)
         gsap.set(".conn-check", { scale: 0, transformOrigin: "50% 50%" });
         gsap.set(".diff-line", { opacity: 0, x: -12 });
         gsap.set(".pr-footer", { opacity: 0 });
@@ -70,13 +74,13 @@ export function Deployment() {
           },
         });
 
-        // Phase 1 — connect
+        // Phase 1: connect
         tl.to(".conn-row .conn-dot", { backgroundColor: "#1a7f4b", stagger: 0.06 }, 0.02)
           .to(".conn-check", { scale: 1, stagger: 0.07, duration: 0.25 }, 0.05);
-        // Phase 2 — the draft as a diff
+        // Phase 2: the draft as a diff
         tl.to(".diff-line", { opacity: 1, x: 0, duration: 0.22, stagger: 0.05 }, 0.36)
           .to(".pr-footer", { opacity: 1, duration: 0.3 }, 0.62);
-        // Phase 3 — approve + govern
+        // Phase 3: approve + govern
         tl.to(".approve-btn", { backgroundColor: "#1a7f4b", color: "#faf9f5", borderColor: "#1a7f4b", duration: 0.2 }, 0.72)
           .fromTo(".pr-stamp", { opacity: 0, scale: 1.7, rotate: -8 }, { opacity: 1, scale: 1, rotate: -8, duration: 0.28 }, 0.8);
       }, el);
@@ -91,18 +95,18 @@ export function Deployment() {
       ref={sectionRef}
       id="deployment"
       aria-label="Deployment"
-      className="scroll-mt-20 border-t border-line bg-paper-deep/40 py-24 lg:py-32"
+      className="scroll-mt-20 border-t border-line bg-paper-deep/40 py-28 lg:py-32"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="03 — Deployment"
+          eyebrow="04 · Deployment"
           title="Deployed by your own team. Reviewed like code."
-          lead="There is no pilot project and no integration programme. The software does the grunt work; your team approves the result — each part of the model accepted, edited or discarded like a pull request."
+          lead="No pilot project, no integration programme. The software does the grunt work; your team approves the result, and each part of the model is accepted, edited or discarded like a pull request."
         />
 
         <div className="dep-scene mt-14 grid gap-10 lg:min-h-[calc(100vh-88px)] lg:grid-cols-[0.85fr_1.35fr] lg:items-center lg:gap-12">
           {/* Steps */}
-          <ol className="space-y-8 lg:space-y-10">
+          <ol className="min-w-0 space-y-8 lg:space-y-10">
             {STEPS.map((s, i) => (
               <li
                 key={s.n}
@@ -134,7 +138,7 @@ export function Deployment() {
           </ol>
 
           {/* PR review card */}
-          <div className="relative">
+          <div className="relative min-w-0">
             <div className="overflow-hidden rounded-xl border border-line-strong bg-card shadow-[0_24px_60px_-30px_rgba(27,26,21,0.35)]">
               {/* header */}
               <div className="flex items-center justify-between border-b border-line bg-paper px-4 py-3 sm:px-5">
@@ -153,7 +157,7 @@ export function Deployment() {
               <div className="px-4 py-4 sm:px-5">
                 <p className="text-[13px] text-ink-soft">
                   <span className="font-medium text-ink">Draft: one Customer object</span>{" "}
-                  from three cited sources. Review each line — the ontology is
+                  from three cited sources. Review each line; the ontology is
                   yours to accept, edit or discard.
                 </p>
 
@@ -211,7 +215,7 @@ export function Deployment() {
                 {/* reviewer row */}
                 <div className="mt-4 flex items-center justify-between rounded-lg border border-line bg-paper px-3 py-2.5">
                   <p className="font-mono text-[11px] text-ink-soft">
-                    you <span className="text-muted-foreground">(owner)</span> — review the draft
+                    you <span className="text-muted-foreground">(owner)</span> · review the draft
                   </p>
                   <span className="approve-btn rounded-md border border-line-strong bg-card px-3.5 py-1.5 font-mono text-[11px] font-medium text-ink transition-colors">
                     Approve
@@ -220,7 +224,7 @@ export function Deployment() {
               </div>
 
               <p className="pr-footer border-t border-line bg-paper px-4 py-2.5 text-center font-mono text-[10.5px] text-muted-foreground sm:px-5">
-                scan: 41 tables · 3 SaaS schemas · 1,204 documents — draft ready in 4m 51s (illustrative)
+                scan: 41 tables · 3 SaaS schemas · 1,204 documents · draft ready in 4m 51s (illustrative)
               </p>
             </div>
 

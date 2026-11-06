@@ -18,13 +18,17 @@ import { cn } from "@/lib/utils";
 const LINKS: { label: string; href: string }[] = [
   { label: "Product", href: "#product" },
   { label: "Deployment", href: "#deployment" },
+  { label: "Writes", href: "#writes" },
   { label: "Scenario", href: "#scenario" },
   { label: "Roadmap", href: "#roadmap" },
   { label: "FAQ", href: "#faq" },
 ];
 
+const ACTIVE_IDS = LINKS.map((l) => l.href.slice(1));
+
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
@@ -35,6 +39,36 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const els = ACTIVE_IDS.map((id) => document.getElementById(id)).filter(
+      (el): el is HTMLElement => Boolean(el)
+    );
+    if (els.length === 0) return;
+    let ticking = false;
+    const measure = () => {
+      ticking = false;
+      const anchor = window.innerHeight * 0.42;
+      let current: string | null = null;
+      for (const el of els) {
+        if (el.getBoundingClientRect().top <= anchor) current = el.id;
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(measure);
+      }
+    };
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   const go = (href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     setOpen(false);
@@ -43,9 +77,9 @@ export function Nav() {
 
   const repoToast = () =>
     toast({
-      title: "The open-source core ships with the first preview.",
+      title: "The open source core ships with the first preview.",
       description:
-        "Join the early-access list below and the repo link lands in your inbox first.",
+        "Join the early access list below and the repo link lands in your inbox first.",
     });
 
   return (
@@ -53,7 +87,7 @@ export function Nav() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-line/80 bg-paper/85 backdrop-blur-md"
+          ? "border-b border-line/80 bg-paper/85 shadow-[0_1px_24px_-12px_rgba(27,26,21,0.25)] backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       )}
     >
@@ -62,7 +96,7 @@ export function Nav() {
           href="#top"
           onClick={go("#top")}
           className="text-ink transition-opacity hover:opacity-70"
-          aria-label="Aletheia — back to top"
+          aria-label="Aletheia: back to top"
         >
           <Logo />
         </a>
@@ -73,9 +107,22 @@ export function Nav() {
               key={l.href}
               href={l.href}
               onClick={go(l.href)}
-              className="text-[13.5px] font-medium text-ink-soft transition-colors hover:text-ink"
+              aria-current={active === l.href.slice(1) ? "true" : undefined}
+              className={cn(
+                "relative text-[13.5px] font-medium transition-colors",
+                active === l.href.slice(1)
+                  ? "text-ink"
+                  : "text-ink-soft hover:text-ink"
+              )}
             >
               {l.label}
+              <span
+                aria-hidden
+                className={cn(
+                  "absolute -bottom-1.5 left-0 h-px w-full origin-left bg-moss transition-transform duration-300",
+                  active === l.href.slice(1) ? "scale-x-100" : "scale-x-0"
+                )}
+              />
             </a>
           ))}
         </nav>

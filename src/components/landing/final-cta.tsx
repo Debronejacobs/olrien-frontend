@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/select";
 import { Eyebrow } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/reveal";
+import { AnimText } from "@/components/landing/animated-text";
+import { Magnetic } from "@/components/landing/magnetic";
 import { useToast } from "@/hooks/use-toast";
 
 const ROLES = [
   "Head of Data / CTO",
-  "COO / line-of-business",
+  "COO / line of business",
   "CISO / Compliance",
   "CFO / Finance",
   "Engineer",
@@ -42,7 +44,11 @@ export function FinalCta() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, role: role || undefined }),
       });
-      const data = (await res.json()) as { ok?: boolean; error?: string; duplicate?: boolean };
+      const data = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        duplicate?: boolean;
+      };
       if (!res.ok || !data.ok) {
         setError(data.error ?? "Something went wrong. Please try again.");
         setState("idle");
@@ -54,10 +60,10 @@ export function FinalCta() {
           ? "You're already on the list."
           : "You're on the list.",
         description:
-          "Oldest signups first — the preview invite and the open-source repo link land in your inbox first.",
+          "Oldest signups first: the preview invite and the open source repo link land in your inbox first.",
       });
     } catch {
-      setError("Network hiccup — please try again.");
+      setError("Network hiccup, please try again.");
       setState("idle");
     }
   };
@@ -66,23 +72,27 @@ export function FinalCta() {
     <section
       id="early-access"
       aria-label="Join the early access list"
-      className="scroll-mt-20 border-t border-line py-24 lg:py-32"
+      className="scroll-mt-20 border-t border-line py-28 lg:py-32"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="grid-bg relative overflow-hidden rounded-2xl border border-line-strong bg-card px-6 py-14 shadow-[0_30px_80px_-40px_rgba(27,26,21,0.4)] sm:px-12 lg:px-16">
+        <div className="grid-bg relative overflow-hidden rounded-2xl border border-line-strong bg-card px-6 py-16 shadow-[0_30px_80px_-40px_rgba(27,26,21,0.4)] sm:px-12 lg:px-16">
           <div
             aria-hidden
             className="absolute right-[-120px] top-[-120px] h-[340px] w-[340px] rounded-full bg-moss-tint blur-3xl"
           />
           <div className="relative mx-auto max-w-2xl text-center">
-            <Eyebrow className="justify-center text-center">09 — Early access</Eyebrow>
-            <h2 className="mt-4 font-display text-3xl font-medium leading-[1.08] tracking-tight text-ink sm:text-4xl lg:text-[2.75rem]">
+            <Eyebrow className="justify-center">11 · Early access</Eyebrow>
+            <AnimText
+              as="h2"
+              type="lines"
+              className="mt-4 font-display text-3xl font-medium leading-[1.08] tracking-tight text-ink sm:text-4xl lg:text-[2.75rem]"
+            >
               Own the model of your company.
-            </h2>
+            </AnimText>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
               The architecture is proven; what is new is the price of building
-              it — and who owns it. Join the early-access list, or come in as
-              a design partner and shape what ships next.
+              it, and who owns it. Join the early access list, or come in as a
+              design partner and shape what ships next.
             </p>
 
             {state === "done" ? (
@@ -92,7 +102,7 @@ export function FinalCta() {
                   You&rsquo;re on the list.
                 </p>
                 <p className="mt-1.5 text-sm leading-relaxed text-moss-deep/80">
-                  Invites go out oldest-first. Watch your inbox — the preview
+                  Invites go out oldest first. Watch your inbox: the preview
                   and the repo link ship together.
                 </p>
               </Reveal>
@@ -135,20 +145,22 @@ export function FinalCta() {
                     </SelectContent>
                   </Select>
                 </div>
-                <Button
-                  type="submit"
-                  disabled={state === "loading"}
-                  className="h-12 gap-2 px-6 font-medium"
-                >
-                  {state === "loading" ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <>
-                      Request access
-                      <ArrowRight className="h-4 w-4" />
-                    </>
-                  )}
-                </Button>
+                <Magnetic strength={0.2}>
+                  <Button
+                    type="submit"
+                    disabled={state === "loading"}
+                    className="h-12 w-full gap-2 px-6 font-medium sm:w-auto"
+                  >
+                    {state === "loading" ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <>
+                        Request access
+                        <ArrowRight className="h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
+                </Magnetic>
               </form>
             )}
 
@@ -159,7 +171,7 @@ export function FinalCta() {
             ) : null}
 
             <p className="mt-6 font-mono text-[11px] tracking-wide text-muted-foreground">
-              self-hosted preview · oldest signups first · design-partner slots open
+              self hosted preview · oldest signups first · design partner slots open
             </p>
           </div>
         </div>

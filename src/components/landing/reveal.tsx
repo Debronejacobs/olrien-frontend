@@ -43,7 +43,7 @@ export function Reveal({
   }, [delay, y]);
 
   return (
-    // @ts-expect-error — dynamic tag with a shared ref is fine here
+    // @ts-expect-error: dynamic tag with a shared ref is fine here
     <Tag ref={ref} className={cn(className)}>
       {children}
     </Tag>

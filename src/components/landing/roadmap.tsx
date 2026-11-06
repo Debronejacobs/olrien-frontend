@@ -8,15 +8,15 @@ import { cn } from "@/lib/utils";
 const STAGES = [
   {
     tag: "now",
-    title: "First self-hosted preview",
-    body: "Shipping to the early-access list, oldest signups first. Design-partner conversations begin.",
+    title: "First self hosted preview",
+    body: "Shipping to the early access list, oldest signups first. Design partner conversations begin.",
     detail: "gets the first customers in",
   },
   {
     tag: "preview",
-    title: "Read tools with lineage tracing",
-    body: "Connectors for PostgreSQL, MySQL and CSV. Agent-assisted onboarding. Three starter ontologies.",
-    detail: "widens coverage to operational databases and files",
+    title: "Guarded CRUD on core sources",
+    body: "Connectors for PostgreSQL, MySQL and CSV. Agent assisted onboarding. Three starter ontologies. Typed actions with the full guardrail gauntlet.",
+    detail: "proves reads and writes on the systems most companies already run",
   },
   {
     tag: "next",
@@ -27,14 +27,14 @@ const STAGES = [
   {
     tag: "then",
     title: "SaaS, CRM and documents",
-    body: "Attio, Salesforce, HubSpot, Stripe, Zendesk, Shopify — then unstructured extraction from documents.",
-    detail: "widens coverage to customer-facing records, contracts, tickets and transcripts",
+    body: "Attio, Salesforce, HubSpot, Stripe, Zendesk, Shopify, then unstructured extraction from documents.",
+    detail: "widens coverage to customer facing records, contracts, tickets and transcripts",
   },
   {
     tag: "later",
-    title: "The action gateway",
-    body: "Typed, dry-run, human-approved writes — from reading the business to acting on it.",
-    detail: "widens what the system does",
+    title: "Deeper guardrails",
+    body: "Cross system transactions, policy simulation before execution, and approval chains for the messiest operations.",
+    detail: "widens what the system can be trusted to do",
   },
 ];
 
@@ -76,12 +76,12 @@ export function Roadmap() {
     <section
       id="roadmap"
       aria-label="Roadmap"
-      className="scroll-mt-20 py-24 lg:py-32"
+      className="scroll-mt-20 py-28 lg:py-32"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="07 — Roadmap"
-          title="Widen what it can see. Then what it can do."
+          eyebrow="09 · Roadmap"
+          title="Widen what it can see. Deepen what it can guard."
           lead="Connectors ship on a weekly cadence once the preview is live. Sequenced so coverage earns the right to act."
         />
 
@@ -121,7 +121,7 @@ export function Roadmap() {
                 {s.body}
               </p>
               <p className="mt-1.5 font-mono text-[11px] text-muted-foreground">
-                — {s.detail}
+                · {s.detail}
               </p>
             </li>
           ))}

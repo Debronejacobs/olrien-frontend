@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
+import { AnimText } from "@/components/landing/animated-text";
 
 export function Eyebrow({
   children,
@@ -13,7 +14,7 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        "font-mono text-[11px] uppercase tracking-[0.22em]",
+        "flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.22em]",
         dark ? "text-moss-bright" : "text-moss",
         className
       )}
@@ -21,7 +22,7 @@ export function Eyebrow({
       <span
         aria-hidden
         className={cn(
-          "mr-2 inline-block h-[7px] w-[7px] translate-y-[-1px] rounded-[1px]",
+          "inline-block h-[7px] w-[7px] rounded-[1px]",
           dark ? "bg-moss-bright" : "bg-moss"
         )}
       />
@@ -53,17 +54,22 @@ export function SectionHeading({
         className
       )}
     >
-      <Eyebrow dark={dark} className={align === "center" ? "text-center" : ""}>
+      <Eyebrow
+        dark={dark}
+        className={cn(align === "center" && "justify-center")}
+      >
         {eyebrow}
       </Eyebrow>
-      <h2
+      <AnimText
+        as="h2"
+        type="lines"
         className={cn(
           "mt-4 font-display text-3xl font-medium leading-[1.08] tracking-tight text-balance sm:text-4xl lg:text-[2.75rem]",
           dark ? "text-paper" : "text-ink"
         )}
       >
         {title}
-      </h2>
+      </AnimText>
       {lead ? (
         <p
           className={cn(

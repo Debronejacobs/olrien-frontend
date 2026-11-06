@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ScrollText, ShieldCheck } from "lucide-react";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/reveal";
@@ -16,15 +16,15 @@ type LogLine = {
   note: string;
 };
 
-const LOG_POOL: Omit<LogLine, "t">[] = [
-  { action: "READ", object: "Customer#1042", actor: "agent-7", verdict: "allowed", note: "3 fields · lineage: crm/billing/db" },
-  { action: "READ", object: "Order#88231", actor: "agent-7", verdict: "allowed", note: "lineage: db.public.orders" },
-  { action: "READ", object: "Invoice#2210", actor: "bi-tool", verdict: "allowed", note: "1 field · lineage: billing/invoices" },
-  { action: "LIST", object: "Shipments?status=pending", actor: "analyst", verdict: "allowed", note: "12 rows" },
-  { action: "READ", object: "Customer#5171", actor: "assistant", verdict: "allowed", note: "5 fields · PII masked by role" },
-  { action: "READ", object: "Account#77123", actor: "agent-2", verdict: "denied", note: "policy: pii.masked" },
-  { action: "READ", object: "Ticket#9941", actor: "assistant", verdict: "allowed", note: "lineage: zendesk/tickets" },
-  { action: "LIST", object: "Transfers?outbound", actor: "agent-7", verdict: "allowed", note: "31 rows · step-up flag" },
+const LOG: LogLine[] = [
+  { t: "09:14:02", action: "READ", object: "Customer#1042", actor: "agent-7", verdict: "allowed", note: "3 fields · lineage: crm/billing/db" },
+  { t: "09:14:19", action: "LIST", object: "Shipments?status=pending", actor: "analyst", verdict: "allowed", note: "12 rows" },
+  { t: "09:15:40", action: "UPDATE", object: "Invoice#8841", actor: "agent-7", verdict: "allowed", note: "dry run ok · approved by j.moreau" },
+  { t: "09:16:05", action: "READ", object: "Account#77123", actor: "agent-2", verdict: "denied", note: "policy: pii.masked" },
+  { t: "09:17:22", action: "CREATE", object: "Order#90211", actor: "assistant", verdict: "allowed", note: "typed action · idempotency key set" },
+  { t: "09:18:47", action: "DELETE", object: "Draft#221", actor: "steward", verdict: "allowed", note: "duplicate merged into Customer#1042" },
+  { t: "09:19:03", action: "WRITE", object: "Payroll.run", actor: "agent-2", verdict: "denied", note: "policy: writes.payroll.blocked" },
+  { t: "09:20:11", action: "EXPORT", object: "audit.segment", actor: "auditor", verdict: "allowed", note: "signed export · 09:14 to 09:20" },
 ];
 
 const CONSUMERS = [
@@ -34,26 +34,51 @@ const CONSUMERS = [
 ];
 
 const SOURCES = [
-  { label: "PostgreSQL", sub: "read-only creds" },
+  { label: "PostgreSQL", sub: "scoped creds" },
   { label: "Warehouse", sub: "live scan" },
   { label: "CRM · SaaS", sub: "synced via API" },
   { label: "Documents", sub: "typed, cited" },
 ];
 
-function clock(base: number, i: number) {
-  const total = base + i;
-  const h = 9;
-  const m = 14 + Math.floor(total / 60);
-  const s = total % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+function LogRow({ l, idx, hidden }: { l: LogLine; idx: number; hidden?: boolean }) {
+  return (
+    <p
+      data-idx={idx}
+      className={cn(
+        "al-line flex items-baseline gap-3 whitespace-nowrap rounded px-1 font-mono text-[11px] leading-[1.95]",
+        hidden && "opacity-0"
+      )}
+    >
+      <span className="text-paper/40">[{l.t}]</span>
+      <span
+        className={cn(
+          "w-14 font-medium",
+          l.action === "READ" || l.action === "LIST"
+            ? "text-paper/70"
+            : "text-moss-bright"
+        )}
+      >
+        {l.action}
+      </span>
+      <span className="w-52 truncate text-paper/90">{l.object}</span>
+      <span className="hidden w-20 text-paper/50 sm:inline">{l.actor}</span>
+      <span
+        className={cn(
+          "w-14 font-medium",
+          l.verdict === "allowed" ? "text-moss-bright" : "text-[#e5704a]"
+        )}
+      >
+        {l.verdict}
+      </span>
+      <span className="hidden truncate text-paper/40 md:inline">{l.note}</span>
+    </p>
+  );
 }
 
 export function Endpoint() {
   const figRef = useRef<HTMLDivElement>(null);
-  const consoleRef = useRef<HTMLDivElement>(null);
-  const [lines, setLines] = useState<LogLine[]>(() =>
-    LOG_POOL.slice(0, 5).map((l, i) => ({ ...l, t: clock(0, i) }))
-  );
+  const scrubRef = useRef<HTMLDivElement>(null);
+  const counterRef = useRef<HTMLSpanElement>(null);
 
   /* Diagram draw-in + travelling request dots */
   useEffect(() => {
@@ -61,7 +86,7 @@ export function Endpoint() {
     if (!el || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: "top 70%" },
+        scrollTrigger: { trigger: el, start: "top 72%" },
         defaults: { ease: "power3.out" },
       });
       tl.fromTo(
@@ -71,8 +96,8 @@ export function Endpoint() {
       )
         .fromTo(
           ".ep-edge",
-          { opacity: 0, strokeDashoffset: 240 },
-          { opacity: 1, strokeDashoffset: 0, duration: 0.6, stagger: 0.05 },
+          { drawSVG: "0%" },
+          { drawSVG: "100%", duration: 0.55, stagger: 0.05 },
           0.3
         )
         .fromTo(
@@ -84,84 +109,153 @@ export function Endpoint() {
 
       // request dots: consumers -> endpoint
       gsap.utils.toArray<SVGCircleElement>(".dot-req").forEach((dot, i) => {
-        const tl = gsap.timeline({ repeat: -1, delay: i * 0.55 });
-        tl.fromTo(
+        const t = gsap.timeline({ repeat: -1, delay: i * 0.55, paused: true });
+        t.fromTo(
           dot,
           { attr: { cx: 214, cy: [66, 166, 266][i] }, opacity: 0 },
           { attr: { cx: 372, cy: [152, 180, 208][i] }, duration: 1.5, ease: "none" }
         )
           .to(dot, { opacity: 1, duration: 0.25 }, 0.05)
           .to(dot, { opacity: 0, duration: 0.35 }, 1.15);
+        dot.dataset.tw = String(i);
+        (dot as unknown as { _tw: gsap.core.Timeline })._tw = t;
       });
-      // read dots: endpoint -> sources
+      // read/write dots: endpoint -> sources
       gsap.utils.toArray<SVGCircleElement>(".dot-read").forEach((dot, i) => {
-        const tl = gsap.timeline({ repeat: -1, delay: 0.7 + i * 0.45 });
-        tl.fromTo(
+        const t = gsap.timeline({ repeat: -1, delay: 0.7 + i * 0.45, paused: true });
+        t.fromTo(
           dot,
           { attr: { cx: 528, cy: [152, 178, 196, 212][i] }, opacity: 0 },
           { attr: { cx: 700, cy: [56, 136, 216, 296][i] }, duration: 1.4, ease: "none" }
         )
           .to(dot, { opacity: 1, duration: 0.25 }, 0.05)
           .to(dot, { opacity: 0, duration: 0.35 }, 1.05);
+        (dot as unknown as { _tw: gsap.core.Timeline })._tw = t;
+      });
+
+      const allDots = [
+        ...gsap.utils.toArray<SVGCircleElement>(".dot-req"),
+        ...gsap.utils.toArray<SVGCircleElement>(".dot-read"),
+      ];
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 95%",
+        end: "bottom 0%",
+        onToggle: (self) =>
+          allDots.forEach((d) => {
+            const tw = (d as unknown as { _tw?: gsap.core.Timeline })._tw;
+            if (!tw) return;
+            if (self.isActive) tw.play();
+            else tw.pause();
+          }),
       });
     }, el);
     return () => ctx.revert();
   }, []);
 
-  /* Audit log appends only while the console is on screen */
+  /* Sticky scrubbed audit console (desktop): scroll writes the log */
   useEffect(() => {
-    const el = consoleRef.current;
-    if (!el) return;
-    if (prefersReducedMotion()) return;
+    const el = scrubRef.current;
+    if (!el || prefersReducedMotion()) return;
 
-    let interval: ReturnType<typeof setInterval> | null = null;
-    let i = 5;
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 1024px)", () => {
+      const ctx = gsap.context(() => {
+        const lines = gsap.utils.toArray<HTMLElement>(".al-line");
+        const counter = { n: 0 };
 
-    const start = () => {
-      if (interval) return;
-      interval = setInterval(() => {
-        const next = LOG_POOL[i % LOG_POOL.length];
-        setLines((prev) => [...prev.slice(-5), { ...next, t: clock(0, i + 1) }]);
-        i += 1;
-      }, 1500);
-    };
-    const stop = () => {
-      if (interval) {
-        clearInterval(interval);
-        interval = null;
-      }
-    };
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: el,
+            start: "top 20%",
+            end: "bottom bottom",
+            scrub: 0.5,
+          },
+        });
 
-    const st = ScrollTrigger.create({
-      trigger: el,
-      start: "top 95%",
-      end: "bottom -10%",
-      onToggle: (self) => (self.isActive ? start() : stop()),
+        tl.fromTo(
+          ".al-progress",
+          { scaleX: 0 },
+          { scaleX: 1, duration: lines.length, ease: "none" },
+          0
+        );
+
+        lines.forEach((line, i) => {
+          const at = i + 0.5;
+          tl.to(line, { opacity: 1, y: 0, duration: 0.32, ease: "power2.out" }, at);
+          tl.to(
+            counter,
+            {
+              n: i + 1,
+              duration: 0.32,
+              onUpdate: () => {
+                if (counterRef.current) {
+                  counterRef.current.textContent = String(Math.round(counter.n));
+                }
+              },
+            },
+            at
+          );
+          if (LOG[i]?.verdict === "denied") {
+            tl.fromTo(
+              line,
+              { backgroundColor: "rgba(229,112,74,0.16)" },
+              { backgroundColor: "rgba(229,112,74,0)", duration: 1.4 },
+              at + 0.05
+            );
+          }
+        });
+      }, el);
+      return () => ctx.revert();
     });
-    return () => {
-      stop();
-      st.kill();
-    };
+    return () => mm.revert();
   }, []);
+
+  const consoleCard = (sticky: boolean) => (
+    <div
+      className={cn(
+        "overflow-hidden rounded-xl border border-night-line bg-night shadow-[0_30px_80px_-30px_rgba(12,14,12,0.7)]",
+        sticky && "lg:my-[16vh]"
+      )}
+    >
+      <div className="flex items-center justify-between border-b border-night-line px-4 py-2.5">
+        <p className="flex items-center gap-2 font-mono text-[11px] text-paper/60">
+          <ScrollText className="h-3.5 w-3.5 text-moss-bright" />
+          audit.log · append only
+        </p>
+        <p className="font-mono text-[10.5px] text-paper/40">
+          entries <span ref={sticky ? counterRef : undefined}>8</span>/8 · reads and writes, one log
+        </p>
+      </div>
+      <span aria-hidden className="al-progress block h-px w-full origin-left scale-x-0 bg-moss-bright/70" />
+      <div className="console-scroll h-[210px] overflow-hidden px-4 py-3" aria-live="polite">
+        {LOG.map((l, i) => (
+          <LogRow key={l.t} l={l} idx={i} hidden={sticky} />
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <section
       id="endpoint"
-      aria-label="The product — endpoint"
-      className="scroll-mt-20 py-24 lg:py-32"
+      aria-label="The product: endpoint"
+      className="scroll-mt-20 py-28 lg:py-32"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           align="center"
-          eyebrow="02 — The product"
-          title="The endpoint fixes the access."
+          eyebrow="03 · The endpoint"
+          title="One door in. One log out."
           lead={
             <>
-              The Model Context Protocol — an open standard for how AI tools
-              connect to data — lets one governed door serve every assistant
-              and agent. Each call is authenticated, checked against
-              per-object permissions, and appended to one immutable audit log.
-              Nothing touches the underlying systems except through it.
+              The Model Context Protocol (an open standard for connecting AI
+              tools to data) lets a single governed door serve every
+              assistant, agent and BI tool. Each call is authenticated,
+              checked against per object permissions, answered with lineage,
+              and appended to one immutable log. Nothing reaches the
+              underlying systems except through it.
             </>
           }
         />
@@ -173,10 +267,10 @@ export function Endpoint() {
               viewBox="0 0 900 352"
               className="h-auto w-full"
               role="img"
-              aria-label="Every consumer connects through one MCP endpoint; the endpoint reads sources with read-only credentials and appends every call to one audit log."
+              aria-label="Every consumer connects through one MCP endpoint; the endpoint reads sources with scoped credentials and appends every call to one audit log."
             >
               {/* edges */}
-              <g stroke="#c9c5b6" strokeWidth="1.4" strokeDasharray="240" fill="none">
+              <g stroke="#c9c5b6" strokeWidth="1.4" fill="none">
                 <path className="ep-edge" d="M 214 66 L 372 152" />
                 <path className="ep-edge" d="M 214 166 L 372 180" />
                 <path className="ep-edge" d="M 214 266 L 372 208" />
@@ -187,13 +281,13 @@ export function Endpoint() {
               </g>
 
               {/* dots */}
-              <circle className="dot-req" r="3.4" fill="#1a7f4b" />
-              <circle className="dot-req" r="3.4" fill="#1a7f4b" />
-              <circle className="dot-req" r="3.4" fill="#1a7f4b" />
-              <circle className="dot-read" r="3.4" fill="#b45309" />
-              <circle className="dot-read" r="3.4" fill="#b45309" />
-              <circle className="dot-read" r="3.4" fill="#b45309" />
-              <circle className="dot-read" r="3.4" fill="#b45309" />
+              <circle className="dot-req" r="3.4" fill="#1a7f4b" opacity="0" />
+              <circle className="dot-req" r="3.4" fill="#1a7f4b" opacity="0" />
+              <circle className="dot-req" r="3.4" fill="#1a7f4b" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
 
               {/* consumers */}
               {CONSUMERS.map((c, i) => (
@@ -274,7 +368,7 @@ export function Endpoint() {
           </div>
 
           <Reveal className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            {["authenticated", "per-object permissions", "lineage on every answer", "append-only audit"].map(
+            {["authenticated", "per object permissions", "lineage on every answer", "append only audit"].map(
               (chip) => (
                 <span
                   key={chip}
@@ -288,45 +382,22 @@ export function Endpoint() {
           </Reveal>
         </div>
 
-        {/* Audit console */}
-        <div ref={consoleRef} className="mx-auto mt-10 max-w-5xl">
-          <Reveal>
-            <div className="overflow-hidden rounded-xl border border-night-line bg-night shadow-lg">
-              <div className="flex items-center justify-between border-b border-night-line px-4 py-2.5">
-                <p className="flex items-center gap-2 font-mono text-[11px] text-paper/60">
-                  <ScrollText className="h-3.5 w-3.5 text-moss-bright" />
-                  audit.log — append-only
-                </p>
-                <p className="font-mono text-[10.5px] text-paper/40">tail -f · one log for every tool</p>
-              </div>
-              <div className="console-scroll h-[186px] overflow-hidden px-4 py-3" aria-live="polite">
-                {lines.map((l, idx) => (
-                  <p
-                    key={`${l.t}-${idx}`}
-                    className={cn(
-                      "flex items-baseline gap-3 whitespace-nowrap font-mono text-[11px] leading-[1.9]",
-                      idx < lines.length - 3 ? "opacity-40" : "opacity-100",
-                      l.verdict === "denied" && "opacity-100"
-                    )}
-                  >
-                    <span className="text-paper/40">[{l.t}]</span>
-                    <span className="w-9 text-moss-bright">{l.action}</span>
-                    <span className="w-52 truncate text-paper/90">{l.object}</span>
-                    <span className="hidden w-20 text-paper/50 sm:inline">{l.actor}</span>
-                    <span
-                      className={cn(
-                        "w-14 font-medium",
-                        l.verdict === "allowed" ? "text-moss-bright" : "text-[#e5704a]"
-                      )}
-                    >
-                      {l.verdict}
-                    </span>
-                    <span className="hidden truncate text-paper/40 md:inline">{l.note}</span>
-                  </p>
-                ))}
-              </div>
-            </div>
-          </Reveal>
+        {/* Audit console: sticky + scrubbed on desktop, static on mobile */}
+        {/* Desktop */}
+        <div
+          ref={scrubRef}
+          className="relative mx-auto mt-16 hidden h-[260vh] max-w-5xl lg:block"
+        >
+          <div className="lg:sticky lg:top-[16vh]">
+            {consoleCard(true)}
+            <p className="mt-4 text-center font-mono text-[11px] text-muted-foreground">
+              keep scrolling · the log writes itself, one entry at a time
+            </p>
+          </div>
+        </div>
+        {/* Mobile */}
+        <div className="mx-auto mt-10 max-w-5xl lg:hidden">
+          {consoleCard(false)}
         </div>
       </div>
     </section>

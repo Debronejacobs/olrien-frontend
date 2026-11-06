@@ -31,9 +31,9 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Aletheia — One governed model of the company",
+  title: "Aletheia · One governed model of the company",
   description:
-    "Aletheia gives operations-heavy companies a single, trustworthy model of the business — the objects it runs on, how they relate, and what may be done to them — exposed through one audited endpoint. Open source at the core. Self-hosted. Licensed once, owned outright.",
+    "Aletheia gives operations heavy companies a single, trustworthy model of the business: the objects it runs on, how they relate, and what may be done to them. Reads carry lineage, writes pass guardrails, everything is logged through one audited endpoint. Open core. Self hosted. Licensed once, owned outright.",
   keywords: [
     "Aletheia",
     "ontology",
@@ -41,22 +41,23 @@ export const metadata: Metadata = {
     "Model Context Protocol",
     "data governance",
     "AI agents",
-    "self-hosted",
+    "guarded CRUD",
+    "self hosted",
     "open core",
     "audit",
   ],
   openGraph: {
-    title: "Aletheia — One governed model of the company",
+    title: "Aletheia · One governed model of the company",
     description:
-      "One door in: a single endpoint for every person and AI tool. One log out: one immutable audit trail across all access. Open core, self-hosted, owned outright.",
+      "One door in: a single guarded endpoint for every person and AI tool. One log out: one immutable audit trail across all access. Open core, self hosted, owned outright.",
     siteName: "Aletheia",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aletheia — One governed model of the company",
+    title: "Aletheia · One governed model of the company",
     description:
-      "One door in. One log out. The company kernel: open core, self-hosted, pay once, own it outright.",
+      "One door in. One log out. The company kernel: open core, self hosted, pay once, own it outright.",
   },
 };
 
@@ -71,6 +72,8 @@ export default function RootLayout({
         className={`${inter.variable} ${grotesk.variable} ${jetbrains.variable} ${instrument.variable} font-sans antialiased bg-background text-foreground`}
       >
         <SmoothScroll />
+        {/* Fine paper grain over everything, never interactive */}
+        <div aria-hidden className="noise-overlay pointer-events-none fixed inset-0 z-[80]" />
         {children}
         <Toaster />
       </body>

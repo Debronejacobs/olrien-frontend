@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Lock } from "lucide-react";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/reveal";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const ACTIONS = [
-  { sig: "ApproveOrder(order)", note: "typed · dry-run · human-approved" },
-  { sig: "HoldShipment(shipment)", note: "typed · dry-run · human-approved" },
-  { sig: "IssueRefund(invoice)", note: "typed · dry-run · human-approved" },
+  { verb: "CREATE", sig: "Order(order)", note: "typed · scoped · logged" },
+  { verb: "READ", sig: "Customer(customer)", note: "typed · lineage attached" },
+  { verb: "UPDATE", sig: "Invoice(invoice)", note: "typed · dry run · approved" },
+  { verb: "DELETE", sig: "Draft(draft)", note: "typed · reversible · logged" },
 ];
 
 export function Ontology() {
@@ -19,33 +19,78 @@ export function Ontology() {
     const el = figRef.current;
     if (!el || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
+      // The graph draws itself as the figure crosses the viewport
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: "top 72%" },
-        defaults: { ease: "power3.out" },
+        defaults: { ease: "power2.out" },
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          end: "top 20%",
+          scrub: 0.6,
+        },
       });
       tl.fromTo(
         ".ont-node",
         { opacity: 0, scale: 0.82, transformOrigin: "50% 50%" },
-        { opacity: 1, scale: 1, duration: 0.7, stagger: 0.12 }
+        { opacity: 1, scale: 1, duration: 0.45, stagger: 0.09 }
       )
         .fromTo(
           ".ont-edge",
-          { opacity: 0, strokeDashoffset: 320 },
-          { opacity: 1, strokeDashoffset: 0, duration: 0.8, stagger: 0.14 },
-          0.35
+          { drawSVG: "0%" },
+          { drawSVG: "100%", duration: 0.7, stagger: 0.1 },
+          0.25
         )
         .fromTo(
           ".ont-edge-label",
           { opacity: 0 },
-          { opacity: 1, duration: 0.5, stagger: 0.12 },
-          0.8
-        )
-        .fromTo(
-          ".ont-action",
-          { opacity: 0, y: 18 },
-          { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 },
-          1.0
+          { opacity: 1, duration: 0.3, stagger: 0.08 },
+          0.55
         );
+
+      gsap.fromTo(
+        ".ont-action",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.09,
+          scrollTrigger: { trigger: ".ont-actions", start: "top 90%" },
+        }
+      );
+
+      // Data pulses travel the edges while the figure is on screen
+      const pulses = gsap.utils.toArray<SVGCircleElement>(".ont-pulse");
+      const routes: [number, number, number, number][] = [
+        [258, 226, 388, 154],
+        [534, 128, 652, 98],
+        [534, 156, 660, 230],
+        [214, 272, 396, 330],
+      ];
+      const tweens = pulses.map((dot, i) => {
+        const [x1, y1, x2, y2] = routes[i % routes.length];
+        return gsap.fromTo(
+          dot,
+          { attr: { cx: x1, cy: y1 }, opacity: 0 },
+          {
+            attr: { cx: x2, cy: y2 },
+            opacity: 0.85,
+            duration: 1.4,
+            ease: "power1.inOut",
+            repeat: -1,
+            repeatDelay: 0.9,
+            delay: i * 0.7,
+            paused: true,
+          }
+        );
+      });
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 95%",
+        end: "bottom 0%",
+        onToggle: (self) =>
+          tweens.forEach((t) => (self.isActive ? t.play() : t.pause())),
+      });
     }, el);
     return () => ctx.revert();
   }, []);
@@ -53,23 +98,22 @@ export function Ontology() {
   return (
     <section
       id="product"
-      aria-label="The product — ontology"
-      className="scroll-mt-20 border-t border-line bg-paper-deep/40 py-24 lg:py-32"
+      aria-label="The product: ontology"
+      className="scroll-mt-20 border-t border-line bg-paper-deep/40 py-28 lg:py-32"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:items-start lg:gap-14">
           <div className="lg:sticky lg:top-28">
             <SectionHeading
-              eyebrow="02 — The product"
+              eyebrow="02 · The ontology"
               title="The ontology fixes the meaning."
               lead={
                 <>
-                  One shared definition of the objects the company runs on.
-                  &ldquo;Customer&rdquo; becomes one object rather than three
-                  records with different identifiers; an order is placed, a
-                  shipment ships, an invoice bills. The ontology also declares
-                  the verbs — so when writes arrive, they are typed and scoped
-                  rather than free-form.
+                  One shared definition of the objects the company runs on. A
+                  customer becomes one object instead of three records with
+                  different identifiers; an order is placed, a shipment ships,
+                  an invoice bills. The ontology declares the verbs too, so
+                  every write arrives typed and scoped instead of free form.
                 </>
               }
             />
@@ -77,7 +121,7 @@ export function Ontology() {
               {[
                 ["objects", "the nouns the business runs on"],
                 ["links", "how they relate"],
-                ["actions", "the verbs — declared, not improvised"],
+                ["actions", "the verbs, declared once, reused by every tool"],
               ].map(([k, v]) => (
                 <p
                   key={k}
@@ -106,7 +150,6 @@ export function Ontology() {
                   fill="none"
                   stroke="#b9b4a4"
                   strokeWidth="1.6"
-                  strokeDasharray="320"
                 >
                   <path className="ont-edge" d="M 258 226 L 388 154" />
                   <path className="ont-edge" d="M 534 128 L 652 98" />
@@ -128,9 +171,15 @@ export function Ontology() {
                   <text x="290" y="314">raises</text>
                 </g>
 
+                {/* travelling pulses */}
+                <circle className="ont-pulse" r="3.2" fill="#1a7f4b" opacity="0" />
+                <circle className="ont-pulse" r="3.2" fill="#1a7f4b" opacity="0" />
+                <circle className="ont-pulse" r="3.2" fill="#b45309" opacity="0" />
+                <circle className="ont-pulse" r="3.2" fill="#1a7f4b" opacity="0" />
+
                 {/* Customer */}
                 <g className="ont-node">
-                  <title>The Customer — one object merged from three cited sources</title>
+                  <title>The Customer: one object merged from three cited sources</title>
                   <rect
                     x="85"
                     y="205"
@@ -266,15 +315,17 @@ export function Ontology() {
               </svg>
             </div>
 
-            {/* Declared actions */}
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {/* Declared CRUD actions */}
+            <div className="ont-actions mt-4 grid gap-3 sm:grid-cols-2">
               {ACTIONS.map((a) => (
                 <div
-                  key={a.sig}
+                  key={a.verb}
                   className="ont-action rounded-lg border border-line bg-card px-3.5 py-3"
                 >
-                  <p className="flex items-center gap-1.5 font-mono text-[12px] font-medium text-ink">
-                    <Lock className="h-3 w-3 text-moss" />
+                  <p className="flex items-center gap-2 font-mono text-[12px] font-medium text-ink">
+                    <span className="rounded bg-moss-tint px-1.5 py-0.5 text-[10px] font-semibold tracking-wide text-moss-deep">
+                      {a.verb}
+                    </span>
                     {a.sig}
                   </p>
                   <p className="mt-1 font-mono text-[10.5px] text-muted-foreground">

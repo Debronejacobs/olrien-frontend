@@ -3,24 +3,25 @@
 import { useEffect, useRef } from "react";
 import { AlertTriangle, CheckCircle2, TimerReset } from "lucide-react";
 import { Eyebrow } from "@/components/landing/section-heading";
+import { AnimText } from "@/components/landing/animated-text";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
 const WITHOUT = [
   ["09:05", "Tickets exported to a spreadsheet."],
-  ["09:40", "Transfer records requested from the core-banking team; the queue is waited on."],
-  ["10:30", "Login and device events pulled by an engineer and matched by hand — identifiers differ across systems."],
-  ["11:15", "The first real lead — recent phone-number changes — noticed by chance in the CRM."],
+  ["09:40", "Transfer records requested from the core banking team; the queue is waited on."],
+  ["10:30", "Login and device events pulled by an engineer and matched by hand, because identifiers differ across systems."],
+  ["11:15", "The first real lead, recent phone number changes, noticed by chance in the CRM."],
   ["12:30", "Two teams define \u201cactive customer\u201d differently; their counts disagree."],
   ["13:45", "Scope estimated at around forty accounts while outbound transfers keep settling."],
-  ["14:30", "The freeze is coordinated across payments, operations and compliance — by email."],
+  ["14:30", "The freeze is coordinated across payments, operations and compliance, by email."],
 ];
 
 const WITH = [
-  ["09:08", "The nine callers share a pattern: a phone change made through the call centre within 72 hours, a new device within 24, a new payee from that device, transfers just under the step-up threshold. Lineage back to every source record."],
-  ["09:14", "Who else matches: 212 customers — 31 with outbound transfers still pending, totalling $1.86M — 17 of them headed to three shared beneficiary accounts."],
-  ["09:20", "Compliance and payments receive the same lineage-backed answer. No one re-derives it; no definitions disagree."],
-  ["09:25", "A typed HoldOutboundTransfers action, with a dry run: 31 transfers, $1.86M, zero payroll runs affected. The Head of Payments approves. It executes — and is logged."],
+  ["09:08", "The nine callers share a pattern: a phone change made through the call centre within 72 hours, a new device within 24, a new payee from that device, transfers just under the step up threshold. Lineage back to every source record."],
+  ["09:14", "Who else matches: 212 customers, 31 of them with outbound transfers still pending, totalling $1.86M, 17 headed to three shared beneficiary accounts."],
+  ["09:20", "Compliance and payments receive the same lineage backed answer. No one re-derives it; no definitions disagree."],
+  ["09:25", "A typed HoldOutboundTransfers action, with a dry run: 31 transfers, $1.86M, zero payroll runs affected. The Head of Payments approves. It executes, and it is logged."],
 ];
 
 function TimelinePanel({
@@ -105,7 +106,7 @@ export function Tuesday() {
         const distance = () => track.scrollWidth - window.innerWidth;
 
         // One scrubbed timeline drives the horizontal travel AND the
-        // per-panel line reveals — deterministic at every scroll position.
+        // per-panel line reveals. Deterministic at every scroll position.
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
@@ -129,6 +130,19 @@ export function Tuesday() {
             ".panel-with .sc-line",
             { opacity: 0, y: 22, duration: 0.1, stagger: 0.02 },
             0.5
+          )
+          // time compression bars: 5.5 hours vs 25 minutes
+          .fromTo(
+            ".bar-without",
+            { scaleX: 0 },
+            { scaleX: 1, duration: 0.14, ease: "power2.out" },
+            0.72
+          )
+          .fromTo(
+            ".bar-with",
+            { scaleX: 0 },
+            { scaleX: 1, duration: 0.05, ease: "power2.out" },
+            0.9
           );
 
         gsap.fromTo(
@@ -156,21 +170,26 @@ export function Tuesday() {
     <section
       ref={sectionRef}
       id="scenario"
-      aria-label="A Tuesday morning at a bank — illustrative scenario"
+      aria-label="A Tuesday morning at a bank, an illustrative scenario"
       className="scroll-mt-0 bg-night text-paper"
     >
-      <div className="mx-auto flex min-h-screen max-w-[110rem] flex-col justify-center py-20 lg:max-w-none lg:py-0">
+      <div className="grid-bg-dark mx-auto flex min-h-screen max-w-[110rem] flex-col justify-center py-20 lg:max-w-none lg:py-0">
         <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-14">
-          <Eyebrow dark>04 — A scenario · illustrative</Eyebrow>
-          <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-[1.08] tracking-tight text-paper sm:text-4xl lg:text-[2.75rem]">
+          <Eyebrow dark>06 · A scenario · illustrative</Eyebrow>
+          <AnimText
+            as="h2"
+            type="lines"
+            className="mt-4 max-w-3xl font-display text-3xl font-medium leading-[1.08] tracking-tight text-paper sm:text-4xl lg:text-[2.75rem]"
+          >
             A Tuesday morning at a bank.
-          </h2>
+          </AnimText>
           <p className="mt-5 max-w-3xl text-base leading-relaxed text-paper/65 sm:text-lg">
             Northgate Bank: 1.2 million customers, data in eight places, each
             with its own customer identifier. At 08:47 the call centre takes
             the first of nine calls about transfers nobody made. The Head of
-            Fraud Operations has one question — one-off, or the start of an
-            account-takeover wave? And how much money is still in motion?
+            Fraud Operations has one question. Is this isolated, or the start
+            of an account takeover wave? And how much money is still in
+            motion?
           </p>
         </div>
 
@@ -178,11 +197,15 @@ export function Tuesday() {
         <div className="scenario-track mt-12 flex flex-col gap-6 px-5 sm:px-8 lg:mt-14 lg:w-max lg:flex-row lg:gap-8 lg:px-14">
           {/* intro */}
           <div className="sc-panel flex shrink-0 flex-col justify-center lg:w-[30vw] lg:py-8">
-            <p className="sc-line font-serif text-3xl italic leading-snug text-paper/90 lg:text-4xl">
+            <AnimText
+              as="p"
+              type="words"
+              className="font-serif text-3xl italic leading-snug text-paper/90 lg:text-4xl"
+            >
               &ldquo;Is this a one-off, or the start of a wave?&rdquo;
-            </p>
+            </AnimText>
             <p className="sc-line mt-5 font-mono text-[11.5px] text-paper/45">
-              08:47 — first of nine calls · the answer spans eight systems
+              08:47 · first of nine calls · the answer spans eight systems
             </p>
           </div>
 
@@ -205,18 +228,45 @@ export function Tuesday() {
           {/* closing */}
           <div className="sc-panel flex shrink-0 flex-col justify-center lg:w-[34vw] lg:pr-14">
             <p className="sc-line flex items-center gap-3 font-mono text-2xl sm:text-3xl">
-              <span className="text-[#e5704a]/80 line-through decoration-[#e5704a]/50">5.5h</span>
+              <span className="text-[#e5704a]/80 line-through decoration-[#e5704a]/50">
+                5.5h
+              </span>
               <TimerReset className="h-5 w-5 text-moss-bright" />
               <span className="font-semibold text-moss-bright">25 min</span>
             </p>
-            <p className="sc-line mt-6 font-serif text-2xl italic leading-snug text-paper/90">
+
+            {/* proportional time bars */}
+            <div className="sc-line mt-6 space-y-3">
+              <div>
+                <div className="h-[5px] w-full overflow-hidden rounded-full bg-[#3a2620]">
+                  <div className="bar-without h-full w-[72%] origin-left rounded-full bg-[#e5704a]/80" />
+                </div>
+                <p className="mt-1.5 font-mono text-[10px] text-[#e5704a]/80">
+                  without · 5.5 hours of piecing evidence together
+                </p>
+              </div>
+              <div>
+                <div className="h-[5px] w-full overflow-hidden rounded-full bg-[#12291c]">
+                  <div className="bar-with h-full w-[5.5%] min-w-[10px] origin-left rounded-full bg-moss-bright" />
+                </div>
+                <p className="mt-1.5 font-mono text-[10px] text-moss-bright/90">
+                  with · 25 minutes, same question
+                </p>
+              </div>
+            </div>
+
+            <AnimText
+              as="p"
+              type="words"
+              className="mt-8 font-serif text-2xl italic leading-snug text-paper/90"
+            >
               &ldquo;The bank is simply where a slow answer is easiest to
               price.&rdquo;
-            </p>
+            </AnimText>
             <p className="sc-line mt-6 max-w-sm text-[12.5px] leading-relaxed text-paper/50">
               The scenario assumes the full connector set. The first preview
               covers PostgreSQL, MySQL and CSV. The same shape appears wherever
-              a question spans systems — a delayed shipment across carrier,
+              a question spans systems: a delayed shipment across carrier,
               warehouse and billing; a refund spike across storefront,
               payments and support.
             </p>

@@ -1,19 +1,19 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const PHRASES = [
   "one door in",
   "one log out",
   "open core",
-  "self-hosted",
-  "read-only first",
+  "self hosted",
+  "guarded CRUD",
   "bring your own key",
   "ontology versioned in git",
   "pay once, own it",
-  "mcp-native",
-  "no per-seat tax",
+  "MCP native",
+  "lineage on every answer",
 ];
 
 function MarqueeRow({ ariaHidden }: { ariaHidden?: boolean }) {
@@ -36,8 +36,8 @@ function MarqueeRow({ ariaHidden }: { ariaHidden?: boolean }) {
 }
 
 /**
- * Slow, quiet marquee of the product's checkable properties.
- * Static (wrapped) when reduced motion is preferred.
+ * Quiet marquee of checkable properties. Scroll velocity adds a temporary
+ * skew, so the strip reacts to how fast the page is moving.
  */
 export function TrustMarquee() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -46,19 +46,50 @@ export function TrustMarquee() {
     const el = trackRef.current;
     if (!el || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
-      gsap.to(el, {
+      const drift = gsap.to(el, {
         xPercent: -50,
         ease: "none",
-        duration: 36,
+        duration: 40,
         repeat: -1,
       });
+
+      // Velocity skew: lean with the scroll, settle back when it stops
+      const proxy = { skew: 0 };
+      const skewTo = gsap.quickTo(el, "skewX", {
+        duration: 0.5,
+        ease: "power3",
+      });
+      const onUpdate = (self: ScrollTrigger) => {
+        const v = gsap.utils.clamp(-9, 9, self.getVelocity() / -260);
+        if (Math.abs(v) > Math.abs(proxy.skew)) {
+          proxy.skew = v;
+          gsap.to(proxy, {
+            skew: 0,
+            duration: 0.7,
+            ease: "power3",
+            overwrite: true,
+            onUpdate: () => skewTo(proxy.skew),
+          });
+        }
+      };
+      ScrollTrigger.create({
+        onUpdate,
+      });
+
+      // Pause the drift while the tab is hidden
+      const vis = () =>
+        document.hidden ? drift.pause() : drift.play();
+      document.addEventListener("visibilitychange", vis);
+      return () => {
+        document.removeEventListener("visibilitychange", vis);
+      };
     });
     return () => ctx.revert();
   }, []);
 
   return (
     <div className="overflow-hidden border-y border-line bg-paper-deep/60 py-3.5">
-      <div ref={trackRef} className="flex w-max">
+      <div ref={trackRef} className="flex w-max will-change-transform">
         <MarqueeRow />
         <MarqueeRow ariaHidden />
       </div>

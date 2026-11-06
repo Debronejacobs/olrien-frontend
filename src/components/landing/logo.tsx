@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Aletheia mark — a sealed kernel: one square wall, one opening, one core.
+ * Aletheia mark: a sealed kernel, one square wall, one opening, one core.
  */
 export function Logo({ className }: { className?: string }) {
   return (
