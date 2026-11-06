@@ -70,7 +70,7 @@ function TimelinePanel({
             >
               {t}
             </span>
-            <span className="text-[12.5px] leading-relaxed text-paper/75">
+            <span className="text-[12.5px] leading-relaxed text-ink/75">
               {text}
             </span>
           </li>
@@ -171,7 +171,7 @@ export function Tuesday() {
       ref={sectionRef}
       id="scenario"
       aria-label="A Tuesday morning at a bank, an illustrative scenario"
-      className="scroll-mt-0 bg-night text-paper"
+      className="scroll-mt-0 bg-night text-ink"
     >
       <div className="grid-bg-dark mx-auto flex min-h-screen max-w-[110rem] flex-col justify-center py-20 lg:max-w-none lg:py-0">
         <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-14">
@@ -179,11 +179,11 @@ export function Tuesday() {
           <AnimText
             as="h2"
             type="lines"
-            className="mt-4 max-w-3xl font-display text-3xl font-medium leading-[1.08] tracking-tight text-paper sm:text-4xl lg:text-[2.75rem]"
+            className="mt-4 max-w-3xl font-display text-3xl font-medium leading-[1.08] tracking-tight text-ink sm:text-4xl lg:text-[2.75rem]"
           >
             A Tuesday morning at a bank.
           </AnimText>
-          <p className="mt-5 max-w-3xl text-base leading-relaxed text-paper/65 sm:text-lg">
+          <p className="mt-5 max-w-3xl text-base leading-relaxed text-ink/65 sm:text-lg">
             Northgate Bank: 1.2 million customers, data in eight places, each
             with its own customer identifier. At 08:47 the call centre takes
             the first of nine calls about transfers nobody made. The Head of
@@ -200,11 +200,11 @@ export function Tuesday() {
             <AnimText
               as="p"
               type="words"
-              className="font-serif text-3xl italic leading-snug text-paper/90 lg:text-4xl"
+              className="font-serif text-3xl italic leading-snug text-ink/90 lg:text-4xl"
             >
               &ldquo;Is this a one-off, or the start of a wave?&rdquo;
             </AnimText>
-            <p className="sc-line mt-5 font-mono text-[11.5px] text-paper/45">
+            <p className="sc-line mt-5 font-mono text-[11.5px] text-ink/45">
               08:47 · first of nine calls · the answer spans eight systems
             </p>
           </div>
@@ -258,12 +258,12 @@ export function Tuesday() {
             <AnimText
               as="p"
               type="words"
-              className="mt-8 font-serif text-2xl italic leading-snug text-paper/90"
+              className="mt-8 font-serif text-2xl italic leading-snug text-ink/90"
             >
               &ldquo;The bank is simply where a slow answer is easiest to
               price.&rdquo;
             </AnimText>
-            <p className="sc-line mt-6 max-w-sm text-[12.5px] leading-relaxed text-paper/50">
+            <p className="sc-line mt-6 max-w-sm text-[12.5px] leading-relaxed text-ink/50">
               The scenario assumes the full connector set. The first preview
               covers PostgreSQL, MySQL and CSV. The same shape appears wherever
               a question spans systems: a delayed shipment across carrier,

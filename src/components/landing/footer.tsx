@@ -45,10 +45,10 @@ export function Footer() {
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-12 py-16 md:grid-cols-[1.2fr_repeat(3,minmax(0,0.6fr))] md:gap-8">
           <div className="max-w-sm">
-            <p className="text-paper">
+            <p className="text-ink">
               <Logo />
             </p>
-            <p className="mt-5 text-sm leading-relaxed text-paper/60">
+            <p className="mt-5 text-sm leading-relaxed text-ink/60">
               One governed model of the company, for every person and every AI
               tool. Open source at the core, self hosted, licensed once, owned
               outright.
@@ -60,7 +60,7 @@ export function Footer() {
 
           {GROUPS.map((g) => (
             <nav key={g.title} aria-label={g.title}>
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/35">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink/35">
                 {g.title}
               </p>
               <ul className="mt-5 space-y-3.5">
@@ -72,7 +72,7 @@ export function Footer() {
                         e.preventDefault();
                         scrollToId(l.href);
                       }}
-                      className="text-[13.5px] font-medium text-paper/65 transition-colors hover:text-paper"
+                      className="text-[13.5px] font-medium text-ink/65 transition-colors hover:text-ink"
                     >
                       {l.label}
                       {l.note ? (
@@ -89,10 +89,10 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-2 border-t border-night-line py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-[11px] text-paper/35">
+          <p className="font-mono text-[11px] text-ink/35">
             © 2026 Aletheia · for discussion purposes only
           </p>
-          <p className="font-mono text-[11px] text-paper/35">
+          <p className="font-mono text-[11px] text-ink/35">
             open core · company kernel license · your infrastructure
           </p>
         </div>

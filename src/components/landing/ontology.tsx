@@ -172,10 +172,10 @@ export function Ontology() {
                 </g>
 
                 {/* travelling pulses */}
-                <circle className="ont-pulse" r="3.2" fill="#1a7f4b" opacity="0" />
-                <circle className="ont-pulse" r="3.2" fill="#1a7f4b" opacity="0" />
-                <circle className="ont-pulse" r="3.2" fill="#b45309" opacity="0" />
-                <circle className="ont-pulse" r="3.2" fill="#1a7f4b" opacity="0" />
+                <circle className="ont-pulse" r="3.2" fill="#2ea065" opacity="0" />
+                <circle className="ont-pulse" r="3.2" fill="#2ea065" opacity="0" />
+                <circle className="ont-pulse" r="3.2" fill="#e0994a" opacity="0" />
+                <circle className="ont-pulse" r="3.2" fill="#2ea065" opacity="0" />
 
                 {/* Customer */}
                 <g className="ont-node">
@@ -187,7 +187,7 @@ export function Ontology() {
                     height="70"
                     rx="10"
                     fill="#eaf3ec"
-                    stroke="#1a7f4b"
+                    stroke="#2ea065"
                     strokeWidth="1.8"
                   />
                   <text
@@ -207,7 +207,7 @@ export function Ontology() {
                     textAnchor="middle"
                     fontFamily="var(--font-jetbrains), monospace"
                     fontSize="11"
-                    fill="#1a7f4b"
+                    fill="#2ea065"
                   >
                     3 cited sources
                   </text>

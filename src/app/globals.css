@@ -44,56 +44,56 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Aletheia ledger palette */
-  --color-paper: #faf9f5;
-  --color-paper-deep: #f4f2ea;
-  --color-ink: #1b1a15;
-  --color-ink-soft: #4a473e;
-  --color-line: #e6e3d8;
-  --color-line-strong: #d6d2c4;
-  --color-moss: #1a7f4b;
-  --color-moss-deep: #14532d;
+  /* Aletheia ledger palette — dark: ink on night paper */
+  --color-paper: #0d0f0c;
+  --color-paper-deep: #11140f;
+  --color-ink: #e9e7dc;
+  --color-ink-soft: #b3b0a2;
+  --color-line: #20261f;
+  --color-line-strong: #2d342c;
+  --color-moss: #2ea065;
+  --color-moss-deep: #8ce0ae;
   --color-moss-bright: #34d399;
-  --color-moss-tint: #eaf3ec;
-  --color-amber-ink: #b45309;
-  --color-night: #0c0e0c;
-  --color-night-soft: #141814;
-  --color-night-line: #232823;
+  --color-moss-tint: #14241b;
+  --color-amber-ink: #e0994a;
+  --color-night: #0a0c09;
+  --color-night-soft: #151914;
+  --color-night-line: #272d26;
 }
 
 :root {
   --radius: 0.5rem;
-  --background: #faf9f5;
-  --foreground: #1b1a15;
-  --card: #ffffff;
-  --card-foreground: #1b1a15;
-  --popover: #ffffff;
-  --popover-foreground: #1b1a15;
-  --primary: #1b1a15;
-  --primary-foreground: #faf9f5;
-  --secondary: #f0eee6;
-  --secondary-foreground: #1b1a15;
-  --muted: #f0eee6;
-  --muted-foreground: #6e6a5e;
-  --accent: #eaf3ec;
-  --accent-foreground: #14532d;
-  --destructive: #b3401f;
-  --border: #e6e3d8;
-  --input: #e6e3d8;
-  --ring: #1a7f4b;
-  --chart-1: #1a7f4b;
-  --chart-2: #b45309;
-  --chart-3: #1b1a15;
-  --chart-4: #6e6a5e;
-  --chart-5: #34d399;
-  --sidebar: #f4f2ea;
-  --sidebar-foreground: #1b1a15;
-  --sidebar-primary: #1b1a15;
-  --sidebar-primary-foreground: #faf9f5;
-  --sidebar-accent: #eaf3ec;
-  --sidebar-accent-foreground: #14532d;
-  --sidebar-border: #e6e3d8;
-  --sidebar-ring: #1a7f4b;
+  --background: #0d0f0c;
+  --foreground: #e9e7dc;
+  --card: #161a15;
+  --card-foreground: #e9e7dc;
+  --popover: #161a15;
+  --popover-foreground: #e9e7dc;
+  --primary: #eceade;
+  --primary-foreground: #13150f;
+  --secondary: #1e231d;
+  --secondary-foreground: #e9e7dc;
+  --muted: #1b201a;
+  --muted-foreground: #908d80;
+  --accent: #16281d;
+  --accent-foreground: #8ce0ae;
+  --destructive: #e2684a;
+  --border: #242a23;
+  --input: #242a23;
+  --ring: #34d399;
+  --chart-1: #34d399;
+  --chart-2: #e0994a;
+  --chart-3: #e9e7dc;
+  --chart-4: #908d80;
+  --chart-5: #2ea065;
+  --sidebar: #11140f;
+  --sidebar-foreground: #e9e7dc;
+  --sidebar-primary: #eceade;
+  --sidebar-primary-foreground: #13150f;
+  --sidebar-accent: #16281d;
+  --sidebar-accent-foreground: #8ce0ae;
+  --sidebar-border: #242a23;
+  --sidebar-ring: #34d399;
 }
 
 @layer base {
@@ -105,17 +105,17 @@
     font-feature-settings: "ss01", "cv11";
   }
   ::selection {
-    background: #cfe8d8;
-    color: #14532d;
+    background: #1d4030;
+    color: #c9f5d9;
   }
 }
 
 @layer utilities {
-  /* Blueprint grid — light */
+  /* Blueprint grid — over the dark page */
   .grid-bg {
     background-image:
-      linear-gradient(to right, rgba(27, 26, 21, 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(27, 26, 21, 0.045) 1px, transparent 1px);
+      linear-gradient(to right, rgba(233, 231, 220, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(233, 231, 220, 0.05) 1px, transparent 1px);
     background-size: 54px 54px;
   }
   /* Blueprint grid — dark scenario section */
@@ -147,7 +147,7 @@
   width: 6px;
 }
 .console-scroll::-webkit-scrollbar-thumb {
-  background: #2c332c;
+  background: #39413a;
   border-radius: 999px;
 }
 .console-scroll::-webkit-scrollbar-track {

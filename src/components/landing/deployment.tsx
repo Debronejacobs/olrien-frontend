@@ -75,13 +75,13 @@ export function Deployment() {
         });
 
         // Phase 1: connect
-        tl.to(".conn-row .conn-dot", { backgroundColor: "#1a7f4b", stagger: 0.06 }, 0.02)
+        tl.to(".conn-row .conn-dot", { backgroundColor: "#2ea065", stagger: 0.06 }, 0.02)
           .to(".conn-check", { scale: 1, stagger: 0.07, duration: 0.25 }, 0.05);
         // Phase 2: the draft as a diff
         tl.to(".diff-line", { opacity: 1, x: 0, duration: 0.22, stagger: 0.05 }, 0.36)
           .to(".pr-footer", { opacity: 1, duration: 0.3 }, 0.62);
         // Phase 3: approve + govern
-        tl.to(".approve-btn", { backgroundColor: "#1a7f4b", color: "#faf9f5", borderColor: "#1a7f4b", duration: 0.2 }, 0.72)
+        tl.to(".approve-btn", { backgroundColor: "#2ea065", color: "#0a0c09", borderColor: "#2ea065", duration: 0.2 }, 0.72)
           .fromTo(".pr-stamp", { opacity: 0, scale: 1.7, rotate: -8 }, { opacity: 1, scale: 1, rotate: -8, duration: 0.28 }, 0.8);
       }, el);
       return () => ctx.revert();
@@ -198,14 +198,14 @@ export function Deployment() {
                           key={i}
                           className="diff-line flex gap-3 px-3 text-moss-bright/95"
                         >
-                          <span className="w-4 select-none text-right text-paper/25">
+                          <span className="w-4 select-none text-right text-ink/25">
                             {i + 1}
                           </span>
                           <span>+ {l}</span>
                         </code>
                       ))}
                       <span className="diff-line flex gap-3 px-3">
-                        <span className="w-4 select-none text-right text-paper/25">8</span>
+                        <span className="w-4 select-none text-right text-ink/25">8</span>
                         <span className="caret-blink text-moss-bright">▌</span>
                       </span>
                     </pre>
@@ -233,7 +233,7 @@ export function Deployment() {
               aria-hidden
               className="pr-stamp pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
             >
-              <p className="rounded-lg border-[3px] border-moss bg-paper/90 px-6 py-3 font-mono text-[15px] font-semibold uppercase tracking-[0.2em] text-moss shadow-xl">
+              <p className="rounded-lg border-[3px] border-moss bg-moss px-6 py-3 font-mono text-[15px] font-semibold uppercase tracking-[0.2em] text-night shadow-xl">
                 approved · merged
               </p>
             </div>

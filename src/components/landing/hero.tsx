@@ -282,14 +282,14 @@ export function Hero() {
 
               {/* Panel header */}
               <div className="flex items-center justify-between border-b border-night-line px-4 py-3">
-                <span className="flex items-center gap-2 text-[11px] tracking-wide text-paper/80">
+                <span className="flex items-center gap-2 text-[11px] tracking-wide text-ink/80">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-moss-bright opacity-60 [animation-duration:2.2s]" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moss-bright" />
                   </span>
                   aletheia · governed endpoint
                 </span>
-                <span className="text-[10px] uppercase tracking-[0.18em] text-paper/35">
+                <span className="text-[10px] uppercase tracking-[0.18em] text-ink/35">
                   mcp · v0
                 </span>
               </div>
@@ -299,22 +299,22 @@ export function Hero() {
                 <div className="ep-req rounded-md border border-night-line bg-night-soft p-3.5 opacity-0 motion-reduce:opacity-100">
                   <p>
                     <span className="text-moss-bright">POST</span>{" "}
-                    <span className="text-paper">/mcp/customer.merge</span>
+                    <span className="text-ink">/mcp/customer.merge</span>
                   </p>
-                  <p className="mt-1.5 text-paper/50">
+                  <p className="mt-1.5 text-ink/50">
                     {"{ \"action\": \"customer.merge\","}
                   </p>
-                  <p className="text-paper/50">
+                  <p className="text-ink/50">
                     {'  "sources": ["crm#4821", "erp#C-118",'}
                   </p>
-                  <p className="text-paper/50">
+                  <p className="text-ink/50">
                     {'   "billing#90214"], "dry_run": true }'}
                   </p>
                 </div>
 
                 {/* Guardrails */}
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-paper/35">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-ink/35">
                     guardrails · all required
                   </p>
                   <div className="mt-2.5 space-y-2">
@@ -323,14 +323,14 @@ export function Hero() {
                         key={g.name}
                         className={`ep-row ep-row-${i} flex items-center justify-between gap-3 border-l-2 border-paper/10 py-1 pl-3 motion-reduce:border-moss-bright/60`}
                       >
-                        <p className="text-paper/75">
+                        <p className="text-ink/75">
                           {g.name}{" "}
-                          <span className="hidden text-paper/35 sm:inline">
+                          <span className="hidden text-ink/35 sm:inline">
                             · {g.detail}
                           </span>
                         </p>
                         <p className="shrink-0 text-[10.5px]">
-                          <span className="ep-wait text-paper/30 motion-reduce:hidden">queued</span>
+                          <span className="ep-wait text-ink/30 motion-reduce:hidden">queued</span>
                           <span className="ep-check text-amber-400 opacity-0 motion-reduce:hidden">checking</span>
                           <span className="ep-pass text-moss-bright opacity-0 motion-reduce:opacity-100">pass</span>
                         </p>
@@ -347,15 +347,15 @@ export function Hero() {
 
               {/* Audit strip */}
               <div className="border-t border-night-line bg-night-soft/60 px-4 py-3 sm:px-5">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-paper/35">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-ink/35">
                   audit · append only
                 </p>
                 <div className="mt-2 space-y-1.5">
-                  <p className="flex justify-between gap-3 text-paper/40">
+                  <p className="flex justify-between gap-3 text-ink/40">
                     <span>req_9f21 · sarah@nb</span>
                     <span>customer.read · ok</span>
                   </p>
-                  <p className="flex justify-between gap-3 text-paper/40">
+                  <p className="flex justify-between gap-3 text-ink/40">
                     <span>req_9f26 · agent/support-7</span>
                     <span>customer.read · ok</span>
                   </p>

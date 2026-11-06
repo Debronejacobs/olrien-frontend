@@ -91,16 +91,16 @@ export function FinalCta() {
             <AnimText
               as="h2"
               type="lines"
-              className="mt-5 font-display text-[2.6rem] font-medium leading-[1.03] tracking-[-0.02em] text-balance text-paper sm:text-5xl lg:text-[3.9rem]"
+              className="mt-5 font-display text-[2.6rem] font-medium leading-[1.03] tracking-[-0.02em] text-balance text-ink sm:text-5xl lg:text-[3.9rem]"
             >
               Own the model of your company.
             </AnimText>
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-paper/70 sm:text-lg">
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-ink/70 sm:text-lg">
               The architecture is proven; what is new is the price of building
               it, and who owns it. Join the early access list, or come in as a
               design partner and shape what ships next.
             </p>
-            <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-paper/40">
+            <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-ink/40">
               self hosted preview · oldest signups first · design partner
               slots open
             </p>
@@ -112,7 +112,7 @@ export function FinalCta() {
               aria-hidden
               className="absolute -inset-5 -z-0 rounded-3xl bg-moss-bright/10 blur-2xl"
             />
-            <div className="relative rounded-2xl border border-line bg-paper p-6 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] sm:p-8">
+            <div className="relative rounded-2xl border border-line bg-card p-6 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] sm:p-8">
               {state === "done" ? (
                 <Reveal className="rounded-xl border border-moss/50 bg-moss-tint p-6 text-center">
                   <CheckCircle2 className="mx-auto h-8 w-8 text-moss" />

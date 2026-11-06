@@ -49,19 +49,19 @@ function LogRow({ l, idx, hidden }: { l: LogLine; idx: number; hidden?: boolean 
         hidden && "opacity-0"
       )}
     >
-      <span className="text-paper/40">[{l.t}]</span>
+      <span className="text-ink/40">[{l.t}]</span>
       <span
         className={cn(
           "w-14 font-medium",
           l.action === "READ" || l.action === "LIST"
-            ? "text-paper/70"
+            ? "text-ink/70"
             : "text-moss-bright"
         )}
       >
         {l.action}
       </span>
-      <span className="w-52 truncate text-paper/90">{l.object}</span>
-      <span className="hidden w-20 text-paper/50 sm:inline">{l.actor}</span>
+      <span className="w-52 truncate text-ink/90">{l.object}</span>
+      <span className="hidden w-20 text-ink/50 sm:inline">{l.actor}</span>
       <span
         className={cn(
           "w-14 font-medium",
@@ -70,7 +70,7 @@ function LogRow({ l, idx, hidden }: { l: LogLine; idx: number; hidden?: boolean 
       >
         {l.verdict}
       </span>
-      <span className="hidden truncate text-paper/40 md:inline">{l.note}</span>
+      <span className="hidden truncate text-ink/40 md:inline">{l.note}</span>
     </p>
   );
 }
@@ -220,11 +220,11 @@ export function Endpoint() {
       )}
     >
       <div className="flex items-center justify-between border-b border-night-line px-4 py-2.5">
-        <p className="flex items-center gap-2 font-mono text-[11px] text-paper/60">
+        <p className="flex items-center gap-2 font-mono text-[11px] text-ink/60">
           <ScrollText className="h-3.5 w-3.5 text-moss-bright" />
           audit.log · append only
         </p>
-        <p className="font-mono text-[10.5px] text-paper/40">
+        <p className="font-mono text-[10.5px] text-ink/40">
           entries <span ref={sticky ? counterRef : undefined}>8</span>/8 · reads and writes, one log
         </p>
       </div>
@@ -281,13 +281,13 @@ export function Endpoint() {
               </g>
 
               {/* dots */}
-              <circle className="dot-req" r="3.4" fill="#1a7f4b" opacity="0" />
-              <circle className="dot-req" r="3.4" fill="#1a7f4b" opacity="0" />
-              <circle className="dot-req" r="3.4" fill="#1a7f4b" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#b45309" opacity="0" />
+              <circle className="dot-req" r="3.4" fill="#2ea065" opacity="0" />
+              <circle className="dot-req" r="3.4" fill="#2ea065" opacity="0" />
+              <circle className="dot-req" r="3.4" fill="#2ea065" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
+              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
 
               {/* consumers */}
               {CONSUMERS.map((c, i) => (

@@ -150,14 +150,14 @@ export function GuardedCrud() {
             className="absolute left-0 top-[188px] z-10 w-[330px] -translate-y-1/2 rounded-xl border border-night-line bg-night p-4 shadow-[0_28px_70px_-24px_rgba(12,14,12,0.75)]"
           >
             <div className="flex items-center justify-between">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/50">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/50">
                 operation · update
               </p>
               <span className="rounded-full border border-moss-bright/30 px-2 py-0.5 font-mono text-[9.5px] text-moss-bright">
                 agent-7
               </span>
             </div>
-            <pre className="mt-3 font-mono text-[11.5px] leading-[1.8] text-paper/90">
+            <pre className="mt-3 font-mono text-[11.5px] leading-[1.8] text-ink/90">
 {`Update<Invoice>
 target  Invoice#8841
 patch   status: "dunning_paused"`}
@@ -202,14 +202,14 @@ patch   status: "dunning_paused"`}
                 </p>
               </div>
               <span className="gate-check mx-auto mt-2.5 flex h-5 w-5 items-center justify-center rounded-full bg-moss">
-                <Check className="h-3 w-3 text-paper" strokeWidth={3} />
+                <Check className="h-3 w-3 text-ink" strokeWidth={3} />
               </span>
             </div>
           ))}
 
           {/* final stamp + audit entry */}
           <div className="crud-final pointer-events-none absolute right-[2%] top-[318px] z-20">
-            <p className="rounded-lg border-[3px] border-moss bg-paper/90 px-5 py-2.5 font-mono text-[13px] font-semibold uppercase tracking-[0.2em] text-moss shadow-xl">
+            <p className="rounded-lg border-[3px] border-moss bg-moss px-5 py-2.5 font-mono text-[13px] font-semibold uppercase tracking-[0.2em] text-night shadow-xl">
               executed · logged
             </p>
           </div>
@@ -222,14 +222,14 @@ patch   status: "dunning_paused"`}
         <div className="mt-12 lg:hidden">
           <Reveal className="rounded-xl border border-night-line bg-night p-4">
             <div className="flex items-center justify-between">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/50">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/50">
                 operation · update
               </p>
               <span className="rounded-full border border-moss-bright/30 px-2 py-0.5 font-mono text-[9.5px] text-moss-bright">
                 agent-7
               </span>
             </div>
-            <pre className="mt-3 font-mono text-[11.5px] leading-[1.8] text-paper/90">
+            <pre className="mt-3 font-mono text-[11.5px] leading-[1.8] text-ink/90">
 {`Update<Invoice>
 target  Invoice#8841
 patch   status: "dunning_paused"`}
