@@ -1,0 +1,79 @@
+import type { Metadata } from "next";
+import { Inter, Space_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import { SmoothScroll } from "@/components/landing/smooth-scroll";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const grotesk = Space_Grotesk({
+  variable: "--font-grotesk",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Aletheia — One governed model of the company",
+  description:
+    "Aletheia gives operations-heavy companies a single, trustworthy model of the business — the objects it runs on, how they relate, and what may be done to them — exposed through one audited endpoint. Open source at the core. Self-hosted. Licensed once, owned outright.",
+  keywords: [
+    "Aletheia",
+    "ontology",
+    "MCP",
+    "Model Context Protocol",
+    "data governance",
+    "AI agents",
+    "self-hosted",
+    "open core",
+    "audit",
+  ],
+  openGraph: {
+    title: "Aletheia — One governed model of the company",
+    description:
+      "One door in: a single endpoint for every person and AI tool. One log out: one immutable audit trail across all access. Open core, self-hosted, owned outright.",
+    siteName: "Aletheia",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aletheia — One governed model of the company",
+    description:
+      "One door in. One log out. The company kernel: open core, self-hosted, pay once, own it outright.",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${inter.variable} ${grotesk.variable} ${jetbrains.variable} ${instrument.variable} font-sans antialiased bg-background text-foreground`}
+      >
+        <SmoothScroll />
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
