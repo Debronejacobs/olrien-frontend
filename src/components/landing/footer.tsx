@@ -21,14 +21,17 @@ const GROUPS: {
     links: [
       { label: "Roadmap", href: "#roadmap" },
       { label: "FAQ", href: "#faq" },
-      { label: "Early access", href: "#early-access" },
+      { label: "Source", href: "#source" },
     ],
   },
   {
     title: "Connect",
     links: [
-      { label: "Join the list", href: "#early-access" },
-      { label: "Open source core", href: "#early-access", note: "with preview" },
+      {
+        label: "GitHub",
+        href: "https://github.com/Debronejacobs/AletheiaMain",
+        note: "open source",
+      },
     ],
   },
 ];
@@ -49,9 +52,8 @@ export function Footer() {
               <Logo />
             </p>
             <p className="mt-5 text-sm leading-relaxed text-ink/60">
-              One governed model of the company, for every person and every AI
-              tool. Open source at the core, self hosted, licensed once, owned
-              outright.
+              One shared picture of the company, for every person and every AI
+              tool. Fully open source, runs on your own servers, free to use.
             </p>
             <p className="mt-5 font-mono text-[11px] tracking-wide text-moss-bright/70">
               one door in · one log out
@@ -93,7 +95,7 @@ export function Footer() {
             © 2026 Aletheia · for discussion purposes only
           </p>
           <p className="font-mono text-[11px] text-ink/35">
-            open core · company kernel license · your infrastructure
+            open source · self-hosted · your infrastructure
           </p>
         </div>
       </div>

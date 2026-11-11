@@ -4,16 +4,16 @@ import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const PHRASES = [
-  "one door in",
-  "one log out",
-  "open core",
-  "self hosted",
-  "guarded CRUD",
-  "bring your own key",
-  "ontology versioned in git",
-  "pay once, own it",
-  "MCP native",
-  "lineage on every answer",
+  "one way in",
+  "one record of everything",
+  "open source",
+  "runs on your own servers",
+  "every change approved",
+  "use your own AI account",
+  "your own definitions, kept under review",
+  "free to self-host",
+  "works with any AI assistant",
+  "every answer shows its sources",
 ];
 
 function MarqueeRow({ ariaHidden }: { ariaHidden?: boolean }) {

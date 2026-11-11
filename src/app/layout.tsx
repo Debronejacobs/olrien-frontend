@@ -33,7 +33,7 @@ const instrument = Instrument_Serif({
 export const metadata: Metadata = {
   title: "Aletheia · One governed model of the company",
   description:
-    "Aletheia gives operations heavy companies a single, trustworthy model of the business: the objects it runs on, how they relate, and what may be done to them. Reads carry lineage, writes pass guardrails, everything is logged through one audited endpoint. Open core. Self hosted. Licensed once, owned outright.",
+    "Aletheia gives operations heavy companies one shared, trustworthy picture of the business: the customers, orders and invoices they run on, how they connect, and what people and AI tools are allowed to do. Every answer shows where it came from, every change is checked before it happens, and everything is written into one record. Open source. Runs on your own servers.",
   keywords: [
     "Aletheia",
     "ontology",
@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     "AI agents",
     "guarded CRUD",
     "self hosted",
-    "open core",
+    "open source",
     "audit",
   ],
   openGraph: {
     title: "Aletheia · One governed model of the company",
     description:
-      "One door in: a single guarded endpoint for every person and AI tool. One log out: one immutable audit trail across all access. Open core, self hosted, owned outright.",
+      "One front door for every person and AI tool. One record of everything that happened. Open source, runs on your own servers.",
     siteName: "Aletheia",
     type: "website",
   },
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Aletheia · One governed model of the company",
     description:
-      "One door in. One log out. The company kernel: open core, self hosted, pay once, own it outright.",
+      "One front door in. One record out. Open source, runs on your own servers.",
   },
 };
 

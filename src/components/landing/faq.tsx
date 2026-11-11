@@ -8,28 +8,28 @@ import { cn } from "@/lib/utils";
 
 const FAQS = [
   {
-    q: "Does our data leave our environment?",
-    a: "No. Aletheia is self hosted and connects to your systems with scoped credentials. The only traffic leaving your perimeter is model API traffic, on the provider key you supply. There is no Aletheia cloud that receives customer data.",
+    q: "Does our data leave our systems?",
+    a: "No. Aletheia runs on your own servers. The only thing that leaves your network is the requests you send to your AI provider, using your own account and your own key. There is no Aletheia cloud holding your data.",
   },
   {
-    q: "Can it write to our systems?",
-    a: "Yes, as guarded CRUD. Every write must be a typed action declared in the ontology, authorized for the caller's role, previewed with a dry run when it is sensitive, approved by a human when policy requires it, and written to the audit log with a rollback point. Agent safety never depends on prompts or good intentions.",
+    q: "Can AI assistants actually change things?",
+    a: "Yes, but never freely. Every change has to be a named, pre-approved action. Aletheia checks that the person or assistant is allowed to make it, shows exactly what would change before it happens, asks a human to confirm when the change is significant, and writes the whole thing down so it can be undone.",
   },
   {
-    q: "Who deploys it, and how long does it take?",
-    a: "Your own team, no vendor engineers. An agent scans your schemas and documents and drafts the ontology as reviewable diffs; your team approves, edits or discards each part. Time to a first governed answer is measured in days, not months.",
+    q: "Who sets it up, and how long does it take?",
+    a: "Your own team, with no consultants. Aletheia reads your systems and drafts a plain description of how your business fits together. Your team reviews it, fixes anything wrong and approves it. You get your first trustworthy answer in days, not months.",
   },
   {
-    q: "Does it replace the tools we already run?",
-    a: "No. Aletheia sits on top of the stack and replaces nothing. Databases and warehouses are scanned live, SaaS records are synced over APIs and merged into one object, and your existing tooling keeps running underneath.",
+    q: "Does it replace the tools we already use?",
+    a: "No. It sits on top of what you already run. Your database, warehouse and customer systems stay exactly as they are. Aletheia just gives everyone, and every AI tool, one consistent way to read them and change them.",
   },
   {
-    q: "How is it priced?",
-    a: "The core is open source. The company kernel license (single sign-on, role based access control, audit exports, the action gateway) is pay once and owned outright, with optional updates and support. No per seat tax on readers, and no margin on model usage.",
+    q: "How much does it cost?",
+    a: "Nothing. Aletheia is completely free and open source. Download it, run it on your own servers, and change it however you like. There is no paid version and no charge per person.",
   },
   {
-    q: "What is in the first preview?",
-    a: "Guarded CRUD over PostgreSQL, MySQL and CSV, agent assisted onboarding, and three starter ontologies. Warehouse, SaaS and document connectors follow on a weekly cadence; deeper guardrails follow those.",
+    q: "What is in the first release?",
+    a: "Safe, approved changes to your main databases and spreadsheet exports, guided setup, and a few ready-made templates to start from. Connections to more systems and deeper safety checks follow in regular updates.",
   },
 ];
 
@@ -48,8 +48,8 @@ export function Faq() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <SectionHeading
               eyebrow="10 · Questions"
-              title="Asked, answered, stated plainly."
-              lead="The same trade-offs the company tells its investors are the ones it tells you. If a question is missing, ask it at the bottom of the page."
+              title="Straight answers."
+              lead="The same trade-offs we tell our investors are the ones we tell you. If something is still unclear, send us a note at the bottom of the page."
             />
           </div>
           <Reveal>

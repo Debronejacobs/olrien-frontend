@@ -15,29 +15,29 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 const ROWS = [
   {
-    cat: "Dashboards and BI",
-    well: "Aggregated views of past activity.",
-    short: "Describes but does not decide; each tool keeps its own partial truth.",
+    cat: "Dashboards and reporting",
+    well: "Tidy summaries of what already happened.",
+    short: "They describe, but they cannot act. Each tool keeps its own partial copy of the truth.",
   },
   {
-    cat: "Semantic layers",
-    well: "Consistent, governed metric definitions.",
-    short: "Metrics only: no entities, relationships or tool-facing actions.",
+    cat: "Metric definition tools",
+    well: "Everyone agrees on how a number like revenue is calculated.",
+    short: "Numbers only. They know nothing about customers, orders or what people are allowed to do.",
   },
   {
-    cat: "Data catalogs and governance",
-    well: "Inventory, lineage and policy over data assets.",
-    short: "Documents the estate; not a live model that tools query and act through.",
+    cat: "Data catalogues and governance",
+    well: "A map of what data exists, where it came from and who may see it.",
+    short: "It documents the company. It is not a working picture that tools can ask questions of and act on.",
   },
   {
-    cat: "Enterprise ontology platforms",
-    well: "The proven way the world's largest operations run on a shared model of the business.",
-    short: "Multiyear, multimillion implementations with vendor engineering teams; a mid market team cannot buy, run or own one.",
+    cat: "Large enterprise model platforms",
+    well: "The proven way the world's biggest operations run on one shared picture of the business.",
+    short: "Years of work and millions in fees, with the vendor's consultants. A mid sized team cannot buy it, run it or own it.",
   },
   {
-    cat: "Raw agent to database access",
-    well: "Maximum flexibility for the agent.",
-    short: "No shared semantics, permission boundary, lineage or unified audit trail.",
+    cat: "Plugging AI straight into the database",
+    well: "The most freedom for the AI tool.",
+    short: "No shared meaning, no access rules, no way to check an answer, and no single record of what happened.",
   },
 ];
 
@@ -84,9 +84,9 @@ export function Comparison() {
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="08 · Position"
-          title="Adjacent categories stop short."
-          lead="Aletheia sits adjacent to several categories rather than inside any one of them. Each solves a real piece of the problem and stops in a specific way. Descriptions are generalised; the point is the gap, not the rivalry."
+          eyebrow="08 · Where it fits"
+          title="Helpful neighbours that stop short."
+          lead="Aletheia sits next to a few existing kinds of tool rather than inside any one of them. Each solves a real part of the problem, then stops. These descriptions are general; the point is the missing piece, not a rivalry."
         />
 
         <div ref={tableRef}>
@@ -134,19 +134,20 @@ export function Comparison() {
                           Aletheia
                         </p>
                         <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-moss">
-                          one governed layer
+                          one trusted layer
                         </p>
                       </div>
                       <p className="text-[13.5px] font-medium leading-relaxed text-moss-deep">
-                        One guarded endpoint over a shared ontology: lineage on
-                        every read, five gates on every write, one log for
-                        everything.
+                        One front door to one shared picture of the business:
+                        every answer shows its sources, every change passes five
+                        checks, and everything lands in one record.
                       </p>
                       <p className="text-[13.5px] leading-relaxed text-moss-deep/80">
-                        The trade is real: self hosted means self operated.
-                        Your team owns the deploys, the diffs and the
-                        approvals, and this is v0 software. We say so because
-                        the rest of this page is checkable, and so is that.
+                        The trade-off is real: running it yourself means
+                        operating it yourself. Your team owns the installs, the
+                        reviews and the approvals, and this is early software.
+                        We say so because the rest of this page can be checked,
+                        and so can that.
                       </p>
                     </div>
                   </TableCell>
@@ -158,10 +159,10 @@ export function Comparison() {
 
         <Reveal className="mt-10 max-w-3xl">
           <p className="border-l-2 border-moss pl-6 font-serif text-xl italic leading-snug text-ink sm:text-2xl">
-            &ldquo;The architecture Aletheia sells is the architecture the
-            large platforms proved. What changed is the delivery model: agent
-            assisted drafting, self hosting, your own team, a perpetual
-            license.&rdquo;
+            &ldquo;The approach Aletheia uses is the one the large platforms
+            already proved. What changed is how you get it: assisted setup, you
+            run it yourself, your own team owns it, and it is open source and
+            free.&rdquo;
           </p>
         </Reveal>
       </div>

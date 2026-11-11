@@ -15,11 +15,11 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
 const GATES = [
-  { label: "Declared", sub: "the action exists in your ontology", icon: FileCheck2 },
-  { label: "Authorized", sub: "RBAC: this role may touch this object", icon: ShieldCheck },
-  { label: "Previewed", sub: "dry run: 1 invoice, 0 downstream effects", icon: FlaskConical },
-  { label: "Approved", sub: "human sign off: j.moreau, payments", icon: Stamp },
-  { label: "Logged", sub: "append only entry, rollback point kept", icon: ScrollText },
+  { label: "Allowed", sub: "this is a known, approved kind of change", icon: FileCheck2 },
+  { label: "Permitted", sub: "this person is allowed to make it", icon: ShieldCheck },
+  { label: "Previewed", sub: "here is exactly what would change", icon: FlaskConical },
+  { label: "Signed off", sub: "a person said yes: J. Moreau, finance", icon: Stamp },
+  { label: "Recorded", sub: "written down, and can be undone", icon: ScrollText },
 ];
 
 /** Even spread across the rail, as fractions of its width. */
@@ -123,25 +123,25 @@ export function GuardedCrud() {
 
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="05 · Guarded writes"
-          title="Full CRUD. Zero unguarded writes."
+          eyebrow="05 · Safe changes"
+          title="Changes are allowed. Blind changes are not."
           lead={
             <>
-              Aletheia reads, creates, updates and deletes across the systems
-              it connects to. What it never does is act blindly: every
-              operation must be declared in the ontology, pass authorization,
-              survive a dry run, collect a human approval when policy asks,
-              and land in the audit log. Safety here is architecture, not
-              prompts.
+              Aletheia can read and change records in the systems it connects
+              to. What it never does is act on a guess. Every change has to be a
+              known, named action. It has to pass the access rules, show exactly
+              what it would do before doing it, get a person's sign off when it
+              matters, and be written into the record. Safety here is built in,
+              not asked for politely.
             </>
           }
         />
 
         {/* Desktop pinned gauntlet */}
-        <div className="crud-scene relative mt-14 hidden h-[440px] lg:block" aria-label="A write passing five guardrails">
+        <div className="crud-scene relative mt-14 hidden h-[440px] lg:block" aria-label="A change passing five safety checks">
           {/* counter */}
           <p className="absolute right-0 top-0 font-mono text-[11px] tracking-wide text-muted-foreground">
-            guardrails passed <span className="crud-counter font-semibold text-moss">0</span>/5
+            checks passed <span className="crud-counter font-semibold text-moss">0</span>/5
           </p>
 
           {/* the operation card */}
@@ -151,7 +151,7 @@ export function GuardedCrud() {
           >
             <div className="flex items-center justify-between">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/50">
-                operation · update
+                change · update
               </p>
               <span className="rounded-full border border-moss-bright/30 px-2 py-0.5 font-mono text-[9.5px] text-moss-bright">
                 agent-7
@@ -210,11 +210,11 @@ patch   status: "dunning_paused"`}
           {/* final stamp + audit entry */}
           <div className="crud-final pointer-events-none absolute right-[2%] top-[318px] z-20">
             <p className="rounded-lg border-[3px] border-moss bg-moss px-5 py-2.5 font-mono text-[13px] font-semibold uppercase tracking-[0.2em] text-night shadow-xl">
-              executed · logged
+              done · recorded
             </p>
           </div>
           <p className="crud-audit absolute inset-x-0 bottom-[52px] text-center font-mono text-[11px] text-muted-foreground">
-            [09:41:22] UPDATE Invoice#8841 · agent-7 · approved by j.moreau · rollback ok
+            [09:41:22] UPDATE Invoice#8841 · agent-7 · approved by J. Moreau · can be undone
           </p>
         </div>
 
@@ -223,7 +223,7 @@ patch   status: "dunning_paused"`}
           <Reveal className="rounded-xl border border-night-line bg-night p-4">
             <div className="flex items-center justify-between">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/50">
-                operation · update
+                change · update
               </p>
               <span className="rounded-full border border-moss-bright/30 px-2 py-0.5 font-mono text-[9.5px] text-moss-bright">
                 agent-7
@@ -236,7 +236,7 @@ patch   status: "dunning_paused"`}
             </pre>
             <p className="mt-3 flex items-center gap-2 border-t border-night-line pt-3 font-mono text-[10px] text-moss-bright">
               <Check className="h-3 w-3" strokeWidth={3} />
-              executed · logged
+              done · recorded
             </p>
           </Reveal>
           <ol className="mt-4 space-y-2.5">
@@ -263,8 +263,9 @@ patch   status: "dunning_paused"`}
 
         <Reveal className="mx-auto mt-16 max-w-2xl text-center">
           <p className="font-serif text-xl italic leading-snug text-ink-soft sm:text-2xl">
-            &ldquo;The write path is not a hole in the wall. It is a second
-            door, with a guard, a ledger, and an undo.&rdquo;
+            &ldquo;Allowing changes is not the same as leaving a hole in the
+            wall. It is a second door, with a guard, a record book, and an
+            undo.&rdquo;
           </p>
         </Reveal>
       </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Github, Menu, X } from "lucide-react";
-import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/landing/logo";
 import { scrollToId } from "@/lib/scroll";
@@ -18,6 +18,8 @@ const LINKS: { label: string; href: string }[] = [
 ];
 
 const ACTIVE_IDS = LINKS.map((l) => l.href.slice(1));
+
+const GITHUB_URL = "https://github.com/Debronejacobs/AletheiaMain";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -82,11 +84,7 @@ export function Nav() {
     scrollToId(href);
   };
 
-  const repoToast = () =>
-    toast("The open source core ships with the first preview.", {
-      description:
-        "Join the early access list below and the repo link lands in your inbox first.",
-    });
+
 
   return (
     <header
@@ -135,31 +133,28 @@ export function Nav() {
 
         <div className="hidden items-center gap-2.5 lg:flex">
           <Button
-            variant="ghost"
+            asChild
             size="sm"
-            onClick={repoToast}
-            className="gap-2 font-mono text-[12.5px] text-ink-soft hover:text-ink"
+            className="gap-2 px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
           >
-            <Github className="h-4 w-4" />
-            Open core
-          </Button>
-          <Button
-            size="sm"
-            onClick={go("#early-access")}
-            className="px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
-          >
-            Join early access
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              <Github className="h-4 w-4" />
+              GitHub
+            </a>
           </Button>
         </div>
 
         {/* Mobile */}
         <div className="flex items-center gap-2 lg:hidden">
           <Button
+            asChild
             size="sm"
-            onClick={go("#early-access")}
-            className="px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
+            className="gap-2 px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
           >
-            Early access
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              <Github className="h-4 w-4" />
+              GitHub
+            </a>
           </Button>
           <Button
             variant="outline"
@@ -213,15 +208,15 @@ export function Nav() {
               {l.label}
             </a>
           ))}
-          <button
-            onClick={() => {
-              setOpen(false);
-              repoToast();
-            }}
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setOpen(false)}
             className="mt-2 flex items-center gap-2 rounded-md px-2 py-3 text-left text-[15px] font-medium text-ink-soft transition-colors hover:bg-muted hover:text-ink"
           >
-            <Github className="h-4 w-4" /> Open core
-          </button>
+            <Github className="h-4 w-4" /> Open source
+          </a>
         </nav>
       </div>
     </header>

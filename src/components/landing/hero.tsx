@@ -12,31 +12,31 @@ import { toast } from "sonner";
 const STATS: { value: string; label: string; sub: string }[] = [
   {
     value: "1",
-    label: "door in",
-    sub: "one endpoint for every person and every AI tool",
+    label: "front door",
+    sub: "one place where every person and every AI tool gets its answers",
   },
   {
     value: "1",
-    label: "log out",
-    sub: "one append-only audit trail across all access",
+    label: "record book",
+    sub: "one running record of who asked for what, and what happened",
   },
   {
-    value: "CRUD",
-    label: "fully guarded",
-    sub: "typed actions · dry runs · approvals · rollback",
+    value: "All",
+    label: "changes checked",
+    sub: "nothing is changed without a rule, a preview and a sign off",
   },
   {
     value: "0",
-    label: "bytes leave",
-    sub: "no business data leaves your environment",
+    label: "data shared",
+    sub: "your business data never leaves your own systems",
   },
 ];
 
 const GUARDRAILS = [
-  { name: "authorization", detail: "role: support-lead" },
-  { name: "typed action", detail: "customer.merge.v2" },
-  { name: "policy", detail: "pii fence · 2 approvals" },
-  { name: "dry run", detail: "no conflicts" },
+  { name: "permission", detail: "is this person allowed to do it?" },
+  { name: "known request", detail: "is it a recognised, approved task?" },
+  { name: "safety rules", detail: "does it touch anything sensitive?" },
+  { name: "trial run", detail: "what would change if we go ahead?" },
 ];
 
 export function Hero() {
@@ -182,11 +182,6 @@ export function Hero() {
     return () => ctx.revert();
   }, []);
 
-  const repoToast = () =>
-    toast("The open source core ships with the first preview.", {
-      description:
-        "Join the early access list and the repo link lands in your inbox first.",
-    });
 
   return (
     <section
@@ -214,7 +209,7 @@ export function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-moss opacity-50 [animation-duration:2.2s]" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-moss" />
               </span>
-              v0 preview · early access open
+              v0 preview · open source
             </p>
 
             <AnimText
@@ -224,44 +219,36 @@ export function Hero() {
               delay={0.25}
               className="mt-7 font-display text-[2.5rem] font-medium leading-[1.04] tracking-[-0.03em] text-ink text-balance sm:text-[3.2rem] lg:text-[3.7rem] xl:text-[4.15rem]"
             >
-              One <em className="not-italic text-moss">governed</em> model of
-              the company, for every person and every AI tool.
+              An {" "}
+              <em className="not-italic text-moss">operating system</em> for your
+              business, built on one shared model of how it works.
             </AnimText>
 
             <p className="hero-sub mt-7 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
-              Aletheia holds one live model of your business: the objects, how
-              they relate, and what may be done to them. Every person and every
-              AI tool works through a single audited endpoint. Reads cite their
-              sources. Writes pass the guardrails. Licensed once, owned
-              outright.
+              Aletheia keeps one clear, up to date picture of how your company
+              actually works: your customers, orders, invoices and how they fit
+              together. People and AI assistants all use that same picture,
+              through one secure way in. Every answer shows where it came from.
+              Every change is checked before it happens. It is open source and
+              free to run yourself.
             </p>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-9 flex items-center gap-3">
               <Magnetic>
-                <Button
-                  size="lg"
-                  onClick={() => scrollToId("#early-access")}
-                  className="hero-cta h-12 px-7 text-[15px] font-medium"
+                <a
+                  href="https://github.com/Debronejacobs/AletheiaMain"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Aletheia on GitHub"
+                  className="hero-cta text-ink-soft transition-colors hover:text-ink"
                 >
-                  Join the early access list
-                </Button>
-              </Magnetic>
-              <Magnetic>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={repoToast}
-                  className="hero-cta h-12 gap-2.5 border-line-strong bg-card px-6 font-mono text-[12px] uppercase tracking-[0.16em] text-ink hover:bg-muted"
-                >
-                  <Github className="h-4 w-4" />
-                  Open source core
-                </Button>
+                  <Github className="h-6 w-6" />
+                </a>
               </Magnetic>
             </div>
 
             <p className="hero-cta mt-6 font-mono text-[11.5px] tracking-wide text-muted-foreground">
-              open core · MCP native · guarded CRUD · self hosted · no per-seat
-              tax
+              open source · runs on your own servers · free to self-host
             </p>
           </div>
 
@@ -285,10 +272,10 @@ export function Hero() {
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-moss-bright opacity-60 [animation-duration:2.2s]" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moss-bright" />
                   </span>
-                  aletheia · governed endpoint
+                  aletheia · the front door
                 </span>
                 <span className="text-[10px] uppercase tracking-[0.18em] text-ink/35">
-                  mcp · v0
+                  live
                 </span>
               </div>
 
@@ -313,7 +300,7 @@ export function Hero() {
                 {/* Guardrails */}
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.2em] text-ink/35">
-                    guardrails · all required
+                    checks · all required
                   </p>
                   <div className="mt-2.5 space-y-2">
                     {GUARDRAILS.map((g, i) => (
@@ -346,7 +333,7 @@ export function Hero() {
               {/* Audit strip */}
               <div className="border-t border-night-line bg-night-soft/60 px-4 py-3 sm:px-5">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-ink/35">
-                  audit · append only
+                  the record · nothing deleted
                 </p>
                 <div className="mt-2 space-y-1.5">
                   <p className="flex justify-between gap-3 text-ink/40">
@@ -403,7 +390,7 @@ export function Hero() {
             className="group flex flex-col items-center gap-2 text-muted-foreground transition-colors hover:text-ink"
           >
             <span className="font-mono text-[10.5px] uppercase tracking-[0.24em]">
-              the problem
+              what's wrong today
             </span>
             <ArrowDown className="h-4 w-4 animate-bounce" />
           </button>

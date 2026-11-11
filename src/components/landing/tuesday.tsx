@@ -8,20 +8,20 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
 const WITHOUT = [
-  ["09:05", "Tickets exported to a spreadsheet."],
-  ["09:40", "Transfer records requested from the core banking team; the queue is waited on."],
-  ["10:30", "Login and device events pulled by an engineer and matched by hand, because identifiers differ across systems."],
-  ["11:15", "The first real lead, recent phone number changes, noticed by chance in the CRM."],
-  ["12:30", "Two teams define \u201cactive customer\u201d differently; their counts disagree."],
-  ["13:45", "Scope estimated at around forty accounts while outbound transfers keep settling."],
-  ["14:30", "The freeze is coordinated across payments, operations and compliance, by email."],
+  ["09:05", "Support tickets exported to a spreadsheet by hand."],
+  ["09:40", "Someone asks the banking team for transfer records. Everyone waits in the queue."],
+  ["10:30", "An engineer pulls login and device records, then matches them by hand, because every system names people differently."],
+  ["11:15", "The first real clue, a recent phone number change, is spotted by luck in the customer system."],
+  ["12:30", "Two teams define an \u201cactive customer\u201d differently, so their totals disagree."],
+  ["13:45", "Roughly forty accounts are guessed at, while more transfers keep going out."],
+  ["14:30", "The freeze is agreed across payments, operations and compliance over email."],
 ];
 
 const WITH = [
-  ["09:08", "The nine callers share a pattern: a phone change made through the call centre within 72 hours, a new device within 24, a new payee from that device, transfers just under the step up threshold. Lineage back to every source record."],
-  ["09:14", "Who else matches: 212 customers, 31 of them with outbound transfers still pending, totalling $1.86M, 17 headed to three shared beneficiary accounts."],
-  ["09:20", "Compliance and payments receive the same lineage backed answer. No one re-derives it; no definitions disagree."],
-  ["09:25", "A typed HoldOutboundTransfers action, with a dry run: 31 transfers, $1.86M, zero payroll runs affected. The Head of Payments approves. It executes, and it is logged."],
+  ["09:08", "All nine callers share a pattern: a phone number changed at the call centre in the last three days, a new device within a day, a new payee from that device, and transfers just under the limit that triggers extra checks. Every detail traces back to its source."],
+  ["09:14", "Who else matches: 212 customers. 31 still have transfers going out, worth $1.86M, and 17 go to three shared accounts."],
+  ["09:20", "Compliance and payments get the same answer, with the same sources. Nobody has to redo the work, and no two people disagree."],
+  ["09:25", "A proposed action, Hold outbound transfers, is previewed: 31 transfers, $1.86M, no salary payments affected. The Head of Payments approves. It runs, and it is written down."],
 ];
 
 function TimelinePanel({
@@ -205,7 +205,7 @@ export function Tuesday() {
               &ldquo;Is this a one-off, or the start of a wave?&rdquo;
             </AnimText>
             <p className="sc-line mt-5 font-mono text-[11.5px] text-ink/45">
-              08:47 · first of nine calls · the answer spans eight systems
+              08:47 · the first of nine calls · answering it means crossing eight systems
             </p>
           </div>
 
@@ -213,7 +213,7 @@ export function Tuesday() {
             variant="without"
             title="Without Aletheia"
             rows={WITHOUT}
-            footer="≈ 5.5 hours to containment · evidence scattered across inboxes and spreadsheets"
+            footer="≈ 5.5 hours to get it under control · evidence scattered across inboxes and spreadsheets"
             className="panel-without lg:w-[42vw] lg:self-center"
           />
 
@@ -221,7 +221,7 @@ export function Tuesday() {
             variant="with"
             title="With Aletheia"
             rows={WITH}
-            footer="≈ 25 minutes to containment · the audit export is largely written already"
+            footer="≈ 25 minutes to get it under control · the record for the auditor is mostly written already"
             className="panel-with lg:w-[46vw] lg:self-center"
           />
 
@@ -242,7 +242,7 @@ export function Tuesday() {
                   <div className="bar-without h-full w-[72%] origin-left rounded-full bg-[#e5704a]/80" />
                 </div>
                 <p className="mt-1.5 font-mono text-[10px] text-[#e5704a]/80">
-                  without · 5.5 hours of piecing evidence together
+                  without · 5.5 hours of piecing the evidence together
                 </p>
               </div>
               <div>
@@ -260,15 +260,15 @@ export function Tuesday() {
               type="words"
               className="mt-8 font-serif text-2xl italic leading-snug text-ink/90"
             >
-              &ldquo;The bank is simply where a slow answer is easiest to
-              price.&rdquo;
+              &ldquo;A bank is just where a slow answer is easiest to put a
+              price on.&rdquo;
             </AnimText>
             <p className="sc-line mt-6 max-w-sm text-[12.5px] leading-relaxed text-ink/50">
-              The scenario assumes the full connector set. The first preview
-              covers PostgreSQL, MySQL and CSV. The same shape appears wherever
-              a question spans systems: a delayed shipment across carrier,
-              warehouse and billing; a refund spike across storefront,
-              payments and support.
+              This scenario assumes every connection is available. The first
+              release covers main databases and spreadsheet exports. The same
+              pattern shows up wherever one question spans several systems: a
+              late delivery across the courier, the warehouse and billing, or
+              a spike in refunds across the shop, payments and support.
             </p>
           </div>
         </div>

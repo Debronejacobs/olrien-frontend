@@ -1,0 +1,2 @@
+# Prevents GitHub Pages from running Jekyll, which would strip the `_next/`
+# directory (underscore-prefixed) and break all CSS/JS assets.

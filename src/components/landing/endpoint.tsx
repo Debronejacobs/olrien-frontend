@@ -29,17 +29,17 @@ const LOG: LogLine[] = [
 ];
 
 const CONSUMERS = [
-  { label: "Metabase", sub: "BI · analyst", brand: BRANDS.metabase },
+  { label: "Metabase", sub: "reporting", brand: BRANDS.metabase },
   { label: "CrewAI", sub: "AI assistant", brand: BRANDS.crewai },
-  { label: "LangChain", sub: "internal agent", brand: BRANDS.langchain },
+  { label: "LangChain", sub: "in house AI tool", brand: BRANDS.langchain },
 ];
 
 const SOURCES = [
-  { label: "PostgreSQL", sub: "scoped creds", brand: BRANDS.postgresql },
-  { label: "Snowflake", sub: "warehouse · live scan", brand: BRANDS.snowflake },
-  { label: "Databricks", sub: "lakehouse · live scan", brand: BRANDS.databricks },
-  { label: "Attio", sub: "CRM · synced via API", brand: BRANDS.attio },
-  { label: "Notion", sub: "typed, cited", brand: BRANDS.notion },
+  { label: "PostgreSQL", sub: "database", brand: BRANDS.postgresql },
+  { label: "Snowflake", sub: "data warehouse", brand: BRANDS.snowflake },
+  { label: "Databricks", sub: "data platform", brand: BRANDS.databricks },
+  { label: "Attio", sub: "customer system", brand: BRANDS.attio },
+  { label: "Notion", sub: "documents", brand: BRANDS.notion },
 ];
 
 function LogRow({ l, idx, hidden }: { l: LogLine; idx: number; hidden?: boolean }) {
@@ -224,10 +224,10 @@ export function Endpoint() {
       <div className="flex items-center justify-between border-b border-night-line px-4 py-2.5">
         <p className="flex items-center gap-2 font-mono text-[11px] text-ink/60">
           <ScrollText className="h-3.5 w-3.5 text-moss-bright" />
-          audit.log · append only
+          the record · nothing deleted
         </p>
         <p className="font-mono text-[10.5px] text-ink/40">
-          entries <span ref={sticky ? counterRef : undefined}>8</span>/8 · reads and writes, one log
+          entries <span ref={sticky ? counterRef : undefined}>8</span>/8 · every action, one list
         </p>
       </div>
       <span aria-hidden className="al-progress block h-px w-full origin-left scale-x-0 bg-moss-bright/70" />
@@ -248,16 +248,16 @@ export function Endpoint() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           align="center"
-          eyebrow="03 · The endpoint"
-          title="One door in. One log out."
+          eyebrow="03 · One way in"
+          title="One front door. One record of everything."
           lead={
             <>
-              The Model Context Protocol (an open standard for connecting AI
-              tools to data) lets a single governed door serve every
-              assistant, agent and BI tool. Each call is authenticated,
-              checked against per object permissions, answered with lineage,
-              and appended to one immutable log. Nothing reaches the
-              underlying systems except through it.
+              Every AI assistant, agent and reporting tool goes through the
+              same front door. Each request is checked: who is asking, are they
+              allowed, what will change. The answer says where it came from, and
+              the whole thing is written down in one record you can never
+              quietly edit. Nothing touches your systems except through that
+              door.
             </>
           }
         />
@@ -269,7 +269,7 @@ export function Endpoint() {
               viewBox="0 0 900 440"
               className="h-auto w-full"
               role="img"
-              aria-label="Metabase, CrewAI and LangChain connect through one MCP endpoint; the endpoint reads PostgreSQL, Snowflake, Databricks, Attio and Notion with scoped credentials and appends every call to one audit log."
+              aria-label="Reporting tools and AI assistants all connect through one front door; the front door reads your database, data warehouse, customer system and documents, and writes every request into one record."
             >
               {/* edges */}
               <g stroke="#39413a" strokeWidth="1.4" fill="none">
@@ -343,10 +343,10 @@ export function Endpoint() {
                 <circle cx="450" cy="200" r="7" fill="#34d399" />
                 <rect x="447" y="204" width="6" height="14" rx="3" fill="#34d399" />
                 <text x="450" y="246" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#e9e7dc">
-                  one endpoint
+                  one front door
                 </text>
                 <text x="450" y="262" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#34d399">
-                  auth · permissions · log
+                  who · allowed · recorded
                 </text>
               </g>
 
@@ -376,7 +376,7 @@ export function Endpoint() {
           </div>
 
           <Reveal className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            {["authenticated", "per object permissions", "lineage on every answer", "append only audit"].map(
+            {["you are verified", "per record permissions", "every answer shows its source", "nothing can be deleted"].map(
               (chip) => (
                 <span
                   key={chip}
@@ -399,7 +399,7 @@ export function Endpoint() {
           <div className="lg:sticky lg:top-[16vh]">
             {consoleCard(true)}
             <p className="mt-4 text-center font-mono text-[11px] text-muted-foreground">
-              keep scrolling · the log writes itself, one entry at a time
+              keep scrolling · watch the record fill up, one entry at a time
             </p>
           </div>
         </div>

@@ -17,7 +17,7 @@ const SECTIONS: { id: string; label: string }[] = [
   { id: "compare", label: "Position" },
   { id: "roadmap", label: "Roadmap" },
   { id: "faq", label: "FAQ" },
-  { id: "early-access", label: "Access" },
+  { id: "source", label: "Source" },
 ];
 
 /**

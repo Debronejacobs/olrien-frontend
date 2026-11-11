@@ -15,33 +15,21 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 const CHOICES = [
   {
     icon: ShieldCheck,
-    title: "Guarded CRUD",
-    body: "Full create, read, update and delete against connected systems, always as typed actions with policy checks, dry runs and approvals.",
-    check: "check: attempt an untyped write; the endpoint refuses it",
-  },
-  {
-    icon: KeyRound,
-    title: "Your keys, your data",
-    body: "Only model calls leave, on the provider key you supply. No Aletheia cloud receives your data.",
-    check: "check: watch the egress; model API calls only",
+    title: "Nothing changes by accident",
+    body: "People and AI tools can read and change records, but only through named, approved actions. Each one is checked against your rules, previewed before it runs, and signed off when it matters.",
+    check: "try it: ask for a change nobody approved. It is refused.",
   },
   {
     icon: GitBranch,
-    title: "Ontology in Git",
-    body: "The model is reviewed as diffs and rolled back like code, where code review already lives.",
-    check: "check: git log is the model's history",
+    title: "Your definitions, under review",
+    body: "What counts as a customer, an order, a refund is written down, versioned, and reviewed before it takes effect. Changing how the company is described becomes an ordinary, reversible decision.",
+    check: "try it: see the full history of what changed and who changed it.",
   },
   {
     icon: ScrollText,
-    title: "One audit log",
-    body: "Reads and writes from every tool append to one append-only log your auditors can export.",
-    check: "check: tail the log while your team works",
-  },
-  {
-    icon: Scale,
-    title: "Pay once, own it",
-    body: "A perpetual license, self hosted. No hostage dataset, no per seat tax on every new reader.",
-    check: "check: your bill has no second economy inside it",
+    title: "One record of everything",
+    body: "Every read and every change from every tool lands in a single running record. Nothing can be quietly removed, and your auditors can export the whole thing.",
+    check: "try it: watch the record while your team works.",
   },
 ];
 

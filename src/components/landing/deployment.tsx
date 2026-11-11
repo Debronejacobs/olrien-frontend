@@ -10,35 +10,35 @@ const STEPS = [
   {
     n: "01",
     title: "Connect",
-    body: "Point Aletheia at your systems with scoped credentials: a database, a warehouse, a CRM, a folder of documents. Only model API calls on your own key ever leave.",
+    body: "Point Aletheia at your systems, giving it read-only access where that is all it needs: your database, your data warehouse, your customer system, a folder of documents. Nothing leaves your network except the requests to your own AI provider.",
   },
   {
     n: "02",
     title: "Review the draft",
-    body: "An agent scans schemas and documents, then proposes object types, links and actions as reviewable diffs. Approve, edit or discard each one.",
+    body: "Aletheia reads what is there and proposes how everything fits together: what a customer is, what an order is, how they connect, what people should be allowed to do. You see it as a simple list of suggested changes. Approve, edit or throw away each one.",
   },
   {
     n: "03",
-    title: "Govern and act",
-    body: "Everyone works through the one endpoint. Answers carry lineage back to source records, actions run the guardrail gauntlet, and the log records it all.",
+    title: "Run the business through it",
+    body: "From then on everyone works through one front door. Answers show where they came from, changes go through the safety checks, and every action is written into one record.",
   },
 ];
 
 const DIFF_LINES = [
-  "object Customer {",
-  "  key       crm.accounts.id | billing.customers.id | db.public.accounts.id",
-  "  sources   3 cited: crm, billing, database",
-  "  links     placed Orders · raised Tickets · holds Accounts",
-  "  actions   ApproveOrder · HoldShipment · IssueRefund   // typed · dry run · approved",
-  "  versioned in git: reviewed as a diff, rolled back like code",
+  "Customer {",
+  "  matched from   3 systems: sales, billing, database",
+  "  shows         the same person, one record",
+  "  connected to  orders placed · tickets raised · accounts held",
+  "  allows        approve an order · hold a delivery · issue a refund",
+  "  every change reviewed and can be undone",
   "}",
 ];
 
 const CONN_ROWS = [
-  "PostgreSQL · 41 tables",
-  "CSV drop folder · 118 files",
-  "CRM schema · 9 objects",
-  "Billing schema · 6 objects",
+  "Database · 41 tables",
+  "Shared folder · 118 files",
+  "Customer system · 9 record types",
+  "Billing system · 6 record types",
 ];
 
 export function Deployment() {
@@ -215,7 +215,7 @@ export function Deployment() {
                 {/* reviewer row */}
                 <div className="mt-4 flex items-center justify-between rounded-lg border border-line bg-paper px-3 py-2.5">
                   <p className="font-mono text-[11px] text-ink-soft">
-                    you <span className="text-muted-foreground">(owner)</span> · review the draft
+                    you <span className="text-muted-foreground">(owner)</span> · review the suggestion
                   </p>
                   <span className="approve-btn rounded-md border border-line-strong bg-card px-3.5 py-1.5 font-mono text-[11px] font-medium text-ink transition-colors">
                     Approve
@@ -224,7 +224,7 @@ export function Deployment() {
               </div>
 
               <p className="pr-footer border-t border-line bg-paper px-4 py-2.5 text-center font-mono text-[10.5px] text-muted-foreground sm:px-5">
-                scan: 41 tables · 3 SaaS schemas · 1,204 documents · draft ready in 4m 51s (illustrative)
+                read: 41 tables · 3 online systems · 1,204 documents · first draft ready in under 5 minutes (example)
               </p>
             </div>
 
@@ -234,7 +234,7 @@ export function Deployment() {
               className="pr-stamp pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
             >
               <p className="rounded-lg border-[3px] border-moss bg-moss px-6 py-3 font-mono text-[15px] font-semibold uppercase tracking-[0.2em] text-night shadow-xl">
-                approved · merged
+                approved
               </p>
             </div>
           </div>
