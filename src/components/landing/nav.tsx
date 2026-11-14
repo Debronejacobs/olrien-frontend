@@ -9,17 +9,12 @@ import { scrollToId } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 
 const LINKS: { label: string; href: string }[] = [
-  { label: "Product", href: "#product" },
-  { label: "Deployment", href: "#deployment" },
-  { label: "Writes", href: "#writes" },
-  { label: "Scenario", href: "#scenario" },
-  { label: "Roadmap", href: "#roadmap" },
-  { label: "FAQ", href: "#faq" },
+  
 ];
 
 const ACTIVE_IDS = LINKS.map((l) => l.href.slice(1));
 
-const GITHUB_URL = "https://github.com/Debronejacobs/AletheiaMain";
+const GITHUB_URL = "https://github.com/Debronejacobs/MarendilMain";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -100,7 +95,7 @@ export function Nav() {
           href="#top"
           onClick={go("#top")}
           className="text-ink transition-opacity hover:opacity-70"
-          aria-label="Aletheia: back to top"
+          aria-label="Marendil: back to top"
         >
           <Logo />
         </a>

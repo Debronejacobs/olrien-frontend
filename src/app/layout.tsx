@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import { Inter, JetBrains_Mono, Instrument_Serif, Playfair_Display } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { SmoothScroll } from "@/components/landing/smooth-scroll";
+import { Galaxy } from "@/components/landing/fluid-grid";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -10,9 +11,11 @@ const inter = Inter({
   display: "swap",
 });
 
-const grotesk = Space_Grotesk({
-  variable: "--font-grotesk",
+const premium = Playfair_Display({
+  variable: "--font-premium",
   subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -31,11 +34,11 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Aletheia · One governed model of the company",
+  title: "Marendil · One governed model of the company",
   description:
-    "Aletheia gives operations heavy companies one shared, trustworthy picture of the business: the customers, orders and invoices they run on, how they connect, and what people and AI tools are allowed to do. Every answer shows where it came from, every change is checked before it happens, and everything is written into one record. Open source. Runs on your own servers.",
+    "Marendil gives operations heavy companies one shared, trustworthy picture of the business: the customers, orders and invoices they run on, how they connect, and what people and AI tools are allowed to do. Every answer shows where it came from, every change is checked before it happens, and everything is written into one record. Open source. Runs on your own servers.",
   keywords: [
-    "Aletheia",
+    "Noetira ",
     "ontology",
     "MCP",
     "Model Context Protocol",
@@ -46,16 +49,19 @@ export const metadata: Metadata = {
     "open source",
     "audit",
   ],
+  icons: {
+    icon: "/icon.png",
+  },
   openGraph: {
-    title: "Aletheia · One governed model of the company",
+    title: "Noetira  · One governed model of the company",
     description:
       "One front door for every person and AI tool. One record of everything that happened. Open source, runs on your own servers.",
-    siteName: "Aletheia",
+    siteName: "Noetira ",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aletheia · One governed model of the company",
+    title: "Noetira  · One governed model of the company",
     description:
       "One front door in. One record out. Open source, runs on your own servers.",
   },
@@ -69,9 +75,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${grotesk.variable} ${jetbrains.variable} ${instrument.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${premium.variable} ${jetbrains.variable} ${instrument.variable} font-sans antialiased bg-background text-foreground`}
       >
         <SmoothScroll />
+        <Galaxy className="pointer-events-none fixed inset-0 -z-10" />
         {/* Fine paper grain over everything, never interactive */}
         <div aria-hidden className="noise-overlay pointer-events-none fixed inset-0 z-[80]" />
         {children}

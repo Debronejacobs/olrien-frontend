@@ -1,15 +1,15 @@
-# Aletheia
+# Noetira 
 
 > **One shared picture of your company.**
 > A single, trustworthy description of how a business fits together — the things it runs on, how they relate, and what people and AI tools are allowed to do with them. Every answer is grounded, every change is checked, and everything is written down.
 
-This repository is the **Aletheia website**: a fully static, zero-backend, fully open-source marketing site. It deploys as plain HTML/CSS/JS to GitHub Pages at **[aletheia.cc.cd](https://aletheia.cc.cd)**.
+This repository is the **Noetira  website**: a fully static, zero-backend, fully open-source marketing site. It deploys as plain HTML/CSS/JS to GitHub Pages at **[Noetira .cc.cd](https://Noetira .cc.cd)**.
 
 The product itself ships separately. This repo is deliberately scoped to the front door, and the front door links people to the source:
 
-**<https://github.com/Debronejacobs/AletheiaMain>**
+**<https://github.com/Debronejacobs/Noetira Main>**
 
-There is no paid tier, no "open core", no early-access list and no email capture. Aletheia is free and open source.
+There is no paid tier, no "open core", no early-access list and no email capture. Noetira  is free and open source.
 
 ---
 
@@ -31,14 +31,14 @@ There is no paid tier, no "open core", no early-access list and no email capture
 
 ## What this is
 
-Aletheia is an **open-source, self-hosted "company kernel"**: one secure front door through which every person and every AI tool reaches the business. This app is the public front door for that product — a single-page, scroll-driven experience composed of independent section components, wrapped in a global smooth-scroll and motion layer.
+Noetira  is an **open-source, self-hosted "company kernel"**: one secure front door through which every person and every AI tool reaches the business. This app is the public front door for that product — a single-page, scroll-driven experience composed of independent section components, wrapped in a global smooth-scroll and motion layer.
 
 **There is no server.** No API routes, no database, no Prisma, no auth. Every section is a client component; the only server-rendered file is `src/app/layout.tsx`, which contributes `<head>` metadata and font wiring at build time. The build output is a directory of static files.
 
 The narrative arc, in render order (`src/app/page.tsx`):
 
 1. **Hero** — positioning, plus a live "reviewable diff" panel and a GitHub icon
-2. **Trust marquee** — logos of the platforms Aletheia connects to
+2. **Trust marquee** — logos of the platforms Noetira  connects to
 3. **Problem** — the fragmentation story
 4. **Ontology** — the things, how they relate, and what may be done
 5. **Endpoint** — one door in, one log out
@@ -66,7 +66,7 @@ flowchart TD
     Gsap --> Smooth["smooth-scroll.tsx<br/>Lenis + GSAP ticker"]
 
     Build["next build"] --> Out["out/<br/>static HTML + CSS + JS"]
-    Out --> Pages["GitHub Pages<br/>aletheia.cc.cd"]
+    Out --> Pages["GitHub Pages<br/>Noetira .cc.cd"]
 ```
 
 Everything below `Sections` runs in the browser. The build step is a pure transform; nothing executes per request.
@@ -123,12 +123,12 @@ bun run build && bunx serve out
 ## Project structure
 
 ```
-Aletheia/
+Noetira /
 ├── .github/workflows/
 │   └── deploy-pages.yml        # typecheck → build → deploy to Pages
 ├── public/
 │   ├── .nojekyll               # required: stops Jekyll eating _next/
-│   ├── CNAME                   # aletheia.cc.cd
+│   ├── CNAME                   # Noetira .cc.cd
 │   ├── logo.svg
 │   └── robots.txt
 ├── src/
@@ -187,7 +187,7 @@ Anything you might expect and won't find — `src/app/api/`, `src/lib/db.ts`, `p
 
 Two places own a destination:
 
-1. `GITHUB_URL` — declared as a local constant in `hero.tsx`, `nav.tsx`, `footer.tsx` and `final-cta.tsx`. All four point at `https://github.com/Debronejacobs/AletheiaMain`. If the repository moves, update all four.
+1. `GITHUB_URL` — declared as a local constant in `hero.tsx`, `nav.tsx`, `footer.tsx` and `final-cta.tsx`. All four point at `https://github.com/Debronejacobs/Noetira Main`. If the repository moves, update all four.
 2. `CONTACT_EMAIL` — declared in `final-cta.tsx`. Nothing else owns a contact address.
 
 The hero's only call to action is a **bare GitHub icon** — an `<a>` wrapping `<Github />`, not a `Button`. Keep it that way; there is no primary CTA button.
@@ -239,7 +239,7 @@ Enable it once in the repository settings: **Settings → Pages → Source: GitH
 
 ### Domain
 
-`public/CNAME` contains `aletheia.cc.cd`. Because the site is served from a custom domain at the apex of its own host, **no `basePath` or `assetPrefix` is needed** — every asset resolves from `/`. Point a `CNAME` DNS record for `aletheia.cc.cd` at `<user>.github.io`. If you ever move to `username.github.io/aletheia/`, you must set both `basePath` and `assetPrefix`.
+`public/CNAME` contains `Noetira .cc.cd`. Because the site is served from a custom domain at the apex of its own host, **no `basePath` or `assetPrefix` is needed** — every asset resolves from `/`. Point a `CNAME` DNS record for `Noetira .cc.cd` at `<user>.github.io`. If you ever move to `username.github.io/Noetira /`, you must set both `basePath` and `assetPrefix`.
 
 ### The `.nojekyll` trap
 
@@ -268,7 +268,7 @@ The audience is **non-technical**. Copy should read like a clear explanation to 
 
 **Keep:** real product names (PostgreSQL, Snowflake, Salesforce). They are recognition signals, not jargon.
 
-**Positioning is fixed:** Aletheia is fully open source. Never describe a paid tier, a "full version", an "open core", a licence purchase, or an early-access list. The only action offered to a visitor is "go to the source".
+**Positioning is fixed:** Noetira  is fully open source. Never describe a paid tier, a "full version", an "open core", a licence purchase, or an early-access list. The only action offered to a visitor is "go to the source".
 
 ---
 

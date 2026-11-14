@@ -9,27 +9,19 @@ import { cn } from "@/lib/utils";
 const FAQS = [
   {
     q: "Does our data leave our systems?",
-    a: "No. Aletheia runs on your own servers. The only thing that leaves your network is the requests you send to your AI provider, using your own account and your own key. There is no Aletheia cloud holding your data.",
+    a: "No. Marendil runs on your own servers. The only thing that leaves your network is the requests you send to your AI provider, using your own account and your own key. There is no Marendil cloud holding your data.",
   },
   {
     q: "Can AI assistants actually change things?",
-    a: "Yes, but never freely. Every change has to be a named, pre-approved action. Aletheia checks that the person or assistant is allowed to make it, shows exactly what would change before it happens, asks a human to confirm when the change is significant, and writes the whole thing down so it can be undone.",
-  },
-  {
-    q: "Who sets it up, and how long does it take?",
-    a: "Your own team, with no consultants. Aletheia reads your systems and drafts a plain description of how your business fits together. Your team reviews it, fixes anything wrong and approves it. You get your first trustworthy answer in days, not months.",
+    a: "Yes, but never freely. Every change has to be a named, pre-approved action. Marendil checks that the person or assistant is allowed to make it, shows exactly what would change before it happens, asks a human to confirm when the change is significant, and writes the whole thing down so it can be undone.",
   },
   {
     q: "Does it replace the tools we already use?",
-    a: "No. It sits on top of what you already run. Your database, warehouse and customer systems stay exactly as they are. Aletheia just gives everyone, and every AI tool, one consistent way to read them and change them.",
+    a: "No. It sits on top of what you already run. Your database, warehouse and customer systems stay exactly as they are. Marendil just gives everyone, and every AI tool, one consistent way to read them and change them.",
   },
   {
     q: "How much does it cost?",
-    a: "Nothing. Aletheia is completely free and open source. Download it, run it on your own servers, and change it however you like. There is no paid version and no charge per person.",
-  },
-  {
-    q: "What is in the first release?",
-    a: "Safe, approved changes to your main databases and spreadsheet exports, guided setup, and a few ready-made templates to start from. Connections to more systems and deeper safety checks follow in regular updates.",
+    a: "Nothing. Marendil is completely free and open source. Download it, run it on your own servers, and change it however you like. There is no paid version and no charge per person.",
   },
 ];
 
@@ -46,11 +38,6 @@ export function Faq() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.4fr] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionHeading
-              eyebrow="10 · Questions"
-              title="Straight answers."
-              lead="The same trade-offs we tell our investors are the ones we tell you. If something is still unclear, send us a note at the bottom of the page."
-            />
           </div>
           <Reveal>
             <div className="w-full">

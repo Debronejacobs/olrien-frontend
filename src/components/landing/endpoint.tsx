@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { ScrollText, ShieldCheck } from "lucide-react";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/reveal";
-import { BRANDS, BrandMark } from "@/components/landing/brand-logos";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
@@ -28,19 +28,6 @@ const LOG: LogLine[] = [
   { t: "09:20:11", action: "EXPORT", object: "audit.segment", actor: "auditor", verdict: "allowed", note: "signed export · 09:14 to 09:20" },
 ];
 
-const CONSUMERS = [
-  { label: "Metabase", sub: "reporting", brand: BRANDS.metabase },
-  { label: "CrewAI", sub: "AI assistant", brand: BRANDS.crewai },
-  { label: "LangChain", sub: "in house AI tool", brand: BRANDS.langchain },
-];
-
-const SOURCES = [
-  { label: "PostgreSQL", sub: "database", brand: BRANDS.postgresql },
-  { label: "Snowflake", sub: "data warehouse", brand: BRANDS.snowflake },
-  { label: "Databricks", sub: "data platform", brand: BRANDS.databricks },
-  { label: "Attio", sub: "customer system", brand: BRANDS.attio },
-  { label: "Notion", sub: "documents", brand: BRANDS.notion },
-];
 
 function LogRow({ l, idx, hidden }: { l: LogLine; idx: number; hidden?: boolean }) {
   return (
@@ -78,82 +65,9 @@ function LogRow({ l, idx, hidden }: { l: LogLine; idx: number; hidden?: boolean 
 }
 
 export function Endpoint() {
-  const figRef = useRef<HTMLDivElement>(null);
   const scrubRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
 
-  /* Diagram draw-in + travelling request dots */
-  useEffect(() => {
-    const el = figRef.current;
-    if (!el || prefersReducedMotion()) return;
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: "top 72%" },
-        defaults: { ease: "power3.out" },
-      });
-      tl.fromTo(
-        ".ep-node",
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.08 }
-      )
-        .fromTo(
-          ".ep-edge",
-          { drawSVG: "0%" },
-          { drawSVG: "100%", duration: 0.55, stagger: 0.05 },
-          0.3
-        )
-        .fromTo(
-          ".ep-door",
-          { opacity: 0, scale: 0.9, transformOrigin: "50% 50%" },
-          { opacity: 1, scale: 1, duration: 0.7 },
-          0.5
-        );
-
-      // request dots: consumers -> endpoint
-      gsap.utils.toArray<SVGCircleElement>(".dot-req").forEach((dot, i) => {
-        const t = gsap.timeline({ repeat: -1, delay: i * 0.55, paused: true });
-        t.fromTo(
-          dot,
-          { attr: { cx: 236, cy: [72, 222, 372][i] }, opacity: 0 },
-          { attr: { cx: 372, cy: [190, 220, 250][i] }, duration: 1.5, ease: "none" }
-        )
-          .to(dot, { opacity: 1, duration: 0.25 }, 0.05)
-          .to(dot, { opacity: 0, duration: 0.35 }, 1.15);
-        dot.dataset.tw = String(i);
-        (dot as unknown as { _tw: gsap.core.Timeline })._tw = t;
-      });
-      // read/write dots: endpoint -> sources
-      gsap.utils.toArray<SVGCircleElement>(".dot-read").forEach((dot, i) => {
-        const t = gsap.timeline({ repeat: -1, delay: 0.7 + i * 0.45, paused: true });
-        t.fromTo(
-          dot,
-          { attr: { cx: 528, cy: [190, 205, 220, 235, 250][i] }, opacity: 0 },
-          { attr: { cx: 696, cy: [58, 140, 222, 304, 386][i] }, duration: 1.4, ease: "none" }
-        )
-          .to(dot, { opacity: 1, duration: 0.25 }, 0.05)
-          .to(dot, { opacity: 0, duration: 0.35 }, 1.05);
-        (dot as unknown as { _tw: gsap.core.Timeline })._tw = t;
-      });
-
-      const allDots = [
-        ...gsap.utils.toArray<SVGCircleElement>(".dot-req"),
-        ...gsap.utils.toArray<SVGCircleElement>(".dot-read"),
-      ];
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 95%",
-        end: "bottom 0%",
-        onToggle: (self) =>
-          allDots.forEach((d) => {
-            const tw = (d as unknown as { _tw?: gsap.core.Timeline })._tw;
-            if (!tw) return;
-            if (self.isActive) tw.play();
-            else tw.pause();
-          }),
-      });
-    }, el);
-    return () => ctx.revert();
-  }, []);
 
   /* Sticky scrubbed audit console (desktop): scroll writes the log */
   useEffect(() => {
@@ -224,10 +138,7 @@ export function Endpoint() {
       <div className="flex items-center justify-between border-b border-night-line px-4 py-2.5">
         <p className="flex items-center gap-2 font-mono text-[11px] text-ink/60">
           <ScrollText className="h-3.5 w-3.5 text-moss-bright" />
-          the record · nothing deleted
-        </p>
-        <p className="font-mono text-[10.5px] text-ink/40">
-          entries <span ref={sticky ? counterRef : undefined}>8</span>/8 · every action, one list
+          Changes tracked are immutable
         </p>
       </div>
       <span aria-hidden className="al-progress block h-px w-full origin-left scale-x-0 bg-moss-bright/70" />
@@ -263,131 +174,16 @@ export function Endpoint() {
         />
 
         {/* Flow diagram */}
-        <div ref={figRef} className="mx-auto mt-14 max-w-5xl">
-          <div className="grid-bg rounded-xl border border-line bg-card p-4 shadow-xs sm:p-6">
-            <svg
-              viewBox="0 0 900 440"
+        <div className="mx-auto mt-14 max-w-5xl">
+          <div className="grid-bg rounded-xl border border-line bg-background p-4 shadow-xs sm:p-6">
+            <Image
+              src="/ontology.png"
+              alt="Reporting tools and AI assistants all connect through one front door; the front door reads your database, data warehouse, customer system and documents, and writes every request into one record."
+              width={1139}
+              height={530}
               className="h-auto w-full"
-              role="img"
-              aria-label="Reporting tools and AI assistants all connect through one front door; the front door reads your database, data warehouse, customer system and documents, and writes every request into one record."
-            >
-              {/* edges */}
-              <g stroke="#39413a" strokeWidth="1.4" fill="none">
-                <path className="ep-edge" d="M 236 72 L 372 190" />
-                <path className="ep-edge" d="M 236 222 L 372 220" />
-                <path className="ep-edge" d="M 236 372 L 372 250" />
-                <path className="ep-edge" d="M 528 190 L 696 58" />
-                <path className="ep-edge" d="M 528 205 L 696 140" />
-                <path className="ep-edge" d="M 528 220 L 696 222" />
-                <path className="ep-edge" d="M 528 235 L 696 304" />
-                <path className="ep-edge" d="M 528 250 L 696 386" />
-              </g>
-
-              {/* dots */}
-              <circle className="dot-req" r="3.4" fill="#2ea065" opacity="0" />
-              <circle className="dot-req" r="3.4" fill="#2ea065" opacity="0" />
-              <circle className="dot-req" r="3.4" fill="#2ea065" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
-              <circle className="dot-read" r="3.4" fill="#e0994a" opacity="0" />
-
-              {/* consumers */}
-              {CONSUMERS.map((c, i) => (
-                <g key={c.label} className="ep-node">
-                  <rect
-                    x="40"
-                    y={44 + i * 150}
-                    width="196"
-                    height="56"
-                    rx="10"
-                    fill="#151914"
-                    stroke="#2d342c"
-                    strokeWidth="1.5"
-                  />
-                  <BrandMark brand={c.brand} x={58} y={44 + i * 150 + 18} size={20} />
-                  <text x="90" y={44 + i * 150 + 25} fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#e9e7dc">
-                    {c.label}
-                  </text>
-                  <text x="90" y={44 + i * 150 + 41} fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#8d897b">
-                    {c.sub}
-                  </text>
-                </g>
-              ))}
-
-              {/* the door */}
-              <g className="ep-door">
-                <rect
-                  x="372"
-                  y="158"
-                  width="156"
-                  height="124"
-                  rx="12"
-                  fill="#10130f"
-                  stroke="#272d26"
-                  strokeWidth="1.5"
-                />
-                <rect
-                  x="380"
-                  y="166"
-                  width="140"
-                  height="108"
-                  rx="9"
-                  fill="none"
-                  stroke="#34d399"
-                  strokeWidth="1"
-                  strokeDasharray="3 4"
-                  opacity="0.7"
-                />
-                <circle cx="450" cy="200" r="7" fill="#34d399" />
-                <rect x="447" y="204" width="6" height="14" rx="3" fill="#34d399" />
-                <text x="450" y="246" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#e9e7dc">
-                  one front door
-                </text>
-                <text x="450" y="262" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#34d399">
-                  who · allowed · recorded
-                </text>
-              </g>
-
-              {/* sources */}
-              {SOURCES.map((s, i) => (
-                <g key={s.label} className="ep-node">
-                  <rect
-                    x="696"
-                    y={30 + i * 82}
-                    width="188"
-                    height="56"
-                    rx="10"
-                    fill="#151914"
-                    stroke="#2d342c"
-                    strokeWidth="1.5"
-                  />
-                  <BrandMark brand={s.brand} x={714} y={30 + i * 82 + 18} size={20} />
-                  <text x="746" y={30 + i * 82 + 25} fontFamily="var(--font-jetbrains), monospace" fontSize="13" fontWeight="600" fill="#e9e7dc">
-                    {s.label}
-                  </text>
-                  <text x="746" y={30 + i * 82 + 41} fontFamily="var(--font-jetbrains), monospace" fontSize="9.5" fill="#8d897b">
-                    {s.sub}
-                  </text>
-                </g>
-              ))}
-            </svg>
+            />
           </div>
-
-          <Reveal className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            {["you are verified", "per record permissions", "every answer shows its source", "nothing can be deleted"].map(
-              (chip) => (
-                <span
-                  key={chip}
-                  className="flex items-center gap-1.5 rounded-full border border-line bg-card px-3 py-1.5 font-mono text-[11px] text-ink-soft"
-                >
-                  <ShieldCheck className="h-3 w-3 text-moss" />
-                  {chip}
-                </span>
-              )
-            )}
-          </Reveal>
         </div>
 
         {/* Audit console: sticky + scrubbed on desktop, static on mobile */}
@@ -398,9 +194,6 @@ export function Endpoint() {
         >
           <div className="lg:sticky lg:top-[16vh]">
             {consoleCard(true)}
-            <p className="mt-4 text-center font-mono text-[11px] text-muted-foreground">
-              keep scrolling · watch the record fill up, one entry at a time
-            </p>
           </div>
         </div>
         {/* Mobile */}

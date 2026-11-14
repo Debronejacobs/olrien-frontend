@@ -8,7 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains);
-  --font-display: var(--font-grotesk);
+  --font-display: var(--font-premium);
   --font-serif: var(--font-instrument);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -44,55 +44,55 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Aletheia ledger palette — dark: ink on night paper */
-  --color-paper: #0d0f0c;
-  --color-paper-deep: #11140f;
+  /* Marendil ledger palette — pure dark: ink on black */
+  --color-paper: #000000;
+  --color-paper-deep: #050505;
   --color-ink: #e9e7dc;
   --color-ink-soft: #b3b0a2;
-  --color-line: #20261f;
-  --color-line-strong: #2d342c;
+  --color-line: #1a1a1a;
+  --color-line-strong: #1a1a1a;
   --color-moss: #2ea065;
   --color-moss-deep: #8ce0ae;
   --color-moss-bright: #34d399;
-  --color-moss-tint: #14241b;
+  --color-moss-tint: #0a140e;
   --color-amber-ink: #e0994a;
-  --color-night: #0a0c09;
-  --color-night-soft: #151914;
-  --color-night-line: #272d26;
+  --color-night: #000000;
+  --color-night-soft: #0a0a0a;
+  --color-night-line: #1a1a1a;
 }
 
 :root {
   --radius: 0.5rem;
-  --background: #0d0f0c;
+  --background: #000000;
   --foreground: #e9e7dc;
-  --card: #161a15;
+  --card: #0a0a0a;
   --card-foreground: #e9e7dc;
-  --popover: #161a15;
+  --popover: #0a0a0a;
   --popover-foreground: #e9e7dc;
   --primary: #eceade;
   --primary-foreground: #13150f;
-  --secondary: #1e231d;
+  --secondary: #0d0d0d;
   --secondary-foreground: #e9e7dc;
-  --muted: #1b201a;
+  --muted: #111111;
   --muted-foreground: #908d80;
   --accent: #16281d;
   --accent-foreground: #8ce0ae;
   --destructive: #e2684a;
-  --border: #242a23;
-  --input: #242a23;
+  --border: #1a1a1a;
+  --input: #1a1a1a;
   --ring: #34d399;
   --chart-1: #34d399;
   --chart-2: #e0994a;
   --chart-3: #e9e7dc;
   --chart-4: #908d80;
   --chart-5: #2ea065;
-  --sidebar: #11140f;
+  --sidebar: #0a0a0a;
   --sidebar-foreground: #e9e7dc;
   --sidebar-primary: #eceade;
   --sidebar-primary-foreground: #13150f;
   --sidebar-accent: #16281d;
   --sidebar-accent-foreground: #8ce0ae;
-  --sidebar-border: #242a23;
+  --sidebar-border: #1a1a1a;
   --sidebar-ring: #34d399;
 }
 
@@ -111,7 +111,7 @@
   /* Dark native UI: scrollbars, form controls, select dropdowns */
   html {
     color-scheme: dark;
-    scrollbar-color: #39413a #0d0f0c;
+    scrollbar-color: #39413a #000000;
     scrollbar-width: thin;
   }
   /* Dark scrollbars, vertical + horizontal, everywhere (v2) */
@@ -120,18 +120,18 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #0d0f0c;
+    background: #000000;
   }
   ::-webkit-scrollbar-thumb {
     background: #2d342c;
     border-radius: 999px;
-    border: 2px solid #0d0f0c;
+    border: 2px solid #000000;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: #454e44;
   }
   ::-webkit-scrollbar-corner {
-    background: #0d0f0c;
+    background: #000000;
   }
 }
 
