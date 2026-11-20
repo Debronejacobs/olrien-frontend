@@ -13,7 +13,7 @@ const GROUPS: {
     links: [
       {
         label: "GitHub",
-        href: "https://github.com/Debronejacobs/olrienMain",
+        href: "https://github.com/Debronejacobs/Olrien",
         note: "open source",
       },
       {
