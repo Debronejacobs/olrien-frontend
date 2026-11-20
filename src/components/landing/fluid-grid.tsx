@@ -805,8 +805,8 @@ export function Galaxy({ className = "" }: { className?: string }) {
           ctx.strokeStyle = styles[idx].style;
           ctx.lineWidth = styles[idx].width;
           ctx.beginPath();
-          ctx.moveTo(sunTX[b], sunTY[b]);
-          ctx.lineTo(sunTX[b], sunTY[b]);
+          ctx.moveTo(sunTX[b][i0], sunTY[b][i0]);
+          ctx.lineTo(sunTX[b][i1], sunTY[b][i1]);
           ctx.stroke();
         }
       }
