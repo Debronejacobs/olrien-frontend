@@ -71,6 +71,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta
+          name="msvalidate.01"
+          content="BD47A3581E607641356C6D66E17ABD32"
+        />
+      </head>
       <body
         className={`${inter.variable} ${premium.variable} ${jetbrains.variable} ${instrument.variable} font-sans antialiased bg-background text-foreground`}
       >
