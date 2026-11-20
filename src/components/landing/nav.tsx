@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Github, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/landing/logo";
@@ -13,8 +13,6 @@ const LINKS: { label: string; href: string }[] = [
 ];
 
 const ACTIVE_IDS = LINKS.map((l) => l.href.slice(1));
-
-const GITHUB_URL = "https://github.com/Debronejacobs/MarendilMain";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -80,7 +78,6 @@ export function Nav() {
   };
 
 
-
   return (
     <header
       className={cn(
@@ -95,7 +92,7 @@ export function Nav() {
           href="#top"
           onClick={go("#top")}
           className="text-ink transition-opacity hover:opacity-70"
-          aria-label="Marendil: back to top"
+          aria-label="Olrien: back to top"
         >
           <Logo />
         </a>
@@ -126,31 +123,8 @@ export function Nav() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2.5 lg:flex">
-          <Button
-            asChild
-            size="sm"
-            className="gap-2 px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
-          >
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
-              <Github className="h-4 w-4" />
-              GitHub
-            </a>
-          </Button>
-        </div>
-
         {/* Mobile */}
         <div className="flex items-center gap-2 lg:hidden">
-          <Button
-            asChild
-            size="sm"
-            className="gap-2 px-4 font-mono text-[11.5px] uppercase tracking-[0.14em]"
-          >
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
-              <Github className="h-4 w-4" />
-              GitHub
-            </a>
-          </Button>
           <Button
             variant="outline"
             size="icon"
@@ -203,15 +177,6 @@ export function Nav() {
               {l.label}
             </a>
           ))}
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => setOpen(false)}
-            className="mt-2 flex items-center gap-2 rounded-md px-2 py-3 text-left text-[15px] font-medium text-ink-soft transition-colors hover:bg-muted hover:text-ink"
-          >
-            <Github className="h-4 w-4" /> Open source
-          </a>
         </nav>
       </div>
     </header>

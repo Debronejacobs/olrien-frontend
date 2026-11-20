@@ -34,28 +34,25 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Marendil · One governed model of the company",
+  title: "Olrien · One governed model of the company",
   description:
-    "Marendil gives operations heavy companies one shared, trustworthy picture of the business: the customers, orders and invoices they run on, how they connect, and what people and AI tools are allowed to do. Every answer shows where it came from, every change is checked before it happens, and everything is written into one record. Open source. Runs on your own servers.",
+    "Olrien gives operations heavy companies one shared, trustworthy picture of the business: the customers, orders and invoices they run on, how they connect, and what people and AI tools are allowed to do. Every answer shows where it came from, every change is checked before it happens, and everything is written into one record. Open source. Runs on your own servers.",
   keywords: [
-    "Noetira ",
     "ontology",
     "MCP",
     "Model Context Protocol",
     "data governance",
     "AI agents",
-    "guarded CRUD",
-    "self hosted",
-    "open source",
+
     "audit",
   ],
   icons: {
     icon: "/icon.png",
   },
   openGraph: {
-    title: "Noetira  · One governed model of the company",
+    title: "Olrien  · One governed model of the company",
     description:
-      "One front door for every person and AI tool. One record of everything that happened. Open source, runs on your own servers.",
+      "One front door for every person and AI tool. One digital model of your company.",
     siteName: "Noetira ",
     type: "website",
   },

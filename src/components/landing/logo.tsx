@@ -3,7 +3,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * Marendil mark.
+ *    olrien mark.
  */
 export function Logo({ className }: { className?: string }) {
   return (
@@ -17,7 +17,7 @@ export function Logo({ className }: { className?: string }) {
         className="shrink-0"
       />
       <span className="font-display text-[19px] font-semibold tracking-tight">
-        Marendil
+          Olrien
       </span>
     </span>
   );

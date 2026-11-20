@@ -1,292 +1,275 @@
-# Noetira 
+# Olrien — One governed model of the company
 
-> **One shared picture of your company.**
-> A single, trustworthy description of how a business fits together — the things it runs on, how they relate, and what people and AI tools are allowed to do with them. Every answer is grounded, every change is checked, and everything is written down.
+> Olrien gives operations-heavy companies one shared, trustworthy picture of the business: the customers, orders and invoices they run on, how they connect, and what people and AI tools are allowed to do. Every answer shows where it came from, every change is checked before it happens, and everything is written into one record. Open source. Runs on your own servers.
 
-This repository is the **Noetira  website**: a fully static, zero-backend, fully open-source marketing site. It deploys as plain HTML/CSS/JS to GitHub Pages at **[Noetira .cc.cd](https://Noetira .cc.cd)**.
-
-The product itself ships separately. This repo is deliberately scoped to the front door, and the front door links people to the source:
-
-**<https://github.com/Debronejacobs/Noetira Main>**
-
-There is no paid tier, no "open core", no early-access list and no email capture. Noetira  is free and open source.
+A landing page for an enterprise data governance / ontology platform. Built as a fully static Next.js export and deployed to Cloudflare Pages with serverless Functions for waitlist signup and CSV export.
 
 ---
 
-## Table of contents
+## Tech Stack
 
-- [What this is](#what-this-is)
-- [Architecture at a glance](#architecture-at-a-glance)
-- [Tech stack](#tech-stack)
-- [Getting started](#getting-started)
-- [Project structure](#project-structure)
-- [The landing page](#the-landing-page)
-- [Animation system](#animation-system)
-- [Static export & deployment](#static-export--deployment)
-- [Writing copy](#writing-copy)
-- [Conventions](#conventions)
-- [Notes & caveats](#notes--caveats)
-
----
-
-## What this is
-
-Noetira  is an **open-source, self-hosted "company kernel"**: one secure front door through which every person and every AI tool reaches the business. This app is the public front door for that product — a single-page, scroll-driven experience composed of independent section components, wrapped in a global smooth-scroll and motion layer.
-
-**There is no server.** No API routes, no database, no Prisma, no auth. Every section is a client component; the only server-rendered file is `src/app/layout.tsx`, which contributes `<head>` metadata and font wiring at build time. The build output is a directory of static files.
-
-The narrative arc, in render order (`src/app/page.tsx`):
-
-1. **Hero** — positioning, plus a live "reviewable diff" panel and a GitHub icon
-2. **Trust marquee** — logos of the platforms Noetira  connects to
-3. **Problem** — the fragmentation story
-4. **Ontology** — the things, how they relate, and what may be done
-5. **Endpoint** — one door in, one log out
-6. **Deployment** — connect → review the draft → govern and act
-7. **Guarded CRUD** — changes pass the safety checks
-8. **Tuesday** — a day-in-the-life scenario
-9. **Design principles** — the deliberate choices behind the product
-10. **Comparison** — positioning against alternatives
-11. **Roadmap** — staged delivery
-12. **FAQ** — the recurring objections
-13. **FinalCta** — the single call to action: go to the source
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| UI | React 19 |
+| Styling | Tailwind CSS 4 |
+| Components | shadcn/ui (Radix UI primitives) |
+| Language | TypeScript 5 |
+| Package Manager | Bun 1.4.5 |
+| Animations | GSAP, framer-motion, lenis (smooth scroll) |
+| Icons | lucide-react |
+| Forms | react-hook-form + zod |
+| Notifications | sonner |
+| Deployment | Cloudflare Pages + Cloudflare Functions |
+| KV Storage | Cloudflare KV (waitlist emails) |
 
 ---
 
-## Architecture at a glance
+## Project Structure
 
-```mermaid
-flowchart TD
-    Page["page.tsx<br/>composes sections"] --> Layout["layout.tsx<br/>fonts + metadata"]
-    Page --> Nav["Nav / ScrollRail / Footer"]
-    Page --> Sections["landing sections<br/>(all use client)"]
-
-    Sections --> Gsap["lib/gsap.ts<br/>plugin registry"]
-    Sections --> Scroll["lib/scroll.ts<br/>Lenis handle"]
-    Gsap --> Smooth["smooth-scroll.tsx<br/>Lenis + GSAP ticker"]
-
-    Build["next build"] --> Out["out/<br/>static HTML + CSS + JS"]
-    Out --> Pages["GitHub Pages<br/>Noetira .cc.cd"]
+```
+olrien/
+├── .github/workflows/deploy-pages.yml   # GitHub Actions deploy workflow
+├── scripts/
+│   ├── fetch_logos.py                   # Fetch brand logos
+│   └── gen_brand_module.py              # Generate brand module
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx                   # Root layout, metadata, fonts
+│   │   └── page.tsx                     # Home page (single route "/")
+│   ├── components/
+│   │   ├── landing/                     # Page sections (Hero, Problem, FAQ, etc.)
+│   │   │   ├── animated-text.tsx
+│   │   │   ├── brand-logos.tsx
+│   │   │   ├── endpoint.tsx
+│   │   │   ├── faq.tsx
+│   │   │   ├── fluid-grid.tsx
+│   │   │   ├── footer.tsx
+│   │   │   ├── hero.tsx
+│   │   │   ├── logo.tsx
+│   │   │   ├── magnetic.tsx
+│   │   │   ├── nav.tsx
+│   │   │   ├── problem.tsx
+│   │   │   ├── reveal.tsx
+│   │   │   ├── scroll-rail.tsx
+│   │   │   ├── section-heading.tsx
+│   │   │   ├── smooth-scroll.tsx
+│   │   │   └── trust-marquee.tsx
+│   │   └── ui/                          # shadcn/ui components (50+)
+│   ├── hooks/
+│   │   ├── use-mobile.ts
+│   │   └── use-toast.ts
+│   └── lib/
+│       ├── gsap.ts                      # GSAP animation setup
+│       ├── scroll.ts                    # scrollToId utility
+│       └── utils.ts                     # cn() class-variance utility
+├── functions/
+│   └── api/
+│       ├── subscribe.ts                 # Waitlist POST endpoint (Cloudflare Function)
+│       └── export.ts                    # CSV export GET endpoint (Cloudflare Function)
+├── out/                                 # Static build output (gitignored)
+├── .dev.vars                            # Local dev secrets (gitignored)
+├── wrangler.toml                        # Cloudflare Pages + Functions config
+├── next.config.mjs                      # Next.js static export config
+├── tailwind.config.ts
+├── postcss.config.mjs
+├── eslint.config.mjs
+├── bun.lock
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-Everything below `Sections` runs in the browser. The build step is a pure transform; nothing executes per request.
-
 ---
 
-## Tech stack
+## Getting Started
 
-| Layer | Choice |
-| --- | --- |
-| Framework | Next.js 16 (App Router, `output: "export"`) |
-| UI | React 19 |
-| Language | TypeScript 5 (strict) |
-| Styling | Tailwind CSS v4 + `tw-animate-css` |
-| Primitives | shadcn/ui (New York), Radix UI, `class-variance-authority`, `clsx`, `tailwind-merge` |
-| Motion | GSAP 3 (ScrollTrigger, SplitText, DrawSVGPlugin) + Lenis |
-| Icons | `lucide-react` |
-| Fonts | `next/font/google` — Inter, Space Grotesk, JetBrains Mono, Instrument Serif |
-| Package manager | Bun |
-| Deploy | GitHub Actions → GitHub Pages |
+### Prerequisites
 
----
+- [Bun](https://bun.sh) 1.4+
+- [Node.js](https://nodejs.org) (for the Wrangler CLI only — Bun remains your package manager/build tool)
+- A [Cloudflare](https://cloudflare.com) account (free tier is sufficient)
 
-## Getting started
-
-Requires **Bun** (or Node 20+ with an equivalent package manager) — the lockfile is `bun.lock`.
+### Install
 
 ```bash
 bun install
-bun run dev        # http://localhost:3000
 ```
 
-### Scripts
-
-| Script | What it does |
-| --- | --- |
-| `bun run dev` | Dev server on port 3000 |
-| `bun run build` | Static export to `out/` |
-| `bun run typecheck` | `tsc --noEmit` |
-| `bun run lint` | ESLint |
-
-There is no `start` script — nothing to run. Serve the build with any static file server if you want to preview the real artifact:
+### Development
 
 ```bash
-bun run build && bunx serve out
+bun run dev          # Start Next.js dev server on port 3005
+bun run build        # Build static export to out/
+bun run typecheck    # TypeScript type check
+bun run lint         # ESLint
 ```
 
-### Environment
-
-**No environment variables are required, and there is no `.env` file in the repo.** The site has no database and no server-side secrets. If you find a stale `.env` locally from an older checkout, it is safe to delete.
-
----
-
-## Project structure
-
-```
-Noetira /
-├── .github/workflows/
-│   └── deploy-pages.yml        # typecheck → build → deploy to Pages
-├── public/
-│   ├── .nojekyll               # required: stops Jekyll eating _next/
-│   ├── CNAME                   # Noetira .cc.cd
-│   ├── logo.svg
-│   └── robots.txt
-├── src/
-│   ├── app/
-│   │   ├── globals.css         # theme tokens, grid/noise overlays, keyframes
-│   │   ├── layout.tsx          # fonts, metadata, SmoothScroll, Toaster
-│   │   └── page.tsx            # composition of all sections
-│   ├── components/
-│   │   ├── landing/            # section + motion components
-│   │   └── ui/                 # shadcn primitives
-│   ├── hooks/                  # use-mobile, use-toast
-│   └── lib/
-│       ├── gsap.ts             # plugin registration, prefersReducedMotion
-│       ├── scroll.ts           # Lenis instance registry, scrollToId
-│       └── utils.ts            # cn()
-├── next.config.ts              # output: "export"
-├── tailwind.config.ts
-├── components.json             # shadcn config
-└── tsconfig.json               # @/* → src/*
-```
-
-Anything you might expect and won't find — `src/app/api/`, `src/lib/db.ts`, `prisma/`, `db/`, `Caddyfile`, `.zscripts/`, `mini-services/`, `tests/` — was removed when the site became static. Do not reintroduce them here.
-
----
-
-## The landing page
-
-`src/app/page.tsx` is a flat composition with no logic of its own. Every section is self-contained: it owns its copy, its animation, and its reduced-motion fallback.
-
-| Component | Section id |
-| --- | --- |
-| `Hero` | `top` |
-| `TrustMarquee` | — |
-| `Problem` | `problem` |
-| `Ontology` | `product` |
-| `Endpoint` | `endpoint` |
-| `Deployment` | `deployment` |
-| `GuardedCrud` | `writes` |
-| `Tuesday` | `scenario` |
-| `DesignChoices` | `choices` |
-| `Comparison` | `compare` |
-| `Roadmap` | `roadmap` |
-| `Faq` | `faq` |
-| `FinalCta` | `source` |
-
-`scroll-rail.tsx`'s `SECTIONS` list must stay in sync with these ids — it drives the fixed right-edge progress rail and its active-dot highlighting. `nav.tsx`'s `LINKS` is a shorter list of the sections worth jumping to, and intentionally does not include `#source`.
-
-### Shared primitives
-
-- **`SectionHeading`** — eyebrow + split-line heading + optional lead. The most-used typographic primitive.
-- **`Reveal` / `RevealGroup`** — fade-up on scroll. Initial state is set by GSAP, so content stays visible without JS.
-- **`AnimText`** — SplitText-based `chars` / `words` / `lines` animation.
-- **`Magnetic`** — pointer-fine hover lean, disabled for reduced motion and touch.
-
-### Links
-
-Two places own a destination:
-
-1. `GITHUB_URL` — declared as a local constant in `hero.tsx`, `nav.tsx`, `footer.tsx` and `final-cta.tsx`. All four point at `https://github.com/Debronejacobs/Noetira Main`. If the repository moves, update all four.
-2. `CONTACT_EMAIL` — declared in `final-cta.tsx`. Nothing else owns a contact address.
-
-The hero's only call to action is a **bare GitHub icon** — an `<a>` wrapping `<Github />`, not a `Button`. Keep it that way; there is no primary CTA button.
-
----
-
-## Animation system
-
-Two files carry the whole motion layer:
-
-**`src/lib/gsap.ts`** registers `ScrollTrigger`, `SplitText`, and `DrawSVGPlugin` once, on the client only, and exports two guards:
-
-```ts
-prefersReducedMotion() // matchMedia("(prefers-reduced-motion: reduce)")
-isDesktop()            // matchMedia("(min-width: 1024px)")
-```
-
-**`src/components/landing/smooth-scroll.tsx`** creates the Lenis instance, exposes it to `gsap.ticker`, and re-triggers `ScrollTrigger.refresh()` on load and after fonts settle. It is a no-op under reduced motion, leaving native scrolling intact.
-
-`src/lib/scroll.ts` holds the instance so `scrollToId()` works with or without Lenis:
-
-```ts
-scrollToId("#product"); // Lenis smooth scroll, or scrollIntoView fallback
-```
-
-### Rules the codebase follows
-
-- **Every animation checks `prefersReducedMotion()` first** and returns early. Content must be readable with no JS at all.
-- **Animations live in `useEffect` inside `gsap.context()`** and are reverted on cleanup.
-- **Never animate on mount for above-the-fold text that is also SEO-relevant** — `AnimText` handles this by leaving text in the DOM.
-- **`ScrollTrigger` needs a refresh after layout shifts.** The loader handles fonts; if you add an image or a late-mounting block, call `ScrollTrigger.refresh()` yourself.
-
----
-
-## Static export & deployment
-
-`next.config.ts` sets `output: "export"`, `trailingSlash: true`, `images.unoptimized: true`, `typescript.ignoreBuildErrors: false`, and pins `turbopack.root`. The build writes `out/`, which is exactly what GitHub Pages serves.
-
-### Deployment
-
-`.github/workflows/deploy-pages.yml` runs on every push to `main`:
-
-1. `bun install --frozen-lockfile`
-2. `bun run typecheck`
-3. `bun run build`
-4. upload `out/` → deploy to Pages
-
-Enable it once in the repository settings: **Settings → Pages → Source: GitHub Actions**.
-
-### Domain
-
-`public/CNAME` contains `Noetira .cc.cd`. Because the site is served from a custom domain at the apex of its own host, **no `basePath` or `assetPrefix` is needed** — every asset resolves from `/`. Point a `CNAME` DNS record for `Noetira .cc.cd` at `<user>.github.io`. If you ever move to `username.github.io/Noetira /`, you must set both `basePath` and `assetPrefix`.
-
-### The `.nojekyll` trap
-
-GitHub Pages runs Jekyll by default, which ignores directories beginning with an underscore. `_next/` is exactly that, so without `public/.nojekyll` the deployed site loads with no CSS or JS. The file is committed *and* re-touched in the workflow before upload.
-
-### Local preview of the real artifact
+### Build for Production
 
 ```bash
 bun run build
-bunx serve out
+# → produces out/ with index.html, _next/, etc.
 ```
 
-This is the closest local analogue to production. `bun run dev` exercises the dev server, not the export path.
+---
 
-### Build-time network
+## Cloudflare Pages Deployment
 
-`next/font/google` fetches font files at build time. GitHub Actions has network access so this is fine; an offline build will fail on fonts. To make the build hermetic, self-host the four families in `public/fonts/` and switch to `next/font/local`.
+This project is configured for deployment to **Cloudflare Pages** with **Cloudflare Functions**. The full runbook is below; every command is copy-pasteable.
+
+### Phase 1 — Make the app statically exportable
+
+`next.config.mjs` is already configured with `output: "export"` and `images: { unoptimized: true }`.
+
+Build and confirm the artifact:
+
+```bash
+bun run build
+ls out    # should contain index.html, _next/, etc.
+```
+
+### Phase 2 — The Functions
+
+`functions/api/subscribe.ts` and `functions/api/export.ts` already exist at the project root.
+
+Install Workers types (dev-only):
+
+```bash
+bun add -d @cloudflare/workers-types
+```
+
+### Phase 3 — KV namespace, config, secrets
+
+Log in and create the KV namespace:
+
+```bash
+npx wrangler login
+npx wrangler kv namespace create WAITLIST
+```
+
+Copy the printed `id = "..."` into `wrangler.toml` (already present with binding `WAITLIST`).
+
+Generate an export token:
+
+```bash
+openssl rand -hex 32
+```
+
+Set it as a Pages secret:
+
+```bash
+npx wrangler pages secret put EXPORT_TOKEN
+```
+
+Create `.dev.vars` for local development:
+
+```
+EXPORT_TOKEN=dev-only-token
+```
+
+Ensure `.gitignore` includes:
+
+```
+.dev.vars
+.wrangler/
+out/
+```
+
+### Phase 4 — Form endpoint
+
+The waitlist form posts to `/api/subscribe` (same-origin). No changes needed.
+
+### Phase 5 — Test locally
+
+```bash
+bun run build
+npx wrangler pages dev out --persist
+# → http://localhost:8788
+```
+
+Exercise the endpoints:
+
+```bash
+# valid → 201 {"ok":true,"already":false}
+curl -i -X POST http://localhost:8788/api/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","company":""}'
+
+# duplicate → 200 {"ok":true,"already":true}
+curl -i -X POST http://localhost:8788/api/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","company":""}'
+
+# invalid → 400
+curl -i -X POST http://localhost:8788/api/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"nope","company":""}'
+
+# honeypot filled → 200 {"ok":true} (nothing stored)
+curl -i -X POST http://localhost:8788/api/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"bot@spam.xyz","company":"ACME LLC"}'
+
+# export → CSV (requires valid token)
+curl -H "Authorization: Bearer dev-only-token" http://localhost:8788/api/export
+```
+
+### Phase 6 — Deploy
+
+**CLI deploy (fastest):**
+
+```bash
+npx wrangler pages deploy out
+# → https://olrien.pages.dev
+```
+
+**Git-based builds (set up once):**
+
+1. Cloudflare Dashboard → Workers & Pages → Create → Pages → connect your repo
+2. Build command: `bun run build`, output directory: `out`
+3. Environment variables: `BUN_VERSION = 1.4.x`, `NODE_VERSION = 22`
+4. Commit your lockfile (`bun.lock`)
+5. Bindings: add KV namespace `WAITLIST` for Production and Previews
+6. Secrets: add `EXPORT_TOKEN`
+
+Every push to your default branch now deploys; every PR gets a preview URL.
+
+### Phase 7 — Production verification
+
+- Submit a real email through the form → success state appears.
+- `curl -H "Authorization: Bearer $EXPORT_TOKEN" https://your-domain.com/api/export` → your email in CSV.
+- Watch logs: `npx wrangler pages deployment tail`
 
 ---
 
-## Writing copy
+## Environment Variables
 
-The audience is **non-technical**. Copy should read like a clear explanation to a smart colleague who does not work in software.
-
-**Avoid:** ontology, CRUD, MCP, lineage, guardrail, RBAC, typed action, dry run, append-only, PII, and similar terms. Plain alternatives usually exist — "the things you work with", "how they relate", "what is allowed", "check before it happens".
-
-**Keep:** real product names (PostgreSQL, Snowflake, Salesforce). They are recognition signals, not jargon.
-
-**Positioning is fixed:** Noetira  is fully open source. Never describe a paid tier, a "full version", an "open core", a licence purchase, or an early-access list. The only action offered to a visitor is "go to the source".
+| Variable | Where | Purpose |
+|----------|-------|---------|
+| `EXPORT_TOKEN` | `.dev.vars` (local) / Pages Secrets (prod) | Bearer token for `/api/export` |
+| `WAITLIST` KV binding | `wrangler.toml` / Pages Bindings | KV namespace for waitlist emails |
 
 ---
 
-## Conventions
+## Architecture Notes
 
-- **`"use client"` on every section.** Anything using GSAP, Lenis, `window`, or local state needs it. The only server component is `layout.tsx`.
-- **No new dependencies for motion.** GSAP and Lenis are already the chosen tools; reach for them before adding another animation library.
-- **Tailwind utilities only.** Theme colours live as CSS variables in `globals.css` (`bg-paper`, `text-ink`, `text-moss`, `bg-night`, …). Don't hardcode hex values in components.
-- **`cn()` for conditional classes.** Never concatenate class strings manually.
-- **shadcn primitives are vendored** in `src/components/ui/`. Edit them in place; they are not upstream-synced.
-- **Accessibility is a correctness requirement.** Interactive controls need labels, focus is visible, and every motion path respects reduced motion.
+- **Fully static export** — No Next.js route handlers (`app/api/*`), no Server Actions, no ISR. All dynamic behavior lives in Cloudflare Functions under `functions/api/`.
+- **Single route** (`/`) — The home page renders: Nav → ScrollRail → Hero → TrustMarquee → Problem → Endpoint → FAQ → Footer.
+- **`cn()` utility** (`src/lib/utils.ts`) — Shared class-variance-authority utility used by ~267 symbols across the project. High blast radius if changed.
+- **No Node server** — Deployed as plain HTML/CSS/JS on Cloudflare Pages.
 
 ---
 
-## Notes & caveats
+## Scripts
 
-- **`typescript.ignoreBuildErrors` is `false`.** The build fails on type errors — this is intentional and is what makes the CI typecheck gate meaningful.
-- **`next.config.ts` pins `turbopack.root`.** Without it, Next walks up and finds an unrelated lockfile above the project, warning about the wrong workspace root.
-- **`scripts/gen_brand_module.py` and `scripts/fetch_logos.py`** are one-shot generators for `brand-logos.tsx`. They read from `/tmp` and are not part of the build. Keep them only if you intend to regenerate brand marks.
-- **Some shadcn primitives in `src/components/ui/` are unused.** They came with the scaffold; there is no tree-shaking cost beyond bundle size, and pruning them is optional.
-- **`@vercel/turbopack-next/internal/font/google/font` errors** are a stale-cache symptom. `rm -rf .next node_modules/.cache && bun install` resolves them.
+| Script | Description |
+|--------|-------------|
+| `scripts/fetch_logos.py` | Fetches brand logos for the trust marquee |
+| `scripts/gen_brand_module.py` | Generates the brand module |
+
+---
+
+## License
+
+Private — all rights reserved.

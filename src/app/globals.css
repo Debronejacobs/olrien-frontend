@@ -44,7 +44,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Marendil ledger palette — pure dark: ink on black */
+  /* Olrien ledger palette — pure dark: ink on black */
   --color-paper: #000000;
   --color-paper-deep: #050505;
   --color-ink: #e9e7dc;

@@ -12,7 +12,7 @@ const GROUPS: {
     links: [
       {
         label: "GitHub",
-        href: "https://github.com/Debronejacobs/MarendilMain",
+        href: "https://github.com/Debronejacobs/olrienMain",
         note: "open source",
       },
     ],
@@ -66,7 +66,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-2 border-t border-night-line py-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-mono text-[11px] text-ink/35">
-            © 2026 Marendil 
+            © 2026 Olrien
           </p>
           <p className="font-mono text-[11px] text-ink/35">
             open source · self-hosted · your infrastructure

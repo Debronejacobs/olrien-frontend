@@ -1,9 +1,8 @@
 "use client";
 
 import { Fragment, useEffect, useRef, useState } from "react";
-import { ArrowDown, Github } from "lucide-react";
+import { ArrowDown, Mail } from "lucide-react";
 import { AnimText } from "@/components/landing/animated-text";
-import { Magnetic } from "@/components/landing/magnetic";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { scrollToId } from "@/lib/scroll";
 
@@ -58,6 +57,37 @@ export function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLElement>(null);
   const stRef = useRef<{ start: number; end: number } | null>(null);
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    setError("");
+    try {
+      type SubscribeResponse = { ok: boolean; already?: boolean; error?: string };
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, company: "" }),
+      });
+      const data = (await res.json()) as SubscribeResponse;
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong.");
+        setLoading(false);
+        return;
+      }
+      setSubmitted(true);
+      setLoading(false);
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch {
+      setError("Something went wrong. Try again.");
+      setLoading(false);
+    }
+  };
   const totalRef = useRef(1);
   const [idx, setIdx] = useState(0);
 
@@ -152,14 +182,14 @@ export function Hero() {
       <section
         id="top"
         aria-label="Introduction"
-        className="hero-top relative overflow-hidden pt-[148px] pb-24 sm:pt-[180px] lg:pb-32"
+        className="hero-top relative overflow-hidden pt-[160px] pb-28 sm:pt-[200px] sm:pb-36 lg:pb-44"
       >
         <div aria-hidden className="hero-grid grid-bg mask-fade-radial absolute inset-0 -z-10" />
         <div
           aria-hidden
-          className="absolute left-1/2 top-[-200px] -z-10 h-[520px] w-[1000px] -translate-x-1/2 rounded-full"
+          className="absolute left-1/2 top-[-200px] -z-10 h-[520px] w-[1000px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(34,138,82,0.14),transparent)]"
         />
-
+      
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
             <AnimText
@@ -167,46 +197,66 @@ export function Hero() {
               type="chars"
               mount
               delay={0.25}
-              className="mt-8 font-display text-[2.9rem] font-medium leading-[1.0] tracking-[-0.04em] text-ink text-balance sm:text-[4.4rem] lg:text-[5.4rem]"
+              className="font-display text-[2.9rem] font-medium leading-[1.02] tracking-[-0.04em] text-ink text-balance sm:text-[4.4rem] lg:text-[5.4rem]"
             >
-              The <em className="not-italic text-moss">open-source ontology-driven </em>operating system for companies
+              The ontology-driven operating system for companies
             </AnimText>
-
-            <p className="hero-sub mt-7 max-w-2xl text-balance text-lg leading-relaxed text-ink-soft sm:text-xl">
-             Give people and AI agents a shared, governed view of your business to understand what’s happening, decide what to do, and act on it.
+      
+            <p className="hero-sub mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-ink-soft sm:text-xl">
+              Give people and AI agents a shared, governed view of your business to
+              understand what’s happening, decide what to do, and act on it.
             </p>
-
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <Magnetic>
-                <a
-                  href="https://github.com/Debronejacobs/MarendilMain"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Marendil on GitHub"
-                  className="hero-cta inline-flex h-12 items-center gap-2.5 rounded-full  px-6 text-[15px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-moss"
-                >
-                  <Github className="h-4 w-4" />
-                  Star on GitHub
-                </a>
-              </Magnetic>
+      
+            <form
+              onSubmit={handleWaitlistSubmit}
+              className="hero-cta mt-10 flex h-14 w-full max-w-md items-center rounded-full border border-line-strong bg-background/60 p-1.5 backdrop-blur transition-shadow focus-within:ring-2 focus-within:ring-ink/40"
+            >
+              {/* Honeypot: hidden field to catch bots */}
+              <input
+                name="company"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", overflow: "hidden" }}
+              />
+              <label htmlFor="hero-email" className="sr-only">Work email</label>
+              <input
+                id="hero-email"
+                type="email"
+                required
+                placeholder="you@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={submitted}
+                className="h-full min-w-0 flex-1 bg-transparent px-4 text-[15px] text-ink placeholder:text-ink-soft focus:outline-none"
+              />
               <button
-                onClick={() => scrollToId("#why")}
-                className="hero-cta inline-flex h-12 items-center gap-2 rounded-full border border-line-strong px-6 text-[15px] font-medium text-ink transition-colors hover:bg-moss-tint/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-moss"
+                type="submit"
+                disabled={submitted || !email || loading}
+                className="inline-flex h-full shrink-0 items-center gap-2 rounded-full bg-ink px-5 text-[15px] font-medium text-background transition-colors hover:bg-ink/85 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
-                Why context breaks
-                <ArrowDown className="h-4 w-4" />
+                {submitted ? "You’re on the list" : loading ? <><Mail className="h-4 w-4" /> Joining…</> : <><Mail className="h-4 w-4" /> Join waitlist</>}
               </button>
-            </div>
-          </div>
-
-          <div className="hero-scroll mt-16 flex justify-center">
+            </form>
+      
+            {error && (
+              <p className="mt-3 min-h-5 text-sm text-destructive" aria-live="polite">
+                {error}
+              </p>
+            )}
+            <p aria-live="polite" className="mt-3 min-h-5 text-sm text-ink-soft">
+              {submitted
+                ? "Thanks. We’ll email you when early access opens."
+                : "We’ll only email you when early access opens."}
+            </p>
+      
             <button
               onClick={() => scrollToId("#why")}
-              aria-label="Scroll to the explanation"
-              className="group flex flex-col items-center gap-2 text-muted-foreground transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-moss"
+              className="hero-cta group mt-5 inline-flex items-center gap-2 rounded-full py-1 text-[15px] font-medium text-ink underline decoration-line-strong decoration-1 underline-offset-[6px] transition-colors hover:decoration-moss focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-moss"
             >
-              <span className="font-mono text-[11.5px]">keep scrolling</span>
-              <ArrowDown className="h-4 w-4 animate-bounce motion-reduce:animate-none" />
+              See why context breaks
+              <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5 motion-reduce:transition-none" />
             </button>
           </div>
         </div>
