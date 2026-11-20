@@ -1,11 +1,12 @@
 "use client";
 
+import { Linkedin } from "lucide-react";
 import { Logo } from "@/components/landing/logo";
 import { scrollToId } from "@/lib/scroll";
 
 const GROUPS: {
   title: string;
-  links: { label: string; href: string; note?: string }[];
+  links: { label: string; href: string; note?: string; icon?: React.ReactNode }[];
 }[] = [
   {
     title: "Connect",
@@ -14,6 +15,11 @@ const GROUPS: {
         label: "GitHub",
         href: "https://github.com/Debronejacobs/olrienMain",
         note: "open source",
+      },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/olrien",
+        icon: <Linkedin size={16} />,
       },
     ],
   },
@@ -45,11 +51,16 @@ export function Footer() {
                     <a
                       href={l.href}
                       onClick={(e) => {
-                        e.preventDefault();
-                        scrollToId(l.href);
+                        if (l.href.startsWith("#")) {
+                          e.preventDefault();
+                          scrollToId(l.href);
+                        }
                       }}
-                      className="text-[13.5px] font-medium text-ink/65 transition-colors hover:text-ink"
+                      target={l.href.startsWith("http") ? "_blank" : undefined}
+                      rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="flex items-center gap-2 text-[13.5px] font-medium text-ink/65 transition-colors hover:text-ink"
                     >
+                      {l.icon}
                       {l.label}
                       {l.note ? (
                         <span className="ml-2 inline-block whitespace-nowrap rounded-full border border-night-line px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.14em] text-moss-bright/70">
