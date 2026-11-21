@@ -236,7 +236,7 @@ export function Hero() {
                 disabled={submitted || !email || loading}
                 className="inline-flex h-full shrink-0 items-center gap-2 rounded-full bg-ink px-5 text-[15px] font-medium text-background transition-colors hover:bg-ink/85 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
-                {submitted ? "You’re on the list" : loading ? <><Mail className="h-4 w-4" /> Joining…</> : <><Mail className="h-4 w-4" /> Join waitlist</>}
+                {submitted ? "You’re on the cloud waitlist" : loading ? <><Mail className="h-4 w-4" /> Joining…</> : <><Mail className="h-4 w-4" /> Join the cloud waitlist</>}
               </button>
             </form>
       
@@ -247,8 +247,8 @@ export function Hero() {
             )}
             <p aria-live="polite" className="mt-3 min-h-5 text-sm text-ink-soft">
               {submitted
-                ? "Thanks. We’ll email you when early access opens."
-                : "We’ll only email you when early access opens."}
+                ? "Thanks. We’ll email you when cloud early access opens."
+                : "We’ll only email you when cloud early access opens."}
             </p>
       
             <button
