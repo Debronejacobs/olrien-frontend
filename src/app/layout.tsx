@@ -50,15 +50,15 @@ export const metadata: Metadata = {
     icon: "/icon.png",
   },
   openGraph: {
-    title: "Olrien  · One governed model of the company",
+    title: "Olrien · One governed model of the company",
     description:
       "One front door for every person and AI tool. One digital model of your company.",
-    siteName: "Noetira ",
+    siteName: "Olrien",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Noetira  · One governed model of the company",
+    title: "Olrien · One governed model of the company",
     description:
       "One front door in. One record out. Open source, runs on your own servers.",
   },
